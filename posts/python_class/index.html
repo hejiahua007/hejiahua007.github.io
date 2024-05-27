@@ -1,0 +1,405 @@
+<!DOCTYPE html><html lang="zh-CN" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f7f7"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1b1b1e"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="viewport" content="width=device-width, user-scalable=no initial-scale=1, shrink-to-fit=no, viewport-fit=cover" ><meta name="generator" content="Jekyll v4.3.3" /><meta property="og:title" content="python_class" /><meta name="author" content="hejiahua007" /><meta property="og:locale" content="zh_CN" /><meta name="description" content="python类一定要有__init__()方法吗" /><meta property="og:description" content="python类一定要有__init__()方法吗" /><link rel="canonical" href="/posts/python_class/" /><meta property="og:url" content="/posts/python_class/" /><meta property="og:site_name" content="hejiahua007" /><meta property="og:type" content="article" /><meta property="article:published_time" content="2023-10-24T01:30:00+00:00" /><meta name="twitter:card" content="summary" /><meta property="twitter:title" content="python_class" /> <script type="application/ld+json"> {"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hejiahua007"},"dateModified":"2023-10-24T01:30:00+00:00","datePublished":"2023-10-24T01:30:00+00:00","description":"python类一定要有__init__()方法吗","headline":"python_class","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/python_class/"},"url":"/posts/python_class/"}</script><title>python_class | hejiahua007</title><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png"><link rel="manifest" href="/assets/img/favicons/site.webmanifest"><link rel="shortcut icon" href="/assets/img/favicons/favicon.ico"><meta name="apple-mobile-web-app-title" content="hejiahua007"><meta name="application-name" content="hejiahua007"><meta name="msapplication-TileColor" content="#da532c"><meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml"><meta name="theme-color" content="#ffffff"><link rel="preconnect" href="https://fonts.googleapis.com" ><link rel="dns-prefetch" href="https://fonts.googleapis.com" ><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="dns-prefetch" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://fonts.googleapis.com" ><link rel="dns-prefetch" href="https://fonts.googleapis.com" ><link rel="preconnect" href="https://cdn.jsdelivr.net" ><link rel="dns-prefetch" href="https://cdn.jsdelivr.net" ><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato&family=Source+Sans+Pro:wght@400;600;700;900&display=swap"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css"><link rel="stylesheet" href="/assets/css/style.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tocbot@4.20.1/dist/tocbot.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/magnific-popup@1/dist/magnific-popup.min.css"> <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script> <script type="text/javascript"> class ModeToggle { static get MODE_KEY() { return "mode"; } static get MODE_ATTR() { return "data-mode"; } static get DARK_MODE() { return "dark"; } static get LIGHT_MODE() { return "light"; } static get ID() { return "mode-toggle"; } constructor() { if (this.hasMode) { if (this.isDarkMode) { if (!this.isSysDarkPrefer) { this.setDark(); } } else { if (this.isSysDarkPrefer) { this.setLight(); } } } let self = this; /* always follow the system prefers */ this.sysDarkPrefers.addEventListener('change', () => { if (self.hasMode) { if (self.isDarkMode) { if (!self.isSysDarkPrefer) { self.setDark(); } } else { if (self.isSysDarkPrefer) { self.setLight(); } } self.clearMode(); } self.notify(); }); } /* constructor() */ get sysDarkPrefers() { return window.matchMedia("(prefers-color-scheme: dark)"); } get isSysDarkPrefer() { return this.sysDarkPrefers.matches; } get isDarkMode() { return this.mode === ModeToggle.DARK_MODE; } get isLightMode() { return this.mode === ModeToggle.LIGHT_MODE; } get hasMode() { return this.mode != null; } get mode() { return sessionStorage.getItem(ModeToggle.MODE_KEY); } /* get the current mode on screen */ get modeStatus() { if (this.isDarkMode || (!this.hasMode && this.isSysDarkPrefer)) { return ModeToggle.DARK_MODE; } else { return ModeToggle.LIGHT_MODE; } } setDark() { $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.DARK_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE); } setLight() { $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.LIGHT_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE); } clearMode() { $('html').removeAttr(ModeToggle.MODE_ATTR); sessionStorage.removeItem(ModeToggle.MODE_KEY); } /* Notify another plugins that the theme mode has changed */ notify() { window.postMessage({ direction: ModeToggle.ID, message: this.modeStatus }, "*"); } flipMode() { if (this.hasMode) { if (this.isSysDarkPrefer) { if (this.isLightMode) { this.clearMode(); } else { this.setLight(); } } else { if (this.isDarkMode) { this.clearMode(); } else { this.setDark(); } } } else { if (this.isSysDarkPrefer) { this.setLight(); } else { this.setDark(); } } this.notify(); } /* flipMode() */ } /* ModeToggle */ const modeToggle = new ModeToggle(); </script><body data-topbar-visible="true"><div id="sidebar" class="d-flex flex-column align-items-end"><div class="profile-wrapper text-center"><div id="avatar"> <a href="/" class="mx-auto"> <img src="/assets/config/pinkgirl.png" alt="avatar" onerror="this.style.display='none'"> </a></div><div class="site-title"> <a href="/">hejiahua007</a></div><div class="site-subtitle font-italic">慢一点，再慢一点，让时光凝结，让点滴闪烁</div></div><ul class="w-100"><li class="nav-item"> <a href="/" class="nav-link"> <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i> <span>首页</span> </a><li class="nav-item"> <a href="/categories/" class="nav-link"> <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i> <span>分类</span> </a><li class="nav-item"> <a href="/tags/" class="nav-link"> <i class="fa-fw fas fa-tags ml-xl-3 mr-xl-3 unloaded"></i> <span>标签</span> </a><li class="nav-item"> <a href="/archives/" class="nav-link"> <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i> <span>归档</span> </a><li class="nav-item"> <a href="/about/" class="nav-link"> <i class="fa-fw fas fa-info ml-xl-3 mr-xl-3 unloaded"></i> <span>关于</span> </a></ul><div class="sidebar-bottom mt-auto d-flex flex-wrap justify-content-center align-items-center"> <button class="mode-toggle btn" aria-label="Switch Mode"> <i class="fas fa-adjust"></i> </button> <span class="icon-border"></span> <a href="https://github.com/hejiahua007" aria-label="github" target="_blank" rel="noopener noreferrer"> <i class="fab fa-github"></i> </a> <a href="https://twitter.com/" aria-label="twitter" target="_blank" rel="noopener noreferrer"> <i class="fab fa-twitter"></i> </a> <a href="javascript:location.href = 'mailto:' + ['19902358463','163.com'].join('@')" aria-label="email" > <i class="fas fa-envelope"></i> </a> <a href="/feed.xml" aria-label="rss" > <i class="fas fa-rss"></i> </a></div></div><div id="topbar-wrapper"><div id="topbar" class="container d-flex align-items-center justify-content-between h-100 pl-3 pr-3 pl-md-4 pr-md-4"> <span id="breadcrumb"> <span> <a href="/"> 首页 </a> </span> <span>python_class</span> </span> <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i><div id="topbar-title"> 文章</div><i id="search-trigger" class="fas fa-search fa-fw"></i> <span id="search-wrapper" class="align-items-center"> <i class="fas fa-search fa-fw"></i> <input class="form-control" id="search-input" type="search" aria-label="search" autocomplete="off" placeholder="搜索..."> </span> <span id="search-cancel" >取消</span></div></div><div id="main-wrapper" class="d-flex justify-content-center"><div id="main" class="container pl-xl-4 pr-xl-4"><div class="row"><div id="core-wrapper" class="col-12 col-lg-11 col-xl-9 pr-xl-4"><div class="post pl-1 pr-1 pl-md-2 pr-md-2"><h1 data-toc-skip>python_class</h1><div class="post-meta text-muted"> <span> 发表于 <em class="" data-ts="1698111000" data-df="YYYY/MM/DD" data-toggle="tooltip" data-placement="bottom"> 2023/10/24 </em> </span><div class="d-flex justify-content-between"> <span> 作者 <em> <a href=""></a> </em>, <em> <a href=""></a> </em> </span><div> <span class="readtime" data-toggle="tooltip" data-placement="bottom" title="3664 字"> <em>20 分钟</em>阅读</span></div></div></div><div class="post-content"><h1 id="python类一定要有__init__方法吗">python类一定要有__init__()方法吗</h1><p>什么是–类？</p><p>类是对现实事物的抽象，例如人类，人有男人、女人，但概念还是太大，需要继续抽象，思考一下人（不论男女）正常情况都有什么特征，例如名字、性别等固定的特征，一般用名词来限定（属性），有什么行为，例如人会吃饭、看电影、上厕所等行为（方法），一般用动词来描述，我们将属性和方法给抽象出来（一定是普遍的，共有的，非特指或小范围的），就构成了人类这个”类”（Class）。</p><p>现在来回答开始时提出的问题：python 类中一定需要有 __init __方法么？没有的会怎样？</p><p>我们已经知道了，类是由属性和方法构成的，python类中用__init__方法（也可理解为初始化方法）来定义属性，在实例化一个对象时，会先调用__init__方法，将这个类所具有的相关属性赋予这个对象，然后我们通过这个对象，就可以直接访问他所具有的属性。</p><p>还是人类这个例子，看下面的代码：</p><div class="language-cpp highlighter-rouge"><div class="code-header"> <span data-label-text="Cpp"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+</pre><td class="rouge-code"><pre><span class="k">class</span> <span class="nc">Person</span><span class="p">()</span><span class="o">:</span>
+	<span class="cp">#定义一个类
+</span>    <span class="n">def</span> <span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">gender</span><span class="p">)</span><span class="o">:</span>
+    	<span class="cp">#人有名字
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="cp">#人有性别
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">gender</span> <span class="o">=</span> <span class="n">gender</span>
+    <span class="n">def</span> <span class="n">eat</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
+    	<span class="cp">#人需要吃饭，所以定义一个吃饭的方法
+</span>        <span class="n">print</span><span class="p">(</span><span class="s">"%s正在吃饭，有啥事吃完再说。。。"</span><span class="o">%</span> <span class="n">self</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">def</span> <span class="n">watch_movie</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="n">movie_name</span><span class="p">)</span><span class="o">:</span>
+    	<span class="cp">#还需要娱乐，所以定义可以看电影的方法
+</span>        <span class="n">print</span><span class="p">(</span><span class="s">"{}正在看{},这部电影！"</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">movie_name</span><span class="p">))</span>
+    <span class="n">def</span> <span class="n">go_wc</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
+    	<span class="cp">#人还需要上厕所，不然憋死了，所以定义一个上厕所的方法
+</span>        <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">gender</span> <span class="o">==</span> <span class="s">"男"</span><span class="o">:</span>
+        	<span class="cp">#男的上男厕所，进错了就是耍流氓，女的就是进错了。。。哈哈公平何在
+</span>            <span class="n">print</span><span class="p">(</span><span class="s">"{}要进{}厕所。。。不然就是耍流</span><span class="err">
+</span><span class="s">            氓"</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="n">self</span><span class="p">.</span><span class="n">gender</span><span class="p">)</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">gender</span> <span class="o">==</span> <span class="s">"女"</span><span class="o">:</span>
+            <span class="n">print</span><span class="p">(</span><span class="s">"{}要进{}厕所。。。不然就是走错</span><span class="err">
+</span><span class="s">            了"</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="n">self</span><span class="p">.</span><span class="n">gender</span><span class="p">))</span>
+            
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="o">:</span>
+    <span class="cp">#实例化一个人
+</span>    <span class="n">person1</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="s">"小明"</span><span class="p">,</span><span class="s">"男"</span><span class="p">)</span>
+    <span class="cp">#查看这个人的名字
+</span>    <span class="n">print</span><span class="p">(</span><span class="n">person1</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="cp">#查看这个人的性别
+</span>    <span class="n">print</span><span class="p">(</span><span class="n">person1</span><span class="p">.</span><span class="n">gender</span><span class="p">)</span>
+    <span class="cp">#调用吃饭这个方法，确保不被饿死
+</span>    <span class="n">person1</span><span class="p">.</span><span class="n">eat</span><span class="p">()</span>
+    <span class="cp">#吃完可以看看电影
+</span>    <span class="n">person1</span><span class="p">.</span><span class="n">watch_movie</span><span class="p">(</span><span class="s">"色即是空"</span><span class="p">)</span>
+    <span class="cp">#看电影过程中可能需要上厕所
+</span>    <span class="n">person1</span><span class="p">.</span><span class="n">go_wc</span><span class="p">()</span>
+</pre></table></code></div></div><p>对比一下面的代码</p><div class="language-cpp highlighter-rouge"><div class="code-header"> <span data-label-text="Cpp"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+</pre><td class="rouge-code"><pre><span class="k">class</span> <span class="nc">Person</span><span class="p">()</span><span class="o">:</span>
+	<span class="cp">#定义一个人类
+</span>	<span class="cp">#没有__init__方法，直接定义行为（方法）
+</span>    <span class="n">def</span> <span class="n">eat</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="n">name</span><span class="p">)</span><span class="o">:</span>
+    	<span class="cp">#人需要吃饭，所以定义一个吃饭的方法
+</span>        <span class="n">print</span><span class="p">(</span><span class="s">"%s正在吃饭，有啥事吃完再说。。。"</span><span class="o">%</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">def</span> <span class="n">watch_movie</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="n">name</span><span class="p">,</span> <span class="n">movie_name</span><span class="p">)</span><span class="o">:</span>
+    	<span class="cp">#看电影
+</span>        <span class="n">print</span><span class="p">(</span><span class="s">"{}正在看{},这部电影！"</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">movie_name</span><span class="p">))</span>
+    <span class="n">def</span> <span class="n">go_wc</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span><span class="n">gender</span><span class="p">)</span><span class="o">:</span>
+    	<span class="cp">#上厕所
+</span>        <span class="k">if</span> <span class="n">gender</span> <span class="o">==</span> <span class="s">"男"</span><span class="o">:</span>
+            <span class="n">print</span><span class="p">(</span><span class="s">"{}要进{}厕所。。。不然就是耍流氓"</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">gender</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">gender</span> <span class="o">==</span> <span class="s">"女"</span><span class="o">:</span>
+            <span class="n">print</span><span class="p">(</span><span class="s">"{}要进{}厕所。。。不然就是走错了"</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">gender</span><span class="p">))</span>
+            
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="o">:</span>
+    <span class="cp">#实例化一个人，貌似其他动物也有这些行为，例如二哈，不一定是人啊
+</span>    <span class="n">person1</span> <span class="o">=</span> <span class="n">Person</span><span class="p">()</span>
+    <span class="cp">#print(person1.name) 没有名字属性，调用报错
+</span>    <span class="cp">#print(person1.gender) 没有性别属性，调用报错
+</span>    <span class="cp">#吃饭
+</span>    <span class="n">person1</span><span class="p">.</span><span class="n">eat</span><span class="p">(</span><span class="s">"小红"</span><span class="p">)</span>
+    <span class="cp">#看电影
+</span>    <span class="n">person1</span><span class="p">.</span><span class="n">watch_movie</span><span class="p">(</span><span class="s">"小红"</span><span class="p">,</span><span class="s">"红楼梦"</span><span class="p">)</span>
+    <span class="cp">#上厕所
+</span>    <span class="n">person1</span><span class="p">.</span><span class="n">go_wc</span><span class="p">(</span><span class="s">"小红"</span><span class="p">,</span><span class="s">"女"</span><span class="p">)</span>
+</pre></table></code></div></div><p>这个修改版本中去掉了__init__方法，这导致这个类没有name和gender属性，如果执行print（self.name）或者print（self.gender）就会报错，而且在调用吃饭，看电影、上厕所这些方法时需要传入过多的重复参数增加了代码的冗余。如果不事先知道是定义了一个“人”类，在没有相关属性的前提前提下不便于确定这个class是什么，毕竟其他动物也会吃饭，也可以看电影（二哈）。。。虽说去掉__init__对于定义这个类并不会报错，但为了便于使用和理解应当定义__init__方法。想一想现实生活中什么东西没有属性（不可用语言描述），但是却有行为。。。怎么感觉怪怪的。。。。</p><p>原文链接：https://blog.csdn.net/qq_37980828/article/details/103768351</p><p><strong>__ init__ ()方法</strong></p><p>在python中创建类后，通常会创建一个 __ init__ ()方法，这个方法会在创建类的实例的时候自动执行。 __ init__ ()方法必须包含一个self参数，而且要是第一个参数。</p><p>比如下面例子中的代码，我们在实例化Bob这个对象的时候， __ init__ ()方法就已经自动执行了，但是如果不是 __ init__ ()方法，比如说eat（）方法，那肯定就只有调用才执行</p><div class="language-plaintext highlighter-rouge"><div class="code-header"> <span data-label-text="Plaintext"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre>class Person():
+    def __init__(self):
+        print("是一个人")
+    def eat(self):
+        print("要吃饭" )
+Bob=Person()
+</pre></table></code></div></div><p><a href="/assets/blog_res/2023-10-24-python_class/image-7.png" class="popup img-link "><img data-src="/assets/blog_res/2023-10-24-python_class/image-7.png" alt="image-7" class="lazyload" data-proofer-ignore></a></p><h1 id="pythonclass类和方法的用法详解">python——class类和方法的用法详解</h1><h2 id="类和方法的概念和实例"><span class="mr-2">类和方法的概念和实例</span><a href="#类和方法的概念和实例" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><ul><li><strong>类(Class)：</strong>用来描述具有相同的属性和方法的对象的集合。它定义了该集合中每个对象所共有的属性和方法。对象是类的实例。<li><strong>方法：</strong>类中定义的函数。<li><strong>类的构造方法__init__()：</strong>类有一个名为 init() 的特殊方法（构造方法），该方法在类实例化时会自动调用。<li><strong>实例变量：</strong>在类的声明中，属性是用变量来表示的，这种变量就称为实例变量，实例变量就是一个用 self 修饰的变量。<li><strong>实例化：</strong>创建一个类的实例，类的具体对象。<li><strong>继承：</strong>即一个派生类（derived class）继承基类（base class）的字段和方法。继承也允许把一个派生类的对象作为一个基类对象对待。例如，有这样一个设计：一个Dog类型的对象派生自Animal类，这是模拟”是一个（is-a）”关系（例图，Dog是一个Animal）。</ul><ol><li>python类:class</ol><p>python的class（类）相当于一个多个函数组成的家族，如果在这个Myclass大家族里有一个人叫f，假如这个f具有print天气的作用，那么如果有一天我需要这个f来print一下今天的天气，那么我必须叫他的全名MyClass.f才可以让他给我print，即在调用他的时候需要带上他的家族名称+他的名称。</p><ul><li>属性：属性就是在这个类里的变量。如果变量是物品，那么不同的属性就是这个大家族里不同的物品<li>方法：方法就是在这个类里的函数。如果函数是人，那么不同的方法就是这个大家族里不同的人。</ul><p>MyClass实例：</p><div class="language-cpp highlighter-rouge"><div class="code-header"> <span data-label-text="Cpp"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre><td class="rouge-code"><pre><span class="cp">#Myclass家族，但是这个家族只有一个人f
+</span><span class="k">class</span> <span class="nc">MyClass</span><span class="o">:</span>   
+  <span class="s">"""一个简单的类实例"""</span>    
+  <span class="n">i</span> <span class="o">=</span> <span class="mi">12345</span>    
+  <span class="n">def</span> <span class="n">f</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>        
+    <span class="k">return</span> <span class="err">'</span><span class="n">hello</span> <span class="n">world</span><span class="err">'</span>
+<span class="cp"># 实例化类
+</span><span class="n">x</span> <span class="o">=</span> <span class="n">MyClass</span><span class="p">()</span> 
+<span class="cp"># 访问类的属性和方法
+</span><span class="n">print</span><span class="p">(</span><span class="s">"MyClass 类的属性 i 为："</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">i</span><span class="p">)</span> <span class="err">#家族</span><span class="n">x</span> <span class="o">+</span> <span class="err">物品名</span><span class="n">i</span>
+<span class="n">print</span><span class="p">(</span><span class="s">"MyClass 类的方法 f 输出为："</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">f</span><span class="p">())</span> <span class="err">#家族</span><span class="n">x</span> <span class="o">+</span> <span class="err">人名</span><span class="n">f</span>
+</pre></table></code></div></div><p>输出结果： <a href="/assets/blog_res/2023-10-24-python_class/image.png" class="popup img-link "><img data-src="/assets/blog_res/2023-10-24-python_class/image.png" alt="image" class="lazyload" data-proofer-ignore></a></p><ol><li>类的构造方法__init__()</ol><p>假如init()也是人，但是他是家族和外界联络员，当外界的人想调用自己家族的人，就必须要先告诉他，<strong>所以只要家族的人被调用，那么init()就会被先执行</strong>，然后由他去告诉那个被调用的人，执行被调用的。</p><p>init()实例：</p><div class="language-cpp highlighter-rouge"><div class="code-header"> <span data-label-text="Cpp"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre><span class="k">class</span> <span class="nc">Complex</span><span class="o">:</span>
+    <span class="n">def</span> <span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">realpart</span><span class="p">,</span> <span class="n">imagpart</span><span class="p">)</span><span class="o">:</span> <span class="err">#必须要有一个</span><span class="n">self</span><span class="err">参数，</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">realpart</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">i</span> <span class="o">=</span> <span class="n">imagpart</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">Complex</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.5</span><span class="p">)</span>
+<span class="n">print</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">r</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">i</span><span class="p">)</span>   <span class="err">#</span> <span class="err">输出结果：</span><span class="mf">3.0</span> <span class="o">-</span><span class="mf">4.5</span>
+</pre></table></code></div></div><p>输出结果： <a href="/assets/blog_res/2023-10-24-python_class/image-1.png" class="popup img-link "><img data-src="/assets/blog_res/2023-10-24-python_class/image-1.png" alt="image-1" class="lazyload" data-proofer-ignore></a></p><ol><li>类中方法的参数self</ol><p>在类的内部，使用 def 关键字来定义一个方法，与一般函数定义不同，类方法必须包含参数self, 且为第一个参数，self代表的是类的实例。</p><ul><li><p>self：<strong>类的方法与普通的函数只有一个特别的区别</strong>——必须有一个额外的第一个参数名称, 按照惯例它的名称是self。</p><li><p>类的实例：是将类应用在实例场景之中，比如有个类里的函数是f，假如这个f具有print某一时刻的天气状况的能力，那么如果我需要这个f来print一下今天12点的天气，<strong>那么让他打印今天12点的天气这个动作，就是类的实例化</strong>，让类中的函数具有的能力变成真实的动作。 实例化实例： ``` cpp #类定义 class people: #定义基本属性 name = ‘’ age = 0 #定义私有属性,私有属性在类外部无法直接进行访问 #定义构造方法 def <strong>init</strong>(self,n,a): self.name = n self.age = a def speak(self): print(“%s 说: 我 %d 岁。” %(self.name,self.age))</p></ul><h1 id="实例化类">实例化类</h1><p>p = people(‘Python’,10,30) p.speak()</p><div class="language-plaintext highlighter-rouge"><div class="code-header"> <span data-label-text="Plaintext"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+</pre><td class="rouge-code"><pre>输出结果：
+
+![image-2](/assets/blog_res/2023-10-24-python_class/image-2.png)
+
+4. 继承
+
+假如有两个家族，有一个家族A开始没落了，另一个新兴的家族B想继承A家族的物资和佣人，那么就可以通过如下的方式实现继承，在这里，家族A即是父类，家族B是子类。在用法上，如果B家族可以任意使用A家族的物品和佣人。
+
+    class [子类]([父类]):
+
+- **BaseClassName**（示例中的基类名）必须与派生类定义在一个作用域内。除了类，还可以用表达式，基类定义在另一个模块中时这一点非常有用。
+- python还支持**多继承**，即可以继承多个父类。继承方式和单继承方式一样，方式如下：
+
+    class [子类]([父类]1, [父类]2, [父类]3):
+
+继承实例：
+``` cpp
+#类定义
+class people:
+    #定义基本属性
+    name = ''
+    age = 0
+    #定义私有属性,私有属性在类外部无法直接进行访问
+    __weight = 0
+    #定义构造方法
+    def __init__(self,n,a,w):
+        self.name = n
+        self.age = a
+        self.__weight = w
+    def speak(self):
+        print("%s 说: 我 %d 岁。" %(self.name,self.age))
+
+#单继承示例
+class student(people): #student为子类，people为父类
+    grade = ''
+    def __init__(self,n,a,w,g):
+        #调用父类的构函
+        people.__init__(self,n,a,w)
+        self.grade = g
+    #覆写父类的方法
+    def speak(self):
+        print("%s 说: 我 %d 岁了，我在读 %d 年级"%(self.name,self.age,self.grade))
+
+s = student('ken',10,60,3)
+s.speak()
+</pre></table></code></div></div><p>运行结果：</p><p><a href="/assets/blog_res/2023-10-24-python_class/image-3.png" class="popup img-link "><img data-src="/assets/blog_res/2023-10-24-python_class/image-3.png" alt="image-3" class="lazyload" data-proofer-ignore></a></p><ol><li>方法重写</ol><p>如果你的父类方法的功能不能满足你的需求，你可以在子类重写你父类的方法。即如果B家族继承了A家族，但是B家族有个佣人只会扫地，于是A家族给这个人洗脑，让他啥都不会，然后再教这个佣人洗碗、擦桌子的技能，那么这个佣人就只会洗碗和擦桌子了。</p><ul><li>super()函数是用于调用父类(超类)的一个方法。</ul><p>方法重写实例：</p><div class="language-cpp highlighter-rouge"><div class="code-header"> <span data-label-text="Cpp"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre><td class="rouge-code"><pre><span class="k">class</span> <span class="nc">Parent</span><span class="o">:</span>        <span class="err">#</span> <span class="err">定义父类</span>
+   <span class="n">def</span> <span class="n">myMethod</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
+      <span class="n">print</span><span class="p">(</span><span class="err">'调用父类方法'</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Parent</span><span class="p">)</span><span class="o">:</span> <span class="err">#</span> <span class="err">定义子类</span>
+   <span class="n">def</span> <span class="n">myMethod</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
+      <span class="n">print</span><span class="p">(</span><span class="err">'调用子类方法'</span><span class="p">)</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">Child</span><span class="p">()</span>          <span class="err">#</span> <span class="err">子类实例</span>
+<span class="n">c</span><span class="p">.</span><span class="n">myMethod</span><span class="p">()</span>         <span class="err">#</span> <span class="err">子类调用重写方法</span>
+<span class="n">super</span><span class="p">(</span><span class="n">Child</span><span class="p">,</span><span class="n">c</span><span class="p">).</span><span class="n">myMethod</span><span class="p">()</span> <span class="err">#用子类对象调用父类已被覆盖的方法</span>
+</pre></table></code></div></div><p>输出结果： <a href="/assets/blog_res/2023-10-24-python_class/image-4.png" class="popup img-link "><img data-src="/assets/blog_res/2023-10-24-python_class/image-4.png" alt="image-4" class="lazyload" data-proofer-ignore></a></p><h2 id="类的特殊属性与方法"><span class="mr-2">类的特殊属性与方法</span><a href="#类的特殊属性与方法" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p><strong>类的私有属性</strong></p><ul><li>_private_attrs：两个下划线开头，声明该属性为私有，不能在类的外部被使用或直接访问。在类内部的方法中使用时 self.__private_attrs。</ul><p>私有属性实例：</p><div class="language-cpp highlighter-rouge"><div class="code-header"> <span data-label-text="Cpp"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre><td class="rouge-code"><pre><span class="k">class</span> <span class="nc">JustCounter</span><span class="o">:</span>
+    <span class="n">__secretCount</span> <span class="o">=</span> <span class="mi">0</span>  <span class="err">#</span> <span class="err">私有变量</span>
+    <span class="n">publicCount</span> <span class="o">=</span> <span class="mi">0</span>    <span class="err">#</span> <span class="err">公开变量</span>
+
+    <span class="n">def</span> <span class="n">count</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">__secretCount</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">publicCount</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">print</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">__secretCount</span><span class="p">)</span>
+
+<span class="n">counter</span> <span class="o">=</span> <span class="n">JustCounter</span><span class="p">()</span>
+<span class="n">counter</span><span class="p">.</span><span class="n">count</span><span class="p">()</span>
+<span class="n">counter</span><span class="p">.</span><span class="n">count</span><span class="p">()</span>
+<span class="n">print</span><span class="p">(</span><span class="n">counter</span><span class="p">.</span><span class="n">publicCount</span><span class="p">)</span>
+<span class="n">print</span><span class="p">(</span><span class="n">counter</span><span class="p">.</span><span class="n">__secretCount</span><span class="p">)</span>  <span class="err">#</span> <span class="err">报错，实例不能访问私有变量</span>
+</pre></table></code></div></div><p>输出结果： <a href="/assets/blog_res/2023-10-24-python_class/image-5.png" class="popup img-link "><img data-src="/assets/blog_res/2023-10-24-python_class/image-5.png" alt="image-5" class="lazyload" data-proofer-ignore></a></p><p><strong>类的私有方法</strong></p><p>__private_method：两个下划线开头，声明该方法为私有方法，只能在类的内部调用 ，不能在类的外部调用。self.__private_methods。</p><p>私有方法实例：</p><div class="language-cpp highlighter-rouge"><div class="code-header"> <span data-label-text="Cpp"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre><td class="rouge-code"><pre><span class="k">class</span> <span class="nc">Site</span><span class="o">:</span>
+    <span class="n">def</span> <span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span><span class="o">:</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>       <span class="err">#</span> <span class="k">public</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">__url</span> <span class="o">=</span> <span class="n">url</span>   <span class="err">#</span> <span class="k">private</span>
+
+    <span class="n">def</span> <span class="n">who</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="n">print</span><span class="p">(</span><span class="err">'</span><span class="n">name</span>  <span class="o">:</span> <span class="err">'</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">print</span><span class="p">(</span><span class="err">'</span><span class="n">url</span> <span class="o">:</span> <span class="err">'</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">__url</span><span class="p">)</span>
+
+    <span class="n">def</span> <span class="n">__foo</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>          <span class="err">#</span> <span class="err">私有方法</span>
+        <span class="n">print</span><span class="p">(</span><span class="err">'这是私有方法'</span><span class="p">)</span>
+
+    <span class="n">def</span> <span class="n">foo</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="o">:</span>            <span class="err">#</span> <span class="err">公共方法</span>
+        <span class="n">print</span><span class="p">(</span><span class="err">'这是公共方法'</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">__foo</span><span class="p">()</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">Site</span><span class="p">(</span><span class="err">'</span><span class="n">Python</span><span class="err">'</span><span class="p">,</span> <span class="err">'</span><span class="n">www</span><span class="p">.</span><span class="n">irvingao</span><span class="p">.</span><span class="n">com</span><span class="err">'</span><span class="p">)</span>
+<span class="n">x</span><span class="p">.</span><span class="n">who</span><span class="p">()</span>        <span class="err">#</span> <span class="err">正常输出</span>
+<span class="n">x</span><span class="p">.</span><span class="n">foo</span><span class="p">()</span>        <span class="err">#</span> <span class="err">正常输出</span>
+<span class="n">x</span><span class="p">.</span><span class="n">__foo</span><span class="p">()</span>      <span class="err">#</span> <span class="err">报错</span>
+</pre></table></code></div></div><p>输出结果： <a href="/assets/blog_res/2023-10-24-python_class/image-6.png" class="popup img-link "><img data-src="/assets/blog_res/2023-10-24-python_class/image-6.png" alt="image-6" class="lazyload" data-proofer-ignore></a></p><p>补充：</p><h2 id="supernet-selfinit"><span class="mr-2">super(Net, self).init()</span><a href="#supernet-selfinit" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p><strong>super(Net, self).init()</strong></p><p>python中的super(Net, self).init()是指首先找到Net的父类（比如是类NNet），然后把类Net的对象self转换为类NNet的对象，然后“被转换”的类NNet对象调用自己的init函数，其实简单理解就是子类把父类的__init__()放到自己的__init__()当中，这样子类就有了父类的__init__()的那些东西。</p><p>回过头来看看我们的我们最上面的代码，Net类继承nn.Module，super(Net, self).init()就是对继承自父类nn.Module的属性进行初始化。而且是用nn.Module的初始化方法来初始化继承的属性。</p><div class="language-plaintext highlighter-rouge"><div class="code-header"> <span data-label-text="Plaintext"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre>class Net(nn.Module):
+
+    def __init__(self):
+        super(Net, self).__init__()
+        # 输入图像channel：1；输出channel：6；5x5卷积核
+        self.conv1 = nn.Conv2d(1, 6, 5)
+</pre></table></code></div></div><p>也就是说，子类继承了父类的所有属性和方法，父类属性自然会用父类方法来进行初始化。 当然，如果初始化的逻辑与父类的不同，不使用父类的方法，自己重新初始化也是可以的。比如：</p><div class="language-cpp highlighter-rouge"><div class="code-header"> <span data-label-text="Cpp"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre><td class="rouge-code"><pre><span class="cp">#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+</span> 
+<span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">object</span><span class="p">)</span><span class="o">:</span>
+    <span class="n">def</span> <span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">gender</span><span class="p">,</span><span class="n">age</span><span class="p">)</span><span class="o">:</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">gender</span> <span class="o">=</span> <span class="n">gender</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>
+ 
+<span class="k">class</span> <span class="nc">Student</span><span class="p">(</span><span class="n">Person</span><span class="p">)</span><span class="o">:</span>
+    <span class="n">def</span> <span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">gender</span><span class="p">,</span><span class="n">age</span><span class="p">,</span><span class="n">school</span><span class="p">,</span><span class="n">score</span><span class="p">)</span><span class="o">:</span>
+        <span class="cp">#super(Student,self).__init__(name,gender,age)
+</span>        <span class="n">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="p">.</span><span class="n">upper</span><span class="p">()</span>  
+        <span class="n">self</span><span class="p">.</span><span class="n">gender</span> <span class="o">=</span> <span class="n">gender</span><span class="p">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">school</span> <span class="o">=</span> <span class="n">school</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">score</span> <span class="o">=</span> <span class="n">score</span>
+ 
+<span class="n">s</span> <span class="o">=</span> <span class="n">Student</span><span class="p">(</span><span class="err">'</span><span class="n">Alice</span><span class="sc">','</span><span class="n">female</span><span class="err">'</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="err">'</span><span class="n">Middle</span> <span class="n">school</span><span class="err">'</span><span class="p">,</span><span class="mi">87</span><span class="p">)</span>
+<span class="n">print</span> <span class="n">s</span><span class="p">.</span><span class="n">school</span>
+<span class="n">print</span> <span class="n">s</span><span class="p">.</span><span class="n">name</span>
+</pre></table></code></div></div></div><div class="post-tail-wrapper text-muted"><div class="post-meta mb-3"> <i class="far fa-folder-open fa-fw mr-1"></i> <a href='/categories/python/'>python</a>, <a href='/categories/class/'>class</a></div><div class="post-tags"> <i class="fa fa-tags fa-fw mr-1"></i> <a href="/tags/python/" class="post-tag no-text-decoration" >python</a> <a href="/tags/class/" class="post-tag no-text-decoration" >class</a></div><div class="post-tail-bottom d-flex justify-content-between align-items-center mt-3 pt-5 pb-2"><div class="license-wrapper"> 本文由作者按照 <a href="https://creativecommons.org/licenses/by/4.0/"> CC BY 4.0 </a> 进行授权</div><div class="share-wrapper"> <span class="share-label text-muted mr-1">分享</span> <span class="share-icons"> <a href="https://twitter.com/intent/tweet?text=python_class%20-%20hejiahua007&url=%2Fposts%2Fpython_class%2F" data-toggle="tooltip" data-placement="top" title="Twitter" target="_blank" rel="noopener" aria-label="Twitter"> <i class="fa-fw fab fa-twitter"></i> </a> <a href="https://www.facebook.com/sharer/sharer.php?title=python_class%20-%20hejiahua007&u=%2Fposts%2Fpython_class%2F" data-toggle="tooltip" data-placement="top" title="Facebook" target="_blank" rel="noopener" aria-label="Facebook"> <i class="fa-fw fab fa-facebook-square"></i> </a> <a href="https://t.me/share/url?url=%2Fposts%2Fpython_class%2F&text=python_class%20-%20hejiahua007" data-toggle="tooltip" data-placement="top" title="Telegram" target="_blank" rel="noopener" aria-label="Telegram"> <i class="fa-fw fab fa-telegram"></i> </a> <i id="copy-link" class="fa-fw fas fa-link small" data-toggle="tooltip" data-placement="top" title="分享链接" data-title-succeed="链接已复制！"> </i> </span></div></div></div></div></div><div id="panel-wrapper" class="col-xl-3 pl-2 text-muted"><div class="access"><div id="access-lastmod" class="post"><div class="panel-heading">最近更新</div><ul class="post-content pl-0 pb-1 ml-1 mt-2"><li><a href="/posts/raspberry_recongnize/">树莓派——语音识别</a><li><a href="/posts/raspberry_speaking/">树莓派——语音合成</a><li><a href="/posts/raspberry_zhuangtaijiance3/">树莓派——YOLOv5-Lite 2</a><li><a href="/posts/raspberry-tcp_server/">树莓派——tcp_server</a><li><a href="/posts/Android_fenxi/">安卓————前言</a></ul></div><div id="access-tags"><div class="panel-heading">热门标签</div><div class="d-flex flex-wrap mt-3 mb-1 mr-3"> <a class="post-tag" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a> <a class="post-tag" href="/tags/python/">python</a> <a class="post-tag" href="/tags/stm32/">STM32</a> <a class="post-tag" href="/tags/%E7%94%9F%E6%B4%BB/">生活</a> <a class="post-tag" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">计算机基础</a> <a class="post-tag" href="/tags/esp01/">ESP01</a> <a class="post-tag" href="/tags/python-%E5%BC%82%E6%AD%A5/">python_异步</a> <a class="post-tag" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a> <a class="post-tag" href="/tags/%E5%AE%89%E5%8D%93/">安卓</a> <a class="post-tag" href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">软件工程</a></div></div></div><div id="toc-wrapper" class="pl-0 pr-4 mb-5"><div class="panel-heading pl-3 pt-2 mb-2">文章内容</div><nav id="toc"></nav></div><script src="https://cdn.jsdelivr.net/npm/tocbot@4.20.1/dist/tocbot.min.js"></script></div></div><div class="row"><div id="tail-wrapper" class="col-12 col-lg-11 col-xl-9 pl-3 pr-3 pr-xl-4 mt-5"><div id="related-posts" class="mb-2 mb-sm-4"><h3 class="pt-2 mb-4 ml-1" data-toc-skip>相关文章</h3><div class="card-deck mb-4"><div class="card"> <a href="/posts/python_bingfa/"><div class="card-body"> <em class="small" data-ts="1698107400" data-df="YYYY/MM/DD" > 2023/10/24 </em><h3 class="pt-0 mt-1 mb-3" data-toc-skip>python_并发编程1</h3><div class="text-muted small"><p> Python并发编程之从性能角度来初探并发编程（一） 本文目录 前言 并发编程的基本概念 单线程VS多线程VS多进程 性能对比成果总结 前言 对于并发编程，Python的实现，总结了一下，大致有如下三种方法： 多线程 多进程 协程（生成器） 并发编程的基本概念 串行：一个人在同一...</p></div></div></a></div><div class="card"> <a href="/posts/python_duoxiancheng/"><div class="card-body"> <em class="small" data-ts="1698107400" data-df="YYYY/MM/DD" > 2023/10/24 </em><h3 class="pt-0 mt-1 mb-3" data-toc-skip>python_创建多线程2</h3><div class="text-muted small"><p> Python并发编程之创建多线程的几种方法（二） 今天的内容会比较基础，主要是为了让新手也能无障碍地阅读，所以还是要再巩固下基础。学完了基础，你们也就能很顺畅地跟着我的思路理解以后的文章。 本文目录 学会使用函数创建多线程 学会使用类创建多线程 多线程：必学函数讲解 经过总结，Python创建多线程主要有如下两种方法： 函数 类 学会使用函数创建多线程 在P...</p></div></div></a></div><div class="card"> <a href="/posts/python_xianchengchi/"><div class="card-body"> <em class="small" data-ts="1698107400" data-df="YYYY/MM/DD" > 2023/10/24 </em><h3 class="pt-0 mt-1 mb-3" data-toc-skip>python_线程池6</h3><div class="text-muted small"><p> Python并发编程之消息队列补充及如何创建线程池（六） 创建多线程的两种方式 在使用多线程处理任务时也不是线程越多越好，由于在切换线程的时候，需要切换上下文环境，依然会造成cpu的大量开销。为解决这个问题，线程池的概念被提出来了。预先创建好一个较为优化的数量的线程，让过来的任务立刻能够使用，就形成了线程池。 在Python3中，创建线程池是通过concurrent.futures函数...</p></div></div></a></div></div></div><div class="post-navigation d-flex justify-content-between"> <a href="/posts/python_yield/" class="btn btn-outline-primary" prompt="上一篇"><p>python_yield8</p></a> <a href="/posts/python_suo/" class="btn btn-outline-primary" prompt="下一篇"><p>python_线程锁3</p></a></div></div></div></div><div id="search-result-wrapper" class="d-flex justify-content-center unloaded"><div class="col-12 col-sm-11 post-content"><div id="search-hints"><div id="access-tags"><div class="panel-heading">热门标签</div><div class="d-flex flex-wrap mt-3 mb-1 mr-3"> <a class="post-tag" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a> <a class="post-tag" href="/tags/python/">python</a> <a class="post-tag" href="/tags/stm32/">STM32</a> <a class="post-tag" href="/tags/%E7%94%9F%E6%B4%BB/">生活</a> <a class="post-tag" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">计算机基础</a> <a class="post-tag" href="/tags/esp01/">ESP01</a> <a class="post-tag" href="/tags/python-%E5%BC%82%E6%AD%A5/">python_异步</a> <a class="post-tag" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a> <a class="post-tag" href="/tags/%E5%AE%89%E5%8D%93/">安卓</a> <a class="post-tag" href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">软件工程</a></div></div></div><div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div></div></div></div><footer><div class="container pl-lg-4 pr-lg-4"><div class="d-flex justify-content-between align-items-center text-muted ml-md-3 mr-md-3"><div class="footer-left"><p class="mb-0"> © 2024 <a href="https://github.com/hejiahua007">hejiahua007</a>. <span data-toggle="tooltip" data-placement="top" title="除非另有说明，本网站上的博客文章均由作者按照知识共享署名 4.0 国际 (CC BY 4.0) 许可协议进行授权。">保留部分权利。</span></p></div><div class="footer-right"><p class="mb-0">本站由 <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a> 生成，采用 <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a> 主题。</p></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js"></script> <script> (function () { function updateMermaid(event) { if (event.source === window && event.data && event.data.direction === ModeToggle.ID) { const mode = event.data.message; if (typeof mermaid === "undefined") { return; } let expectedTheme = (mode === ModeToggle.DARK_MODE ? "dark" : "default"); let config = {theme: expectedTheme}; /* Re-render the SVG › <https://github.com/mermaid-js/mermaid/issues/311#issuecomment-332557344> */ $(".mermaid").each(function () { let svgCode = $(this).prev().children().html(); $(this).removeAttr("data-processed"); $(this).html(svgCode); }); mermaid.initialize(config); mermaid.init(undefined, ".mermaid"); } } let initTheme = "default"; if ($("html[data-mode=dark]").length > 0 || ($("html[data-mode]").length == 0 && window.matchMedia("(prefers-color-scheme: dark)").matches)) { initTheme = "dark"; } let mermaidConf = { theme: initTheme /* <default|dark|forest|neutral> */ }; /* Create mermaid tag */ $("pre").has("code.language-mermaid").each(function () { let svgCode = $(this).children().html(); $(this).addClass("unloaded"); $(this).after(`<pre class=\"mermaid\">${svgCode}</pre>`); }); mermaid.initialize(mermaidConf); window.addEventListener("message", updateMermaid); })(); </script><div id="mask"></div><a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button"> <i class="fas fa-angle-up"></i> </a> <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js"></script> <script> SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('search-results'), json: '/assets/js/data/search.json', searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0"> <a href="{url}">{title}</a><div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1"> {categories} {tags}</div><p>{snippet}</p></div>', noResultsText: '<p class="mt-5">搜索结果为空</p>', templateMiddleware: function(prop, value, template) { if (prop === 'categories') { if (value === '') { return `${value}`; } else { return `<div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>${value}</div>`; } } if (prop === 'tags') { if (value === '') { return `${value}`; } else { return `<div><i class="fa fa-tag fa-fw"></i>${value}</div>`; } } } }); </script> <script src="https://cdn.jsdelivr.net/combine/npm/magnific-popup@1/dist/jquery.magnific-popup.min.js,npm/lazysizes@5.3.2/lazysizes.min.js,npm/clipboard@2/dist/clipboard.min.js"></script> <script src="https://cdn.jsdelivr.net/combine/npm/dayjs@1/dayjs.min.js,npm/dayjs@1/locale/zh.min.js,npm/dayjs@1/plugin/relativeTime.min.js,npm/dayjs@1/plugin/localizedFormat.min.js"></script> <script defer src="/assets/js/dist/post.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.bundle.min.js"></script> <script defer src="/unregister.js"></script>

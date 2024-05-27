@@ -1,0 +1,147 @@
+<!DOCTYPE html><html lang="zh-CN" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f7f7"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1b1b1e"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="viewport" content="width=device-width, user-scalable=no initial-scale=1, shrink-to-fit=no, viewport-fit=cover" ><meta name="generator" content="Jekyll v4.3.3" /><meta property="og:title" content="python_async8" /><meta name="author" content="hejiahua007" /><meta property="og:locale" content="zh_CN" /><meta name="description" content="转自：https://juejin.cn/post/6844903633146871821" /><meta property="og:description" content="转自：https://juejin.cn/post/6844903633146871821" /><link rel="canonical" href="/posts/python_async2/" /><meta property="og:url" content="/posts/python_async2/" /><meta property="og:site_name" content="hejiahua007" /><meta property="og:type" content="article" /><meta property="article:published_time" content="2023-10-24T00:30:00+00:00" /><meta name="twitter:card" content="summary" /><meta property="twitter:title" content="python_async8" /> <script type="application/ld+json"> {"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"hejiahua007"},"dateModified":"2023-10-25T07:36:41+00:00","datePublished":"2023-10-24T00:30:00+00:00","description":"转自：https://juejin.cn/post/6844903633146871821","headline":"python_async8","mainEntityOfPage":{"@type":"WebPage","@id":"/posts/python_async2/"},"url":"/posts/python_async2/"}</script><title>python_async8 | hejiahua007</title><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png"><link rel="manifest" href="/assets/img/favicons/site.webmanifest"><link rel="shortcut icon" href="/assets/img/favicons/favicon.ico"><meta name="apple-mobile-web-app-title" content="hejiahua007"><meta name="application-name" content="hejiahua007"><meta name="msapplication-TileColor" content="#da532c"><meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml"><meta name="theme-color" content="#ffffff"><link rel="preconnect" href="https://fonts.googleapis.com" ><link rel="dns-prefetch" href="https://fonts.googleapis.com" ><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="dns-prefetch" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://fonts.googleapis.com" ><link rel="dns-prefetch" href="https://fonts.googleapis.com" ><link rel="preconnect" href="https://cdn.jsdelivr.net" ><link rel="dns-prefetch" href="https://cdn.jsdelivr.net" ><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato&family=Source+Sans+Pro:wght@400;600;700;900&display=swap"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css"><link rel="stylesheet" href="/assets/css/style.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tocbot@4.20.1/dist/tocbot.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/magnific-popup@1/dist/magnific-popup.min.css"> <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script> <script type="text/javascript"> class ModeToggle { static get MODE_KEY() { return "mode"; } static get MODE_ATTR() { return "data-mode"; } static get DARK_MODE() { return "dark"; } static get LIGHT_MODE() { return "light"; } static get ID() { return "mode-toggle"; } constructor() { if (this.hasMode) { if (this.isDarkMode) { if (!this.isSysDarkPrefer) { this.setDark(); } } else { if (this.isSysDarkPrefer) { this.setLight(); } } } let self = this; /* always follow the system prefers */ this.sysDarkPrefers.addEventListener('change', () => { if (self.hasMode) { if (self.isDarkMode) { if (!self.isSysDarkPrefer) { self.setDark(); } } else { if (self.isSysDarkPrefer) { self.setLight(); } } self.clearMode(); } self.notify(); }); } /* constructor() */ get sysDarkPrefers() { return window.matchMedia("(prefers-color-scheme: dark)"); } get isSysDarkPrefer() { return this.sysDarkPrefers.matches; } get isDarkMode() { return this.mode === ModeToggle.DARK_MODE; } get isLightMode() { return this.mode === ModeToggle.LIGHT_MODE; } get hasMode() { return this.mode != null; } get mode() { return sessionStorage.getItem(ModeToggle.MODE_KEY); } /* get the current mode on screen */ get modeStatus() { if (this.isDarkMode || (!this.hasMode && this.isSysDarkPrefer)) { return ModeToggle.DARK_MODE; } else { return ModeToggle.LIGHT_MODE; } } setDark() { $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.DARK_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE); } setLight() { $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.LIGHT_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE); } clearMode() { $('html').removeAttr(ModeToggle.MODE_ATTR); sessionStorage.removeItem(ModeToggle.MODE_KEY); } /* Notify another plugins that the theme mode has changed */ notify() { window.postMessage({ direction: ModeToggle.ID, message: this.modeStatus }, "*"); } flipMode() { if (this.hasMode) { if (this.isSysDarkPrefer) { if (this.isLightMode) { this.clearMode(); } else { this.setLight(); } } else { if (this.isDarkMode) { this.clearMode(); } else { this.setDark(); } } } else { if (this.isSysDarkPrefer) { this.setLight(); } else { this.setDark(); } } this.notify(); } /* flipMode() */ } /* ModeToggle */ const modeToggle = new ModeToggle(); </script><body data-topbar-visible="true"><div id="sidebar" class="d-flex flex-column align-items-end"><div class="profile-wrapper text-center"><div id="avatar"> <a href="/" class="mx-auto"> <img src="/assets/config/pinkgirl.png" alt="avatar" onerror="this.style.display='none'"> </a></div><div class="site-title"> <a href="/">hejiahua007</a></div><div class="site-subtitle font-italic">慢一点，再慢一点，让时光凝结，让点滴闪烁</div></div><ul class="w-100"><li class="nav-item"> <a href="/" class="nav-link"> <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i> <span>首页</span> </a><li class="nav-item"> <a href="/categories/" class="nav-link"> <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i> <span>分类</span> </a><li class="nav-item"> <a href="/tags/" class="nav-link"> <i class="fa-fw fas fa-tags ml-xl-3 mr-xl-3 unloaded"></i> <span>标签</span> </a><li class="nav-item"> <a href="/archives/" class="nav-link"> <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i> <span>归档</span> </a><li class="nav-item"> <a href="/about/" class="nav-link"> <i class="fa-fw fas fa-info ml-xl-3 mr-xl-3 unloaded"></i> <span>关于</span> </a></ul><div class="sidebar-bottom mt-auto d-flex flex-wrap justify-content-center align-items-center"> <button class="mode-toggle btn" aria-label="Switch Mode"> <i class="fas fa-adjust"></i> </button> <span class="icon-border"></span> <a href="https://github.com/hejiahua007" aria-label="github" target="_blank" rel="noopener noreferrer"> <i class="fab fa-github"></i> </a> <a href="https://twitter.com/" aria-label="twitter" target="_blank" rel="noopener noreferrer"> <i class="fab fa-twitter"></i> </a> <a href="javascript:location.href = 'mailto:' + ['19902358463','163.com'].join('@')" aria-label="email" > <i class="fas fa-envelope"></i> </a> <a href="/feed.xml" aria-label="rss" > <i class="fas fa-rss"></i> </a></div></div><div id="topbar-wrapper"><div id="topbar" class="container d-flex align-items-center justify-content-between h-100 pl-3 pr-3 pl-md-4 pr-md-4"> <span id="breadcrumb"> <span> <a href="/"> 首页 </a> </span> <span>python_async8</span> </span> <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i><div id="topbar-title"> 文章</div><i id="search-trigger" class="fas fa-search fa-fw"></i> <span id="search-wrapper" class="align-items-center"> <i class="fas fa-search fa-fw"></i> <input class="form-control" id="search-input" type="search" aria-label="search" autocomplete="off" placeholder="搜索..."> </span> <span id="search-cancel" >取消</span></div></div><div id="main-wrapper" class="d-flex justify-content-center"><div id="main" class="container pl-xl-4 pr-xl-4"><div class="row"><div id="core-wrapper" class="col-12 col-lg-11 col-xl-9 pr-xl-4"><div class="post pl-1 pr-1 pl-md-2 pr-md-2"><h1 data-toc-skip>python_async8</h1><div class="post-meta text-muted"> <span> 发表于 <em class="" data-ts="1698107400" data-df="YYYY/MM/DD" data-toggle="tooltip" data-placement="bottom"> 2023/10/24 </em> </span> <span> 更新于 <em class="" data-ts="1698219401" data-df="YYYY/MM/DD" data-toggle="tooltip" data-placement="bottom"> 2023/10/25 </em> </span><div class="d-flex justify-content-between"> <span> 作者 <em> <a href=""></a> </em>, <em> <a href=""></a> </em> </span><div> <span class="readtime" data-toggle="tooltip" data-placement="bottom" title="1533 字"> <em>8 分钟</em>阅读</span></div></div></div><div class="post-content"><p>转自：https://juejin.cn/post/6844903633146871821</p><h2 id="如何定义创建协程"><span class="mr-2">如何定义/创建协程</span><a href="#如何定义创建协程" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>还记得在前两章节的时候，我们创建了生成器，是如何去检验我们创建的是不是生成器对象吗？</p><p>我们是借助了isinstance()函数，来判断是否是collections.abc 里的Generator类的子类实现的。</p><p>同样的方法，我们也可以用在这里。 只要在一个函数前面加上 async 关键字，这个函数对象是一个协程，通过isinstance函数，它确实是Coroutine类型。</p><div class="language-plaintext highlighter-rouge"><div class="code-header"> <span data-label-text="Plaintext"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre><td class="rouge-code"><pre>from collections.abc import Coroutine
+async def hello(name):    
+    print('Hello,', name)
+
+if __name__ == '__main__':    
+# 生成协程对象，并不会运行函数内的代码    
+    coroutine = hello("World")    
+
+# 检查是否是协程 Coroutine 类型    
+print(isinstance(coroutine, Coroutine))  # True
+</pre></table></code></div></div><p>前两节，我们说，生成器是协程的基础，那我们是不是有办法，将一个生成器，直接变成协程使用呢。答案是有的。</p><div class="language-plaintext highlighter-rouge"><div class="code-header"> <span data-label-text="Plaintext"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre><td class="rouge-code"><pre>import asyncio
+from collections.abc import Generator, Coroutine
+'''只要在一个生成器函数头部用上 @asyncio.coroutine 装饰器就能将这个函数对象，【标记】为协程对象。注意这里是【标记】，划重点。实际上，它的本质还是一个生成器。标记后，它实际上已经可以当成协程使用。后面会介绍。'''
+
+@asyncio.coroutine
+def hello():    
+    # 异步调用asyncio.sleep(1):    
+    yield from asyncio.sleep(1)
+
+if __name__ == '__main__':    
+    coroutine = hello()    
+    print(isinstance(coroutine, Generator))  # True    
+    print(isinstance(coroutine, Coroutine))  # False
+</pre></table></code></div></div><h2 id="asyncio的几个概念"><span class="mr-2">asyncio的几个概念</span><a href="#asyncio的几个概念" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>在了解asyncio的使用方法前，首先有必要先介绍一下，这几个贯穿始终的概念。</p><ul><li><p><strong>event_loop 事件循环：</strong>程序开启一个无限的循环，程序员会把一些函数（协程）注册到事件循环上。当满足事件发生的时候，调用相应的协程函数。</p><li><p><strong>coroutine 协程：</strong>协程对象，指一个使用async关键字定义的函数，它的调用不会立即执行函数，而是会返回一个协程对象。协程对象需要注册到事件循环，由事件循环调用。</p><li><p><strong>future 对象：</strong>代表将来执行或没有执行的任务的结果。它和task上没有本质的区别</p><li><p><strong>task 任务：</strong>一个协程对象就是一个原生可以挂起的函数，任务则是对协程进一步封装，其中包含任务的各种状态。Task 对象是 Future 的子类，它将 coroutine 和 Future 联系在一起，将 coroutine 封装成一个 Future 对象</p><li><p><strong>async/await 关键字：</strong>python3.5 用于定义协程的关键字，async定义一个协程，await用于挂起阻塞的异步调用接口。其作用在一定程度上类似于yield。</p></ul><h2 id="学习协程是如何工作的"><span class="mr-2">学习协程是如何工作的</span><a href="#学习协程是如何工作的" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>协程完整的工作流程是这样的</p><ul><li>定义/创建协程对象<li>将协程转为task任务<li>定义事件循环对象容器<li><p>将task任务扔进事件循环对象中触发</p><p>import asyncio</p><p>async def hello(name):     print(‘Hello,’, name)</p><p># 定义协程对象 coroutine = hello(“World”)</p><p># 定义事件循环对象容器 loop = asyncio.get_event_loop() # task = asyncio.ensure_future(coroutine)</p><p># 将协程转为task任务 task = loop.create_task(coroutine</p><p>)# 将task任务扔进事件循环对象中并触发 loop.run_until_complete(task)</p></ul><p>输出结果，当然显而易见</p><div class="language-plaintext highlighter-rouge"><div class="code-header"> <span data-label-text="Plaintext"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>Hello, World
+</pre></table></code></div></div><h2 id="await与yield对比"><span class="mr-2">await与yield对比</span><a href="#await与yield对比" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>前面我们说，await用于挂起阻塞的异步调用接口。其作用在一定程度上类似于yield。</p><p>注意这里是，一定程度上，意思是效果上一样（都能实现暂停的效果），但是功能上却不兼容。就是你不能在生成器中使用await，也不能在async 定义的协程中使用yield。</p><p><a href="/assets/blog_res/2023-10-24-python_async2/image.png" class="popup img-link "><img data-src="/assets/blog_res/2023-10-24-python_async2/image.png" alt="image" class="lazyload" data-proofer-ignore></a> 普通函数中 不能使用 await</p><p><a href="/assets/blog_res/2023-10-24-python_async2/image-1.png" class="popup img-link "><img data-src="/assets/blog_res/2023-10-24-python_async2/image-1.png" alt="image-1" class="lazyload" data-proofer-ignore></a> 普通函数中 不能使用 await</p><p>除此之外呢，还有一点很重要的。</p><ul><li>yield from 后面可接 可迭代对象，也可接future对象/协程对象；<li>await 后面必须要接 future对象/协程对象</ul><p>如何验证呢？ yield from 后面可接 可迭代对象，这个前两章已经说过了，这里不再赘述。接下来，就只要验证，yield from和await都可以接future对象/协程对象就可以了。</p><p>验证之前呢，要先介绍一下这个函数： asyncio.sleep(n)，这货是asyncio自带的工具函数，他可以模拟IO阻塞，他返回的是一个协程对象。</p><div class="language-plaintext highlighter-rouge"><div class="code-header"> <span data-label-text="Plaintext"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre>func = asyncio.sleep(2)
+print(isinstance(func, Future))      # False
+print(isinstance(func, Coroutine))   # True
+</pre></table></code></div></div><p>还有，要学习如何创建Future对象，不然怎么验证。</p><p>前面概念里说过，Task是Future的子类，这么说，我们只要创建一个task对象即可。</p><div class="language-plaintext highlighter-rouge"><div class="code-header"> <span data-label-text="Plaintext"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre><td class="rouge-code"><pre>import asyncio
+from asyncio.futures import Future
+
+async def hello(name):    
+    await asyncio.sleep(2)    
+print('Hello, ', name)
+
+coroutine = hello("World")
+
+# 将协程转为task对象
+task = asyncio.ensure_future(coroutine)
+print(isinstance(task, Future))   # True
+</pre></table></code></div></div><p>好了，接下来，开始验证。</p><p><a href="/assets/blog_res/2023-10-24-python_async2/image-2.png" class="popup img-link "><img data-src="/assets/blog_res/2023-10-24-python_async2/image-2.png" alt="image-2" class="lazyload" data-proofer-ignore></a> 验证通过</p><h2 id="绑定回调函数"><span class="mr-2">绑定回调函数</span><a href="#绑定回调函数" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>异步IO的实现原理，就是在IO高的地方挂起，等IO结束后，再继续执行。在绝大部分时候，我们后续的代码的执行是需要依赖IO的返回值的，这就要用到回调了。</p><p>回调的实现，有两种，一种是绝大部分程序员喜欢的，利用的同步编程实现的回调。</p><p>这就要求我们要能够有办法取得协程的await的返回值。</p><div class="language-plaintext highlighter-rouge"><div class="code-header"> <span data-label-text="Plaintext"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre><td class="rouge-code"><pre>import asyncio
+import time
+
+async def _sleep(x):    
+    time.sleep(2)    
+    return '暂停了{}秒！'.format(x)
+
+coroutine = _sleep(2)
+loop = asyncio.get_event_loop()
+
+task = asyncio.ensure_future(coroutine)
+loop.run_until_complete(task)
+
+# task.result() 可以取得返回结果
+print('返回结果：{}'.format(task.result()))
+</pre></table></code></div></div><p>输出</p><div class="language-plaintext highlighter-rouge"><div class="code-header"> <span data-label-text="Plaintext"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>返回结果：暂停了2秒！
+</pre></table></code></div></div><p>还有一种是通过asyncio自带的添加回调函数功能来实现。</p><div class="language-plaintext highlighter-rouge"><div class="code-header"> <span data-label-text="Plaintext"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre><td class="rouge-code"><pre>import time
+import asyncio
+
+async def _sleep(x):    
+    time.sleep(2)    
+    return '暂停了{}秒！'.format(x)
+
+def callback(future):    
+    print('这里是回调函数，获取返回结果是：', future.result())
+
+coroutine = _sleep(2)
+loop = asyncio.get_event_loop()
+task = asyncio.ensure_future(coroutine)
+
+# 添加回调函数
+task.add_done_callback(callback)
+loop.run_until_complete(task)
+</pre></table></code></div></div><p>输出</p><div class="language-plaintext highlighter-rouge"><div class="code-header"> <span data-label-text="Plaintext"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>这里是回调函数，获取返回结果是： 暂停了2秒！
+</pre></table></code></div></div></div><div class="post-tail-wrapper text-muted"><div class="post-meta mb-3"> <i class="far fa-folder-open fa-fw mr-1"></i> <a href='/categories/python/'>python</a></div><div class="post-tags"> <i class="fa fa-tags fa-fw mr-1"></i> <a href="/tags/python-%E5%BC%82%E6%AD%A5/" class="post-tag no-text-decoration" >python_异步</a></div><div class="post-tail-bottom d-flex justify-content-between align-items-center mt-3 pt-5 pb-2"><div class="license-wrapper"> 本文由作者按照 <a href="https://creativecommons.org/licenses/by/4.0/"> CC BY 4.0 </a> 进行授权</div><div class="share-wrapper"> <span class="share-label text-muted mr-1">分享</span> <span class="share-icons"> <a href="https://twitter.com/intent/tweet?text=python_async8%20-%20hejiahua007&url=%2Fposts%2Fpython_async2%2F" data-toggle="tooltip" data-placement="top" title="Twitter" target="_blank" rel="noopener" aria-label="Twitter"> <i class="fa-fw fab fa-twitter"></i> </a> <a href="https://www.facebook.com/sharer/sharer.php?title=python_async8%20-%20hejiahua007&u=%2Fposts%2Fpython_async2%2F" data-toggle="tooltip" data-placement="top" title="Facebook" target="_blank" rel="noopener" aria-label="Facebook"> <i class="fa-fw fab fa-facebook-square"></i> </a> <a href="https://t.me/share/url?url=%2Fposts%2Fpython_async2%2F&text=python_async8%20-%20hejiahua007" data-toggle="tooltip" data-placement="top" title="Telegram" target="_blank" rel="noopener" aria-label="Telegram"> <i class="fa-fw fab fa-telegram"></i> </a> <i id="copy-link" class="fa-fw fas fa-link small" data-toggle="tooltip" data-placement="top" title="分享链接" data-title-succeed="链接已复制！"> </i> </span></div></div></div></div></div><div id="panel-wrapper" class="col-xl-3 pl-2 text-muted"><div class="access"><div id="access-lastmod" class="post"><div class="panel-heading">最近更新</div><ul class="post-content pl-0 pb-1 ml-1 mt-2"><li><a href="/posts/raspberry_recongnize/">树莓派——语音识别</a><li><a href="/posts/raspberry_speaking/">树莓派——语音合成</a><li><a href="/posts/raspberry_zhuangtaijiance3/">树莓派——YOLOv5-Lite 2</a><li><a href="/posts/raspberry-tcp_server/">树莓派——tcp_server</a><li><a href="/posts/Android_fenxi/">安卓————前言</a></ul></div><div id="access-tags"><div class="panel-heading">热门标签</div><div class="d-flex flex-wrap mt-3 mb-1 mr-3"> <a class="post-tag" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a> <a class="post-tag" href="/tags/python/">python</a> <a class="post-tag" href="/tags/stm32/">STM32</a> <a class="post-tag" href="/tags/%E7%94%9F%E6%B4%BB/">生活</a> <a class="post-tag" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">计算机基础</a> <a class="post-tag" href="/tags/esp01/">ESP01</a> <a class="post-tag" href="/tags/python-%E5%BC%82%E6%AD%A5/">python_异步</a> <a class="post-tag" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a> <a class="post-tag" href="/tags/%E5%AE%89%E5%8D%93/">安卓</a> <a class="post-tag" href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">软件工程</a></div></div></div><div id="toc-wrapper" class="pl-0 pr-4 mb-5"><div class="panel-heading pl-3 pt-2 mb-2">文章内容</div><nav id="toc"></nav></div><script src="https://cdn.jsdelivr.net/npm/tocbot@4.20.1/dist/tocbot.min.js"></script></div></div><div class="row"><div id="tail-wrapper" class="col-12 col-lg-11 col-xl-9 pl-3 pr-3 pr-xl-4 mt-5"><div id="related-posts" class="mb-2 mb-sm-4"><h3 class="pt-2 mb-4 ml-1" data-toc-skip>相关文章</h3><div class="card-deck mb-4"><div class="card"> <a href="/posts/python_async/"><div class="card-body"> <em class="small" data-ts="1698106800" data-df="YYYY/MM/DD" > 2023/10/24 </em><h3 class="pt-0 mt-1 mb-3" data-toc-skip>python_async</h3><div class="text-muted small"><p> https://blog.csdn.net/brucewong0516/article/details/82697935 在学习asyncio之前，先理清楚同步/异步的概念： 同步是指完成事务的逻辑，先执行第一个事务，如果阻塞了，会一直等待，直到这个事务完成，再执行第二个事务，顺序执行 异步是和同步相对的，异步是指在处理调用这个事务的之后，不会等待这个事务的处理结果，直接处理第...</p></div></div></a></div><div class="card"> <a href="/posts/python_async3/"><div class="card-body"> <em class="small" data-ts="1698107400" data-df="YYYY/MM/DD" > 2023/10/24 </em><h3 class="pt-0 mt-1 mb-3" data-toc-skip>python_async9</h3><div class="text-muted small"><p> https://juejin.cn/post/6844903634677792776 https://www.jianshu.com/p/22d125b454be 为什么要使用协程</p></div></div></a></div><div class="card"> <a href="/posts/python_yield/"><div class="card-body"> <em class="small" data-ts="1698107400" data-df="YYYY/MM/DD" > 2023/10/24 </em><h3 class="pt-0 mt-1 mb-3" data-toc-skip>python_yield8</h3><div class="text-muted small"><p> https://juejin.cn/post/6844903632534503437 为什么要使用协程 在开始讲yield from 之前，我想先解决一下这个给很多人带来困惑的问题。 举个例子。假如我们做一个爬虫。我们要爬取多个网页，这里简单举例两个网页(两个spider函数)，获取HTML（耗IO耗时），然后再对HTML对行解析取得我们感兴趣的数据。 我们的代码结构精简如下： 1 ...</p></div></div></a></div></div></div><div class="post-navigation d-flex justify-content-between"> <a href="/posts/python_async/" class="btn btn-outline-primary" prompt="上一篇"><p>python_async</p></a> <a href="/posts/python_async3/" class="btn btn-outline-primary" prompt="下一篇"><p>python_async9</p></a></div></div></div></div><div id="search-result-wrapper" class="d-flex justify-content-center unloaded"><div class="col-12 col-sm-11 post-content"><div id="search-hints"><div id="access-tags"><div class="panel-heading">热门标签</div><div class="d-flex flex-wrap mt-3 mb-1 mr-3"> <a class="post-tag" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a> <a class="post-tag" href="/tags/python/">python</a> <a class="post-tag" href="/tags/stm32/">STM32</a> <a class="post-tag" href="/tags/%E7%94%9F%E6%B4%BB/">生活</a> <a class="post-tag" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">计算机基础</a> <a class="post-tag" href="/tags/esp01/">ESP01</a> <a class="post-tag" href="/tags/python-%E5%BC%82%E6%AD%A5/">python_异步</a> <a class="post-tag" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a> <a class="post-tag" href="/tags/%E5%AE%89%E5%8D%93/">安卓</a> <a class="post-tag" href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">软件工程</a></div></div></div><div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div></div></div></div><footer><div class="container pl-lg-4 pr-lg-4"><div class="d-flex justify-content-between align-items-center text-muted ml-md-3 mr-md-3"><div class="footer-left"><p class="mb-0"> © 2024 <a href="https://github.com/hejiahua007">hejiahua007</a>. <span data-toggle="tooltip" data-placement="top" title="除非另有说明，本网站上的博客文章均由作者按照知识共享署名 4.0 国际 (CC BY 4.0) 许可协议进行授权。">保留部分权利。</span></p></div><div class="footer-right"><p class="mb-0">本站由 <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a> 生成，采用 <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a> 主题。</p></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js"></script> <script> (function () { function updateMermaid(event) { if (event.source === window && event.data && event.data.direction === ModeToggle.ID) { const mode = event.data.message; if (typeof mermaid === "undefined") { return; } let expectedTheme = (mode === ModeToggle.DARK_MODE ? "dark" : "default"); let config = {theme: expectedTheme}; /* Re-render the SVG › <https://github.com/mermaid-js/mermaid/issues/311#issuecomment-332557344> */ $(".mermaid").each(function () { let svgCode = $(this).prev().children().html(); $(this).removeAttr("data-processed"); $(this).html(svgCode); }); mermaid.initialize(config); mermaid.init(undefined, ".mermaid"); } } let initTheme = "default"; if ($("html[data-mode=dark]").length > 0 || ($("html[data-mode]").length == 0 && window.matchMedia("(prefers-color-scheme: dark)").matches)) { initTheme = "dark"; } let mermaidConf = { theme: initTheme /* <default|dark|forest|neutral> */ }; /* Create mermaid tag */ $("pre").has("code.language-mermaid").each(function () { let svgCode = $(this).children().html(); $(this).addClass("unloaded"); $(this).after(`<pre class=\"mermaid\">${svgCode}</pre>`); }); mermaid.initialize(mermaidConf); window.addEventListener("message", updateMermaid); })(); </script><div id="mask"></div><a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button"> <i class="fas fa-angle-up"></i> </a> <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js"></script> <script> SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('search-results'), json: '/assets/js/data/search.json', searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0"> <a href="{url}">{title}</a><div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1"> {categories} {tags}</div><p>{snippet}</p></div>', noResultsText: '<p class="mt-5">搜索结果为空</p>', templateMiddleware: function(prop, value, template) { if (prop === 'categories') { if (value === '') { return `${value}`; } else { return `<div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>${value}</div>`; } } if (prop === 'tags') { if (value === '') { return `${value}`; } else { return `<div><i class="fa fa-tag fa-fw"></i>${value}</div>`; } } } }); </script> <script src="https://cdn.jsdelivr.net/combine/npm/magnific-popup@1/dist/jquery.magnific-popup.min.js,npm/lazysizes@5.3.2/lazysizes.min.js,npm/clipboard@2/dist/clipboard.min.js"></script> <script src="https://cdn.jsdelivr.net/combine/npm/dayjs@1/dayjs.min.js,npm/dayjs@1/locale/zh.min.js,npm/dayjs@1/plugin/relativeTime.min.js,npm/dayjs@1/plugin/localizedFormat.min.js"></script> <script defer src="/assets/js/dist/post.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.bundle.min.js"></script> <script defer src="/unregister.js"></script>
