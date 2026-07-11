@@ -21,15 +21,15 @@ timezone:
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: hejiahua007 # the main title
+title: 何嘉华 | 软件工程师
 
-tagline: 慢一点，再慢一点，让时光凝结，让点滴闪烁 # it will display as the sub-title
+tagline: 工业软件 · AI 视觉 · 全栈实践
 
-description: >- # used by seo meta and the atom feed
-  这是通过Chirpy主题配置而成的
+description: >-
+  何嘉华的个人作品集与技术博客，记录工业桌面端、AI 视觉、嵌入式系统和工程实践。
 
 # fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
-url: ""
+url: "https://hejiahua007.github.io"
 
 github:
   username: hejiahua007 # change to your github username
@@ -37,8 +37,8 @@ github:
 social:
   # Change to your full name.
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
-  name: hejiahua007
-  email: 19902358463@163.com # change to your email address
+  name: 何嘉华
+  email: 19902358463@163.com
   links:
     # The first element serves as the copyright owner's link
     # change to your twitter homepage
@@ -80,7 +80,7 @@ theme_mode: # [light|dark]
 img_cdn:
 
 # the avatar on sidebar, support local or CORS resources
-avatar: ./assets/config/pinkgirl.png
+avatar: /assets/config/avatar.jpg
 
 # boolean type, the global switch for ToC in posts.
 toc: true
