@@ -12,6 +12,7 @@ comments: true
 math: false
 mermaid: true
 
+published: true
 ---
 
 ## 天气预报

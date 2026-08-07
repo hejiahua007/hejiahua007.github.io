@@ -12,6 +12,7 @@ comments: true
 math: false
 mermaid: true
 
+published: true
 ---
 
 ## 优化图表

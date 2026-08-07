@@ -12,6 +12,7 @@ comments: true
 math: false
 mermaid: true
 
+published: true
 ---
 # Python并发编程之线程消息通信机制任务协调（四）
 

@@ -12,6 +12,7 @@ comments: true
 math: false
 mermaid: true
 
+published: true
 ---
 
 # 测试

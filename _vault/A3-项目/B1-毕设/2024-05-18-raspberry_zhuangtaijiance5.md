@@ -160,6 +160,7 @@ pip3 list
     wheel              0.34.2
     zhipuai            1.0.7
 
+published: true
 ---
 
 

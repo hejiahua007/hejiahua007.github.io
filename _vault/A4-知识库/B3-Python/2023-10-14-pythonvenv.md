@@ -12,6 +12,7 @@ comments: true
 math: false
 mermaid: true
 
+published: true
 ---
 
 ### Python venv创建的虚拟环境复制到其他路径，如何断开与原始虚拟环境的连接，成为一个全新的虚拟环境，且两个虚拟环境之间的更新互不影响？

@@ -12,6 +12,7 @@ comments: true
 math: false
 mermaid: true
 
+published: true
 ---
 
 # 为什么要使用协程Python并发编程之线程中的信息隔离（五）

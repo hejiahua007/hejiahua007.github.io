@@ -12,6 +12,7 @@ comments: true
 math: false
 mermaid: true
 
+published: true
 ---
 
 感受生命中的每一份力量，思考生活中的每一次遗憾，记录每一滴闪烁的时光，寻找真正活着的感觉，组成对生命的热爱。

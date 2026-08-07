@@ -12,6 +12,7 @@ comments: true
 math: false
 mermaid: true
 
+published: true
 ---
 使用VNC连接树莓派4b如何全屏1080p分辨率，一次更改永久有效！
 (171条消息) 使用VNC连接树莓派4b如何全屏1080p分辨率，一次更改永久有效！_树莓派4b vnc分辨率_irohaBestKouhai的博客-CSDN博客
