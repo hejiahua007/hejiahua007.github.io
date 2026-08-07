@@ -146,10 +146,6 @@ module Jekyll
     # 3. 生成分类索引页
     # ----------------------------------------------------------
     def generate_index_pages
-      # 顶层入口页：/vault/
-      vault_top = VaultIndexPage.new(@site, '.', '知识库', @dir_map['.'] || { dirs: Set.new, posts: [] })
-      @site.pages << vault_top
-
       # 每个子目录的索引页
       @dir_map.each_key do |dir|
         next if dir == '.'
@@ -176,7 +172,7 @@ module Jekyll
     def parse_frontmatter(content)
       return nil unless content =~ /\A---\s*\r?\n(.*?)\r?\n---/m
 
-      YAML.safe_load(Regexp.last_match(1))
+      YAML.safe_load(Regexp.last_match(1), permitted_classes: [Time])
     rescue StandardError => e
       Jekyll.logger.warn('VaultGenerator:', "YAML parse error: #{e.message}")
       nil
