@@ -1,0 +1,149 @@
+---
+layout: default
+---
+
+{% assign breadcrumbs = page.breadcrumbs %}
+{% assign subdirs = page.subdirs %}
+{% assign posts = page.posts %}
+
+<style>
+  .vault-page { max-width: 1100px; margin: 0 auto; padding: 2rem 0 4rem; }
+
+  /* 面包屑 */
+  .vault-breadcrumbs { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-bottom: 2rem; font-size: .92rem; }
+  .vault-breadcrumbs a { color: var(--link-color, #2a408e); text-decoration: none; }
+  .vault-breadcrumbs a:hover { text-decoration: underline; }
+  .vault-breadcrumbs .sep { color: var(--text-muted, #9ca3af); margin: 0 .2rem; }
+  .vault-breadcrumbs .current { color: var(--text-muted, #6b7280); }
+
+  /* 页面标题 */
+  .vault-header { margin-bottom: 2.5rem; }
+  .vault-header h1 { font-size: 2rem; margin: 0 0 .5rem; letter-spacing: -.02em; }
+  .vault-header p { color: var(--text-muted, #6b7280); font-size: 1.05rem; margin: 0; }
+
+  /* 子分类卡片网格 */
+  .vault-subdirs { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 3rem; }
+  .vault-subdir-card {
+    display: flex; align-items: center; gap: 1rem; padding: 1.25rem 1.5rem;
+    border: 1px solid var(--card-border, rgba(127,127,127,.2)); border-radius: 14px;
+    background: var(--card-bg, #fff); text-decoration: none !important; color: inherit;
+    transition: transform .2s, border-color .2s, box-shadow .2s;
+  }
+  .vault-subdir-card:hover { transform: translateY(-2px); border-color: #3b82f6; box-shadow: 0 4px 16px rgba(59,130,246,.1); }
+  .vault-subdir-icon { font-size: 1.6rem; color: #3b82f6; flex-shrink: 0; width: 2.2rem; text-align: center; }
+  .vault-subdir-info { flex: 1; min-width: 0; }
+  .vault-subdir-info h3 { margin: 0 0 .2rem; font-size: 1.05rem; }
+  .vault-subdir-info p { margin: 0; font-size: .85rem; color: var(--text-muted, #6b7280); }
+  .vault-subdir-badge {
+    flex-shrink: 0; background: #eff6ff; color: #3b82f6; font-size: .78rem; font-weight: 600;
+    padding: .2rem .65rem; border-radius: 20px; white-space: nowrap;
+  }
+
+  /* 文章列表 */
+  .vault-posts-section { margin-top: 1rem; }
+  .vault-posts-section h2 { font-size: 1.35rem; margin-bottom: 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--card-border, rgba(127,127,127,.2)); }
+  .vault-post-item {
+    display: flex; align-items: baseline; gap: 1rem; padding: .85rem 0;
+    border-bottom: 1px solid rgba(127,127,127,.1); text-decoration: none !important; color: inherit;
+  }
+  .vault-post-item:last-child { border-bottom: none; }
+  .vault-post-item:hover .vault-post-title { color: #3b82f6; }
+  .vault-post-date {
+    flex-shrink: 0; font-size: .82rem; color: var(--text-muted, #9ca3af);
+    font-family: 'SF Mono', 'Fira Code', monospace; min-width: 6rem;
+  }
+  .vault-post-title { font-size: .98rem; transition: color .15s; }
+  .vault-post-cats { font-size: .78rem; color: var(--text-muted, #9ca3af); margin-top: .15rem; }
+
+  /* 空状态 */
+  .vault-empty { text-align: center; padding: 3rem 1rem; color: var(--text-muted, #9ca3af); }
+  .vault-empty i { font-size: 2.5rem; display: block; margin-bottom: 1rem; opacity: .3; }
+
+  @media (max-width: 600px) {
+    .vault-subdirs { grid-template-columns: 1fr; }
+    .vault-post-item { flex-direction: column; gap: .2rem; }
+  }
+</style>
+
+<div class="vault-page">
+
+  <!-- 面包屑导航 -->
+  <nav class="vault-breadcrumbs" aria-label="Breadcrumb">
+    {% for crumb in breadcrumbs %}
+      {% if forloop.last %}
+        <span class="current">{{ crumb.name }}</span>
+      {% else %}
+        <a href="{{ crumb.url | relative_url }}">{{ crumb.name }}</a>
+        <span class="sep">›</span>
+      {% endif %}
+    {% endfor %}
+  </nav>
+
+  <!-- 标题区 -->
+  <div class="vault-header">
+    <h1>{{ page.title }}</h1>
+    {% if page.description %}
+      <p>{{ page.description }}</p>
+    {% endif %}
+  </div>
+
+  <!-- 子分类区 -->
+  {% if subdirs.size > 0 %}
+  <div class="vault-subdirs">
+    {% for sub in subdirs %}
+      <a href="{{ sub.url | relative_url }}" class="vault-subdir-card">
+        <span class="vault-subdir-icon">
+          {% if sub.name contains '回忆' %}📖
+          {% elsif sub.name contains '规划' or sub.name contains '计划' %}🎯
+          {% elsif sub.name contains '项目' or sub.name contains '毕设' %}⚙️
+          {% elsif sub.name contains '阅读' or sub.name contains '书籍' %}📚
+          {% elsif sub.name contains '基金' %}📈
+          {% elsif sub.name contains 'Python' %}🐍
+          {% elsif sub.name contains '嵌入式' or sub.name contains 'STM32' or sub.name contains '树莓派' or sub.name contains 'ESP' %}🔌
+          {% elsif sub.name contains '求职' or sub.name contains '面试' %}💼
+          {% else %}📁{% endif %}
+        </span>
+        <div class="vault-subdir-info">
+          <h3>{{ sub.name }}</h3>
+          {% if sub.count > 0 %}
+            <p>{{ sub.count }} 篇文章</p>
+          {% endif %}
+        </div>
+        <span class="vault-subdir-badge">{{ sub.count }}</span>
+      </a>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- 文章列表 -->
+  <div class="vault-posts-section">
+    {% if posts.size > 0 %}
+      <h2>文章列表</h2>
+      {% for post in posts %}
+        <a href="{{ post.url | relative_url }}" class="vault-post-item">
+          <span class="vault-post-date">
+            {% if post.date %}
+              {{ post.date | date: "%Y-%m-%d" }}
+            {% endif %}
+          </span>
+          <div>
+            <span class="vault-post-title">{{ post.title }}</span>
+            {% if post.categories %}
+              <div class="vault-post-cats">
+                {% for cat in post.categories %}
+                  <span>{{ cat }}</span>{% unless forloop.last %} · {% endunless %}
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        </a>
+      {% endfor %}
+    {% else %}
+      <div class="vault-empty">
+        <i>📭</i>
+        <p>此分类下暂无已发布的文章</p>
+      </div>
+    {% endif %}
+  </div>
+
+</div>
