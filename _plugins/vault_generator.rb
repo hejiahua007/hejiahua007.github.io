@@ -103,8 +103,8 @@ module Jekyll
         }
       end
 
-      # 收集子目录关系
-      @dir_map.each_key do |dir|
+      # 收集子目录关系（用 .keys.dup 避免迭代中修改 hash）
+      @dir_map.keys.dup.each do |dir|
         parent = File.dirname(dir)
         parent = '.' if parent == '.'
         @dir_map[parent] ||= { dirs: Set.new, posts: [] }
