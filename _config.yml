@@ -21,12 +21,12 @@ timezone:
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: 何嘉华 | 技术博客 & 知识库
+title: 何嘉华｜工业软件与 AI 应用
 
-tagline: 工业软件 · AI 视觉 · 嵌入式 · 全栈实践
+tagline: 项目 · 技术 · 长期沉淀
 
 description: >-
-  何嘉华的个人技术博客与知识库，记录工业桌面端、AI 视觉、嵌入式系统、Python 学习和工程实践。
+  何嘉华的项目作品集与公开资料库，记录工业桌面端、设备通信、AI 视觉、AI 应用和长期工程实践。
 
 # fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
 url: "https://hejiahua007.github.io"

@@ -2,83 +2,53 @@
 layout: default
 ---
 
-<style>
-  :root { --portfolio-accent: #3b82f6; --portfolio-border: rgba(127,127,127,.2); }
-  .portfolio-home { max-width: 1100px; margin: 0 auto; padding: 1rem 0 4rem; }
-  .hero-card { padding: clamp(2rem,6vw,5rem); border: 1px solid var(--portfolio-border); border-radius: 28px; background: linear-gradient(135deg, rgba(59,130,246,.13), rgba(99,102,241,.04)); overflow: hidden; position: relative; }
-  .hero-card:after { content:"</>"; position:absolute; right:5%; top:5%; font:700 clamp(5rem,15vw,12rem)/1 monospace; opacity:.05; }
-  .eyebrow { color:var(--portfolio-accent); font-size:.78rem; letter-spacing:.16em; font-weight:700; }
-  .hero-card h1 { font-size:clamp(2.25rem,6vw,4.8rem); line-height:1.08; letter-spacing:-.04em; margin:.6rem 0 1.3rem; }
-  .hero-copy { max-width:700px; font-size:1.1rem; line-height:1.8; }
-  .hero-actions { display:flex; flex-wrap:wrap; gap:.8rem; margin-top:2rem; }
-  .primary-action,.secondary-action { display:inline-flex; align-items:center; justify-content:center; padding:.75rem 1.25rem; border-radius:10px; text-decoration:none!important; font-weight:600; }
-  .primary-action { background:var(--portfolio-accent); color:white!important; }
-  .secondary-action { border:1px solid var(--portfolio-border); }
-  .portfolio-section { margin-top:4.5rem; }
-  .section-heading { display:flex; align-items:center; gap:.8rem; margin-bottom:1.5rem; }
-  .section-heading span { font:700 .8rem monospace; color:var(--portfolio-accent); }
-  .section-heading h2 { margin:0; font-size:1.65rem; }
-  .section-heading a { margin-left:auto; font-size:.9rem; }
-  .capability-grid,.project-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
-  .capability-grid article,.project-grid>a { padding:1.5rem; border:1px solid var(--portfolio-border); border-radius:18px; background:var(--card-bg); transition:transform .2s,border-color .2s; }
-  .capability-grid article:hover,.project-grid>a:hover { transform:translateY(-3px); border-color:var(--portfolio-accent); }
-  .capability-grid i { color:var(--portfolio-accent); font-size:1.4rem; }
-  .capability-grid h3,.project-grid h3 { margin:.75rem 0 .5rem; }
-  .capability-grid p,.project-grid p { margin:0; line-height:1.7; opacity:.8; }
-  .project-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
-  .project-grid>a { color:inherit; text-decoration:none; }
-  .project-grid small { color:var(--portfolio-accent); font-weight:700; letter-spacing:.08em; }
-  .project-grid b { display:block; margin-top:1rem; font-size:.78rem; opacity:.65; }
-  .timeline-item { display:grid; grid-template-columns:140px 1fr; gap:1.5rem; padding:1.5rem 0; border-top:1px solid var(--portfolio-border); }
-  .timeline-item time { color:var(--portfolio-accent); font:700 .85rem monospace; }
-  .timeline-item h3 { margin:0 0 .4rem; }
-  .timeline-item p { margin:0; }
-  .contact-card { margin-top:4.5rem; padding:2rem; display:flex; align-items:center; justify-content:space-between; gap:2rem; border-radius:20px; background:linear-gradient(135deg,rgba(59,130,246,.15),rgba(99,102,241,.08)); }
-  .contact-card h2 { margin:.3rem 0; }
-  @media(max-width:850px){.project-grid{grid-template-columns:1fr}.hero-card{border-radius:20px}}
-  @media(max-width:600px){.capability-grid{grid-template-columns:1fr}.timeline-item{grid-template-columns:1fr;gap:.4rem}.contact-card{align-items:flex-start;flex-direction:column}.portfolio-section{margin-top:3rem}}
-</style>
-
-<div class="portfolio-home">
-  <section class="hero-card">
-    <p class="eyebrow">HELLO, I'M HE JIAHUA</p>
-    <h1>把设备、数据与 AI<br>做成真正可用的软件</h1>
-    <p class="hero-copy">工业软件与 AI 应用开发工程师。关注桌面客户端、设备通信、数据可视化和视觉检测，也持续记录从嵌入式到完整产品的成长。</p>
-    <div class="hero-actions">
-      <a class="primary-action" href="{{ '/vault/' | relative_url }}">浏览知识库</a>
-      <a class="secondary-action" href="{{ '/projects/' | relative_url }}">查看项目</a>
-      <a class="secondary-action" href="{{ '/about/' | relative_url }}">在线简历</a>
-      <a class="secondary-action" href="https://github.com/hejiahua007" target="_blank" rel="noopener">GitHub</a>
+<div class="lm-page portfolio-home">
+  <section class="lm-hero home-hero">
+    <div class="lm-hero-copy">
+      <p class="lm-kicker">HE JIAHUA · BUILDER & PRODUCT THINKER</p>
+      <h1>把复杂系统<br>做成<em>真正可用的软件</em></h1>
+      <p>工业软件与 AI 应用开发工程师。连接设备、数据与模型，也把项目过程、技术结论和长期思考沉淀进一套可持续更新的资料库。</p>
+      <div class="lm-actions">
+        <a class="lm-button lm-button-primary" href="{{ '/projects/' | relative_url }}">查看项目</a>
+        <a class="lm-button lm-button-quiet" href="{{ '/vault/' | relative_url }}">进入资料库</a>
+        <a class="lm-text-link" href="{{ '/about/' | relative_url }}">关于我 <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+      </div>
+    </div>
+    <div class="home-signal" aria-label="工作方法">
+      <p>MY WORKING LOOP</p>
+      <strong>理解现场</strong><span>↓</span>
+      <strong>拆解系统</strong><span>↓</span>
+      <strong>交付产品</strong><span>↓</span>
+      <strong>沉淀复用</strong>
     </div>
   </section>
 
-  <section class="portfolio-section">
-    <div class="section-heading"><span>01</span><h2>现在的我</h2></div>
+  <section class="lm-section">
+    <div class="lm-section-title"><div><p class="lm-kicker">CAPABILITIES</p><h2>我正在构建的能力</h2></div></div>
     <div class="capability-grid">
-      <article><i class="fas fa-desktop"></i><h3>工业桌面端</h3><p>使用 Electron、Vue 3、TypeScript 与 PyQt6 构建稳定、可维护的业务客户端。</p></article>
-      <article><i class="fas fa-microchip"></i><h3>设备与数据</h3><p>连接串口、PLC 与 WebSocket，打通设备状态、业务数据和现场操作。</p></article>
-      <article><i class="fas fa-eye"></i><h3>AI 视觉</h3><p>围绕 YOLO 完成数据处理、训练验证，并探索模型与工业软件的结合。</p></article>
-      <article><i class="fas fa-brain"></i><h3>AI 应用</h3><p>通过结构化输出、校验与上下文管理，让大模型进入垂直业务流程。</p></article>
+      <article><span>01</span><i class="fas fa-desktop" aria-hidden="true"></i><h3>工业桌面端</h3><p>用 Electron、Vue、TypeScript 与 PyQt 构建可维护的业务客户端。</p></article>
+      <article><span>02</span><i class="fas fa-microchip" aria-hidden="true"></i><h3>设备与数据</h3><p>连接串口、PLC、WebSocket、SQLite，让现场状态可见、可追踪。</p></article>
+      <article><span>03</span><i class="fas fa-eye" aria-hidden="true"></i><h3>AI 视觉</h3><p>覆盖数据整理、YOLO 训练、推理验证与工业应用接入。</p></article>
+      <article><span>04</span><i class="fas fa-brain" aria-hidden="true"></i><h3>AI 应用</h3><p>通过权限边界、结构化输出和验证机制让模型进入真实流程。</p></article>
     </div>
   </section>
 
-  <section class="portfolio-section">
-    <div class="section-heading"><span>02</span><h2>精选项目</h2><a href="{{ '/projects/' | relative_url }}">查看全部 →</a></div>
-    <div class="project-grid">
-      <a href="{{ '/projects/' | relative_url }}"><small>INDUSTRIAL SOFTWARE</small><h3>工业质量检测客户端</h3><p>设备接入、检测流程、统计看板与生产追溯的一体化桌面工作台。</p><b>Electron · Vue · SQLite</b></a>
-      <a href="{{ '/projects/' | relative_url }}"><small>COMPUTER VISION</small><h3>焊缝 AI 视觉检测</h3><p>从数据集构建到 YOLO 训练评估，验证工业缺陷识别完整流程。</p><b>Python · YOLO · OpenCV</b></a>
-      <a href="{{ '/projects/' | relative_url }}"><small>AI APPLICATION</small><h3>PA Agent</h3><p>具有多数据源、两阶段分析和结构化校验的垂直 AI 桌面应用。</p><b>PyQt6 · LLM · Pandas</b></a>
+  <section class="lm-section">
+    <div class="lm-section-title"><div><p class="lm-kicker">FEATURED PROJECTS</p><h2>精选项目</h2></div><a href="{{ '/projects/' | relative_url }}">查看全部</a></div>
+    <div class="home-project-grid">
+      {% assign featured_projects = site.data.vault_projects | where: "featured", true %}
+      {% for project in featured_projects limit: 3 %}
+      <a href="{{ project.docs_url | relative_url }}">
+        <header><span>{{ project.code }}</span><small>{{ project.status }}</small></header>
+        <h3>{{ project.name }}</h3><p>{{ project.summary }}</p>
+        <footer>{{ project.stack | join: " · " }} <i class="fas fa-arrow-right" aria-hidden="true"></i></footer>
+      </a>
+      {% endfor %}
     </div>
   </section>
 
-  <section class="portfolio-section">
-    <div class="section-heading"><span>03</span><h2>成长轨迹</h2></div>
-    <div class="timeline-item"><time>2024 — NOW</time><div><h3>从功能实现走向工程交付</h3><p>持续实践工业客户端、设备通信、视觉检测与 AI 应用，开始关注架构、可靠性和产品体验。</p></div></div>
-    <div class="timeline-item"><time>2020 — 2024</time><div><h3>物联网工程 · 广东海洋大学</h3><p>从 STM32、树莓派和传感器出发，完成智慧农业、环境监控和语音助手等项目。</p></div></div>
-  </section>
-
-  <section class="contact-card">
-    <div><p class="eyebrow">KEEP BUILDING</p><h2>代码是工具，解决问题才是目的。</h2><p>如果你对我的项目或文章感兴趣，欢迎交流。</p></div>
-    <a class="primary-action" href="mailto:19902358463@163.com">联系我</a>
+  <section class="home-vault-callout">
+    <div><p class="lm-kicker">OPEN NOTEBOOK</p><h2>项目不是孤立的展示页</h2><p>每个项目都连接到真实的文档目录：需求、方案、开发记录、验收与复盘按 Vault 层级持续积累。</p></div>
+    <a class="lm-button lm-button-primary" href="{{ '/vault/A3-项目/' | relative_url }}">浏览 A3 项目资料</a>
   </section>
 </div>

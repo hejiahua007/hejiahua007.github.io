@@ -1,0 +1,19 @@
+---
+layout: post
+---
+
+<div class="vault-post-context">
+  <nav class="vault-path" aria-label="Vault 路径">
+    {% for crumb in page.vault_breadcrumbs %}
+      <a href="{{ crumb.url | relative_url }}">
+        {% if crumb.code != '' %}<b>{{ crumb.code }}</b>{% endif %}{{ crumb.name }}
+      </a>
+      <span class="vault-path-separator" aria-hidden="true">/</span>
+    {% endfor %}
+    <span class="vault-path-current">{{ page.title }}</span>
+  </nav>
+  <a class="vault-back-link" href="{{ page.vault_dir_url | relative_url }}"><i class="fas fa-arrow-left" aria-hidden="true"></i> 返回“{{ page.vault_dir_name }}”文件夹</a>
+</div>
+
+{{ content }}
+

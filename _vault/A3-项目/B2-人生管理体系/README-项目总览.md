@@ -5,6 +5,12 @@ categories: [人生管理体系, 网站建设]
 tags: [项目总览, 人生管理, 知识库, 博客]
 pin: true
 published: true
+permalink: /posts/project-life-management-system/
+project_card: true
+summary: "连接日常记录、长期 Obsidian Vault 与公开作品集的个人信息管理体系。"
+stack: [Markdown, Obsidian, Git, Jekyll, PowerShell]
+status: "阶段 1 · 持续试用"
+featured: false
 author: 
     name: hejiahua007
     link: https://space.bilibili.com/507838758

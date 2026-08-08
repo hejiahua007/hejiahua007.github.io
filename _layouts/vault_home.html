@@ -1,0 +1,52 @@
+---
+layout: default
+---
+
+<div class="lm-page vault-home">
+  <header class="lm-hero lm-hero-compact">
+    <div class="lm-hero-copy">
+      <p class="lm-kicker">LIFE VAULT · PUBLIC VIEW</p>
+      <h1>资料库就是<br><em>Obsidian 的公开镜像</em></h1>
+      <p>网站不再另建一套分类。这里严格沿用本地 <code>_vault/A*/B*/C*</code> 的文件夹层级，只隐藏未公开的内容。</p>
+      <div class="lm-actions">
+        <a class="lm-button lm-button-primary" href="{{ '/vault/A3-项目/' | relative_url }}">从项目开始</a>
+        <a class="lm-button lm-button-quiet" href="{{ '/projects/' | relative_url }}">查看项目橱窗</a>
+      </div>
+    </div>
+    <div class="vault-map" aria-label="资料库层级示意">
+      <span>_vault/</span>
+      <span>├─ A1 回忆归档</span>
+      <span>├─ A2 规划</span>
+      <span>├─ A3 项目</span>
+      <span>└─ A4 知识库</span>
+    </div>
+  </header>
+
+  <section class="lm-section">
+    <div class="lm-section-title">
+      <div><p class="lm-kicker">ROOT FOLDERS</p><h2>从一级目录进入</h2></div>
+      <span>{{ site.data.vault_sections.size }} 个公开分区</span>
+    </div>
+    <div class="vault-root-grid">
+      {% for section in site.data.vault_sections %}
+      <a class="vault-root-card vault-root-{{ section.code | downcase }}" href="{{ section.url | relative_url }}">
+        <span class="vault-root-code">{{ section.code }}</span>
+        <div><h3>{{ section.name }}</h3><p>{{ section.description }}</p></div>
+        <footer><span>{{ section.count }} 篇</span><i class="fas fa-arrow-right" aria-hidden="true"></i></footer>
+      </a>
+      {% else %}
+      <div class="lm-empty"><p>目前还没有公开的资料库内容。</p></div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="lm-section vault-reading-guide">
+    <div class="lm-section-title"><div><p class="lm-kicker">HOW TO READ</p><h2>一条路径读到底</h2></div></div>
+    <div class="reading-steps">
+      <article><span>01</span><h3>选择 A 级领域</h3><p>回忆、规划、项目或知识库，对应 Obsidian 根目录。</p></article>
+      <article><span>02</span><h3>进入 B/C 子目录</h3><p>页面只显示当前文件夹的子文件夹和直属文章。</p></article>
+      <article><span>03</span><h3>阅读并原路返回</h3><p>每篇文章顶部保留完整路径和返回当前文件夹入口。</p></article>
+    </div>
+  </section>
+</div>
+

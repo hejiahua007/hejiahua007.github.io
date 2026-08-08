@@ -26,6 +26,31 @@ _vault/
 
 完整机器规则见 [config/vault-taxonomy.json](../config/vault-taxonomy.json)。
 
+### 网站信息架构
+
+网站与 Obsidian 共用一套层级，不再并行维护另一套博客分类：
+
+| 入口 | 职责 | 数据来源 |
+|---|---|---|
+| `/vault/` | 唯一的内容目录树 | `_vault/` 的真实 A/B/C 文件夹 |
+| `/projects/` | 快速浏览项目并进入项目资料 | `A3-项目` 各文件夹的项目简介 |
+| `/categories/` | 旧链接兼容说明 | 引导访问 `/vault/` |
+| `/tags/`、`/archives/` | 跨目录的辅助检索 | 文章 front matter |
+
+每篇 Vault 文章顶部会显示完整文件夹路径，并提供“返回当前文件夹”的入口。项目页不是另一份手工清单；它从项目简介自动生成，因此不会与 A3 目录脱节。
+
+项目简介应直接放在 `_vault/A3-项目/B*-项目名/` 下，并增加：
+
+```yaml
+project_card: true
+summary: "一句话说明项目解决的问题和价值"
+stack: [Python, PyQt6]
+status: "持续迭代"
+featured: false
+```
+
+每个 B 级项目文件夹只保留一个 `project_card: true` 的公开文件。`featured: true` 的项目会进入首页精选区。
+
 ## 新建或整理文章
 
 最小 front matter：
@@ -54,12 +79,13 @@ published: false
 
 1. 递归扫描 `_vault/*.md`；
 2. 只接收 `published: true`；
-3. 从路径推导分类；
+3. 从路径推导 Vault 面包屑，但不再为 Vault 文章生成主题的平铺分类；
 4. 生成稳定且唯一的文章 URL；
-5. 为分类目录生成索引；
-6. 分类数量只统计公开文章；
+5. 为每个真实文件夹生成索引；
+6. 文件夹数量只统计公开文章；
 7. 重写公开文章的相对图片路径并复制图片；
-8. 与旧 `_posts` 同名时优先使用 Vault 版本。
+8. 与旧 `_posts` 同名时优先使用 Vault 版本；
+9. 从 A3 项目简介生成项目橱窗数据。
 
 ## 发布门控
 

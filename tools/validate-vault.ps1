@@ -149,6 +149,46 @@ Get-ChildItem -LiteralPath $vaultRoot -Recurse -File -Filter '*.md' |
         }
     }
 
+# The project showcase is generated from one public project-card document in
+# every direct A3 project folder. Validate this contract globally even when
+# -ChangedOnly is used, otherwise a missing card can silently remove a project.
+$projectsRoot = Join-Path $vaultRoot 'A3-项目'
+if (Test-Path -LiteralPath $projectsRoot -PathType Container) {
+    Get-ChildItem -LiteralPath $projectsRoot -Directory | ForEach-Object {
+        $projectDir = $_
+        $cardFiles = @(Get-ChildItem -LiteralPath $projectDir.FullName -File -Filter '*.md' | Where-Object {
+            $candidateContent = Get-Content -LiteralPath $_.FullName -Raw -Encoding UTF8
+            $candidateContent -match '(?m)^project_card:\s*true\s*$'
+        })
+        $projectRelativePath = Get-RelativeRepoPath $projectDir.FullName
+
+        if ($cardFiles.Count -ne 1) {
+            Add-Issue error $projectRelativePath "Every direct A3 project folder must have exactly one project_card: true file; found $($cardFiles.Count)."
+            return
+        }
+
+        $cardFile = $cardFiles[0]
+        $cardRelativePath = Get-RelativeRepoPath $cardFile.FullName
+        $cardContent = Get-Content -LiteralPath $cardFile.FullName -Raw -Encoding UTF8
+        if ($cardContent -notmatch '(?s)\A---\s*\r?\n(?<fm>.*?)\r?\n---') {
+            Add-Issue error $cardRelativePath 'Project card is missing YAML front matter.'
+            return
+        }
+        $cardFrontmatter = $Matches['fm']
+        if ($cardFrontmatter -notmatch '(?m)^published:\s*true\s*$') {
+            Add-Issue error $cardRelativePath 'Project card must use published: true.'
+        }
+        foreach ($field in @('summary', 'stack', 'status', 'featured')) {
+            if ($cardFrontmatter -notmatch "(?m)^$field\s*:") {
+                Add-Issue error $cardRelativePath "Project card is missing field: $field"
+            }
+        }
+        if ($cardFrontmatter -notmatch '(?m)^featured:\s*(true|false)\s*$') {
+            Add-Issue error $cardRelativePath 'featured must be one unquoted boolean true or false.'
+        }
+    }
+}
+
 $report = [ordered]@{
     generated_at = (Get-Date).ToString('o')
     changed_only = [bool]$ChangedOnly

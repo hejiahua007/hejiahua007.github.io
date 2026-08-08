@@ -41,6 +41,7 @@ module Jekyll
       scan_vault
       inject_posts
       expose_root_sections
+      expose_projects
       generate_index_pages
 
       Jekyll.logger.info('VaultGenerator:',
@@ -58,8 +59,9 @@ module Jekyll
 
         @all_vault_basenames << File.basename(filepath)
 
-        rel_path = Pathname.new(filepath).relative_path_from(Pathname.new(@vault_dir)).to_s
-        dir_key  = File.dirname(rel_path)
+        rel_path = Pathname.new(filepath)
+                           .relative_path_from(Pathname.new(@vault_dir)).to_s.tr('\\', '/')
+        dir_key  = File.dirname(rel_path).tr('\\', '/')
         dir_key  = '.' if dir_key == '.'
 
         content = safe_read(filepath)
@@ -82,20 +84,27 @@ module Jekyll
 
         @published_count += 1
 
-        # 用路径自动推导 categories（若 frontmatter 未设置）
-        categories = frontmatter['categories'] || derive_categories(rel_path)
+        # Vault 文件夹是唯一公开层级。主题自带 categories 仅保留给旧文章，
+        # 避免同一篇 Vault 文章同时出现两套互相冲突的导航。
+        vault_categories = derive_categories(rel_path)
 
         doc_data = {
           'title'      => frontmatter['title'] || basename_no_ext(filepath),
           'date'       => frontmatter['date'],
-          'categories' => categories,
+          'categories' => [],
+          'vault_categories' => vault_categories,
           'tags'       => frontmatter['tags'] || [],
           'pin'        => frontmatter['pin'] || false,
           'toc'        => frontmatter.fetch('toc', true),
           'comments'   => frontmatter.fetch('comments', true),
           'math'       => frontmatter.fetch('math', false),
           'mermaid'    => frontmatter.fetch('mermaid', true),
-          'permalink'  => frontmatter['permalink']
+          'permalink'  => frontmatter['permalink'],
+          'project_card' => frontmatter['project_card'] == true,
+          'summary'    => frontmatter['summary'],
+          'stack'      => frontmatter['stack'] || [],
+          'status'     => frontmatter['status'],
+          'featured'   => frontmatter['featured'] == true
         }
 
         doc_data['author'] = frontmatter['author'] if frontmatter['author']
@@ -114,6 +123,7 @@ module Jekyll
         @dir_map[dir_key][:posts] << {
           'title' => doc_data['title'],
           'date'  => doc_data['date'],
+          'filename' => File.basename(filepath),
           'url'   => nil,
           'source_path' => filepath
         }
@@ -151,6 +161,14 @@ module Jekyll
                                 else
                                   build_permalink(vd[:path], vd[:data]['title'])
                                 end
+        doc.data['layout'] = 'vault_post'
+        doc.data['vault_breadcrumbs'] = build_vault_breadcrumbs(vd[:dir_key])
+        doc.data['vault_dir_url'] = vd[:dir_key] == '.' ? '/vault/' : "/vault/#{vd[:dir_key]}/"
+        doc.data['vault_dir_name'] = if vd[:dir_key] == '.'
+                                      '资料库'
+                                    else
+                                      clean_folder_name(File.basename(vd[:dir_key]))
+                                    end
 
         doc.content = vd[:content]
 
@@ -210,10 +228,42 @@ module Jekyll
         label = File.basename(dir)
         {
           'label' => label,
-          'name' => label.sub(/^[A-Z]\d+-/, ''),
+          'code' => folder_code(label),
+          'name' => clean_folder_name(label),
           'url' => "/vault/#{dir}/",
-          'description' => descriptions.fetch(label, '公开内容分类。')
+          'description' => descriptions.fetch(label, '公开内容分类。'),
+          'count' => count_vault_docs(dir)
         }
+      end
+    end
+
+    def expose_projects
+      projects = @vault_docs.filter_map do |vd|
+        next unless vd[:data]['project_card']
+        next unless vd[:dir_key].match?(%r{\AA3-项目/[^/]+\z})
+
+        entry = @dir_map[vd[:dir_key]][:posts].find do |candidate|
+          candidate['source_path'] == vd[:path]
+        end
+        next unless entry && entry['url']
+
+        label = File.basename(vd[:dir_key])
+        {
+          'code' => folder_code(label),
+          'name' => clean_folder_name(label),
+          'title' => vd[:data]['title'],
+          'summary' => vd[:data]['summary'] || '查看项目背景、实现过程与相关文档。',
+          'stack' => vd[:data]['stack'],
+          'status' => vd[:data]['status'] || '持续整理',
+          'featured' => vd[:data]['featured'],
+          'docs_url' => "/vault/#{vd[:dir_key]}/",
+          'intro_url' => entry['url'],
+          'count' => count_vault_docs(vd[:dir_key])
+        }
+      end
+
+      @site.data['vault_projects'] = projects.sort_by do |project|
+        natural_sort_key(project['code'])
       end
     end
 
@@ -253,6 +303,41 @@ module Jekyll
 
     def basename_no_ext(filepath)
       File.basename(filepath, File.extname(filepath))
+    end
+
+    def build_vault_breadcrumbs(dir_path)
+      crumbs = [{ 'code' => '', 'name' => '资料库', 'url' => '/vault/' }]
+      return crumbs if dir_path == '.'
+
+      parts = dir_path.split('/')
+      parts.each_with_index do |part, index|
+        crumbs << {
+          'code' => folder_code(part),
+          'name' => clean_folder_name(part),
+          'url' => "/vault/#{parts[0..index].join('/')}/"
+        }
+      end
+      crumbs
+    end
+
+    def folder_code(value)
+      value[/\A[A-Z]\d+/] || ''
+    end
+
+    def clean_folder_name(value)
+      value.sub(/^[A-Z]\d+-/, '')
+    end
+
+    def count_vault_docs(dir)
+      @vault_docs.count do |doc|
+        doc[:dir_key] == dir || doc[:dir_key].start_with?("#{dir}/")
+      end
+    end
+
+    def natural_sort_key(value)
+      value.downcase.scan(/\d+|\D+/).map do |part|
+        part.match?(/\A\d+\z/) ? [0, part.to_i] : [1, part]
+      end
     end
 
     def build_permalink(filepath, title)
@@ -356,6 +441,8 @@ module Jekyll
         name = d.split('/').last
         display = name.sub(/^[A-Z]\d+-/, '')
         {
+          'label' => name,
+          'code'  => name[/\A[A-Z]\d+/] || '',
           'name'  => display,
           'path'  => d,
           'url'   => "/vault/#{d}/",
@@ -372,6 +459,9 @@ module Jekyll
       self.data = {
         'layout'      => 'vault_index',
         'title'       => display_name,
+        'folder_label' => File.basename(dir_path),
+        'folder_code' => File.basename(dir_path)[/\A[A-Z]\d+/] || '',
+        'description' => "当前层有 #{subdirs.count} 个子文件夹、#{posts.count} 篇文章；共收录 #{count_posts_in_dir(dir_path)} 篇公开内容。",
         'permalink'   => @dir,
         'subdirs'     => subdirs,
         'posts'       => posts,
@@ -395,10 +485,12 @@ module Jekyll
       # Count only documents that passed the strict publication gate.
       @site.collections['posts'].docs.count do |doc|
         begin
-          next false unless doc.path.include?(File.join('_vault', dir))
+          normalized_path = doc.path.tr('\\', '/')
+          next false unless normalized_path.include?("_vault/#{dir}")
 
           rel = Pathname.new(doc.path)
-                        .relative_path_from(Pathname.new(File.join(@site.source, '_vault'))).to_s
+                        .relative_path_from(Pathname.new(File.join(@site.source, '_vault')))
+                        .to_s.tr('\\', '/')
           rel.start_with?("#{dir}/")
         rescue ArgumentError
           false
@@ -407,14 +499,18 @@ module Jekyll
     end
 
     def build_breadcrumbs(dir_path)
-      crumbs = [{ 'name' => '知识库', 'url' => '/vault/' }]
+      crumbs = [{ 'code' => '', 'name' => '资料库', 'url' => '/vault/' }]
       return crumbs if dir_path == '.'
 
       parts = dir_path.split('/')
       parts.each_with_index do |part, i|
         display = part.sub(/^[A-Z]\d+-/, '')
         path   = parts[0..i].join('/')
-        crumbs << { 'name' => display, 'url' => "/vault/#{path}/" }
+        crumbs << {
+          'code' => part[/\A[A-Z]\d+/] || '',
+          'name' => display,
+          'url' => "/vault/#{path}/"
+        }
       end
 
       crumbs
