@@ -1,7 +1,7 @@
 ---
 title: 个人网站优化日志：从学生博客到职业作品集
 date: 2026-07-11 12:30:00 +0800
-categories: [项目日志, 网站建设]
+categories: [人生管理体系, 网站建设]
 tags: [Jekyll, GitHub Pages, 作品集, 工程实践]
 pin: true
 published: true

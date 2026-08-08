@@ -1,7 +1,7 @@
 ---
 title: 人生管理体系 - 项目总览
 date: 2026-08-08 00:00:00 +0800
-categories: [项目, 人生管理体系]
+categories: [人生管理体系, 网站建设]
 tags: [项目总览, 人生管理, 知识库, 博客]
 pin: true
 published: true

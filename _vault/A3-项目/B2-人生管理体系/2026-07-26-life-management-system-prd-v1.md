@@ -1,7 +1,7 @@
 ---
 title: 人生管理系统 PRD v1
 date: 2026-07-26 00:00:00 +0800
-categories: [项目, 人生管理体系]
+categories: [人生管理体系, 网站建设]
 tags: [PRD, 人生管理]
 pin: false
 published: true
