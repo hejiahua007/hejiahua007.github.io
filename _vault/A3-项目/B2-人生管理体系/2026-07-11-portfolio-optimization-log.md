@@ -4,9 +4,14 @@ date: 2026-07-11 12:30:00 +0800
 categories: [项目日志, 网站建设]
 tags: [Jekyll, GitHub Pages, 作品集, 工程实践]
 pin: true
+published: true
+author: 
+    name: hejiahua007
+    link: https://space.bilibili.com/507838758
 toc: true
 comments: true
-published: true
+math: false
+mermaid: true
 ---
 
 这个网站最早建于毕业前，用来记录嵌入式学习、毕业设计和日常思考。工作一年半后再回头看，它保留了很多真实的成长痕迹，但作为简历网站已经不能准确表达现在的能力。因此，我开始把它从“学生时期的技术博客”升级为“个人作品集 + 技术博客”。

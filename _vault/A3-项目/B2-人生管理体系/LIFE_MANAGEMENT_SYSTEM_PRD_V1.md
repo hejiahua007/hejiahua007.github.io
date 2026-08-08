@@ -1,3 +1,19 @@
+---
+title: 人生管理系统 PRD v1
+date: 2026-07-26 00:00:00 +0800
+categories: [项目, 人生管理体系]
+tags: [PRD, 人生管理]
+pin: false
+published: true
+author: 
+    name: hejiahua007
+    link: https://space.bilibili.com/507838758
+toc: true
+comments: true
+math: false
+mermaid: true
+---
+
 # 人生管理系统 PRD v1
 
 > 版本：0.1  

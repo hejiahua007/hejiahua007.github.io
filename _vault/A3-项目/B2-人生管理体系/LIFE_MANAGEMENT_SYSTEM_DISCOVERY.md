@@ -1,3 +1,19 @@
+---
+title: 人生管理系统：需求澄清与初步方案
+date: 2026-07-25 00:00:00 +0800
+categories: [项目, 人生管理体系]
+tags: [需求分析, 人生管理]
+pin: false
+published: true
+author: 
+    name: hejiahua007
+    link: https://space.bilibili.com/507838758
+toc: true
+comments: true
+math: false
+mermaid: true
+---
+
 # 人生管理系统：需求澄清与初步方案
 
 > 状态：第一轮需求探索完成  
