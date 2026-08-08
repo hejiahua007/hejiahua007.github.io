@@ -16,3 +16,10 @@ vendor
 node_modules
 package-lock.json
 Gemfile.lock
+
+# Vault is private by default. tools/safe-publish.ps1 force-adds only files
+# with an explicit `published: true` and their referenced local assets.
+_vault/**
+
+# Local migration state may contain private source snapshots and model output.
+.migration/

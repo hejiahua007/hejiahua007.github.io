@@ -1,83 +1,89 @@
 # 网站内容维护指南
 
-## 分支职责
+## 唯一内容源
 
-- `main`：唯一需要日常编辑和提交的源码分支。
-- `gh-pages`：GitHub Actions 自动生成的静态网页分支，不要手工修改。
-
-发布链路：`main` → Actions 执行 `tools/deploy.sh` → `gh-pages` → GitHub Pages。
-
-## 内容目录
+新内容只写入 `_vault/`。网站展示层级由 `_vault` 的文件夹层级决定。
 
 ```text
-_posts/                    所有需要发布的文章
-assets/blog_res/           文章图片和附件
-_tabs/projects.md          作品集页面
-_tabs/about.md             在线简历
-docs/CONTENT_GUIDE.md      本维护说明
+_vault/
+├─ A1-回忆归档/
+├─ A2-规划/
+├─ A3-项目/
+└─ A4-知识库/
 ```
 
-不要再次创建 `_posts/_posts/`。
+`_posts/` 是旧文章过渡区，不再新增。构建插件遇到与 `_vault` 同名的旧文章时优先使用 `_vault`，避免重复页面。旧文件审计见 [LEGACY_POSTS_AUDIT.md](./LEGACY_POSTS_AUDIT.md)。
 
-## 文章命名
+## 文件命名
 
-文章必须直接放在 `_posts/`，文件名使用：
+- A/B/C 前缀只给文件夹排序；
+- 时间记录：`YYYY年MM月DD日-简短标题.md`；
+- 长期文章：`简短语义标题.md`；
+- 新文章不要求 D 编号；
+- 旧 D 编号和旧英文日期文件名暂不批量修改，以免破坏历史链接。
 
-```text
-YYYY-MM-DD-slug.md
-```
-
-例如：
-
-```text
-2026-07-11-portfolio-optimization-log.md
-2026-07-12-pa-agent-development-log.md
-```
-
-## Front Matter 模板
+## 最小 Front Matter
 
 ```yaml
 ---
-title: 标题
-date: 2026-07-11 20:00:00 +0800
-categories: [项目日志, PA Agent]
-tags: [Python, PyQt6, AI]
-pin: false
-toc: true
-comments: true
+title: 文章标题
+date: 2026-08-08 20:00:00 +0800
+tags: [标签1, 标签2]
+published: false
 ---
 ```
 
-## 推荐分类
-
-- `项目日志 / 项目名称`
-- `每日日志`
-- `技术笔记 / 技术方向`
-- `生活记录`
-- `阅读笔记`
-
-分类用于建立层级，标签用于描述技术关键词。不要把同一个概念同时创建多个不同写法，例如 `Python`、`python` 和 `PYTHON`。
+- `categories` 可不填写，由目录自动推导；
+- `published` 必须显式为布尔值；
+- 新文件默认 `false`，人工决定公开时再改为 `true`；
+- 缺字段、字符串形式或重复字段都会阻止发布。
 
 ## 图片
 
-每篇文章建立独立资源目录：
+推荐将图片与文章放在同一目录并使用相对引用：
 
 ```text
-assets/blog_res/YYYY-MM-DD-slug/
+_vault/A3-项目/B7-PA Agent/
+├─ 功能说明.md
+└─ chart.png
 ```
-
-引用方式：
 
 ```markdown
-![说明](/assets/blog_res/YYYY-MM-DD-slug/image.png)
+![图表](chart.png)
 ```
 
-## 发布步骤
+Vault 构建插件会把明确公开文章引用的本地图片复制到公开资源目录。`safe-publish.ps1` 只暂存公开文章真正引用到的资源。
 
-```bash
-git add .
-git commit -m "docs: 新增某项目开发日志"
+也兼容已有的绝对资源路径：
+
+```markdown
+![图表](/assets/blog_res/example/chart.png)
+```
+
+## 发布
+
+先校验和预览：
+
+```powershell
+.\tools\validate-vault.ps1 -ChangedOnly
+.\tools\safe-publish.ps1 -DryRun
+```
+
+人工确认后：
+
+```powershell
+.\tools\safe-publish.ps1
+git diff --cached --stat
+git diff --cached
+git commit -m "content: 内容说明"
 git push origin main
 ```
 
-推送后查看 GitHub Actions。构建成功后，生成的网站会自动进入 `gh-pages`。
+不要使用 `git add -A` 发布 Vault 内容。`.gitignore` 默认忽略 `_vault`，发布脚本只强制加入明确公开的文件和资源。
+
+## 分支
+
+- `main`：源码和公开内容；
+- `gh-pages`：GitHub Actions 生成，不手工修改。
+
+发布链路：`main → GitHub Actions → tools/deploy.sh → gh-pages → GitHub Pages`。

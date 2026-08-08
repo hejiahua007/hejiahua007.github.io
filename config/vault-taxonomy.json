@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "content_root": "_vault",
+  "publication_rule": "Only an explicit boolean published: true is public. Missing, quoted, duplicated, or inferred values are private and blocked.",
+  "naming": {
+    "folders": "A/B/C prefixes exist only to order folders. Do not add a D number merely to order articles.",
+    "dated_files": "YYYY年MM月DD日-简短标题.md",
+    "durable_files": "简短且能表达内容的标题.md",
+    "legacy_files": "Existing Dn-* and YYYY-MM-DD-* names may remain; do not rename them without a separate redirect plan.",
+    "forbidden": ["<", ">", ":", "\"", "/", "\\", "|", "?", "*"]
+  },
+  "categories": [
+    {
+      "id": "A1",
+      "path": "_vault/A1-回忆归档",
+      "purpose": "日记、工作日志、生活记录、阶段回顾",
+      "routing_clues": ["日记", "日志", "今天发生", "情绪", "回顾", "复盘过程"],
+      "default_published": false
+    },
+    {
+      "id": "A2",
+      "path": "_vault/A2-规划",
+      "purpose": "年/月/周/日计划、目标、职业规划",
+      "routing_clues": ["目标", "计划", "下一步", "完成线", "职业规划"],
+      "default_published": false
+    },
+    {
+      "id": "A3",
+      "path": "_vault/A3-项目",
+      "purpose": "有明确结果的项目文档、设计、开发记录与成果",
+      "routing_clues": ["项目", "PRD", "架构", "开发", "验收", "成果"],
+      "default_published": false
+    },
+    {
+      "id": "A4",
+      "path": "_vault/A4-知识库",
+      "purpose": "经过整理、未来可复用的知识与阅读笔记",
+      "routing_clues": ["知识", "教程", "阅读", "方法", "原理", "总结"],
+      "default_published": false
+    }
+  ],
+  "hard_rules": [
+    "Preserve the source published value exactly; never infer true.",
+    "When classification confidence is low, retain the source and request review.",
+    "Do not overwrite an existing target.",
+    "Keep a Markdown file and its relative local images together.",
+    "Folder hierarchy is the website hierarchy; frontmatter categories are derived from it.",
+    "Never delete, commit, or push from a language-model response. Use deterministic scripts."
+  ]
+}

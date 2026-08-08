@@ -1,131 +1,192 @@
 <#
 .SYNOPSIS
-    Safe publish script - scan _vault/ .md files, selectively git add based on frontmatter.published.
-    published:true files are staged and pushed; published:false files stay local only.
+    Stage only explicitly public Vault content and its referenced local assets.
 
 .DESCRIPTION
-    Usage (replaces git add -A):
-        .\tools\safe-publish.ps1
-        git commit -m "your message"
-        git push
+    Publication is fail-closed:
+      - published: true  => eligible for staging
+      - published: false => kept local and removed from the Git index if tracked
+      - missing/invalid  => blocked and reported as an error
 
-    Resets staging area, then checks each file's frontmatter, only staging published:true files.
-    Files without frontmatter or without published field default to published:true.
+    The script never commits or pushes. It only changes the Git staging area
+    inside _vault/. Staged changes outside _vault/ are preserved.
 #>
 
 param(
     [switch]$DryRun,
-    [switch]$NoReset,
-    [switch]$IncludePosts
+    [switch]$NoReset
 )
 
-$ErrorActionPreference = "Stop"
+$ErrorActionPreference = 'Stop'
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$repoRoot = Resolve-Path (Join-Path $scriptDir "..")
+$repoRoot = (Resolve-Path (Join-Path $scriptDir '..')).Path
+$vaultRoot = Join-Path $repoRoot '_vault'
 Set-Location $repoRoot
 
-Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "  safe-publish.ps1 - Safe Publish Script" -ForegroundColor Cyan
-Write-Host "  Only stage files with published:true" -ForegroundColor Cyan
-Write-Host "========================================`n" -ForegroundColor Cyan
+$publishedFiles = [System.Collections.Generic.List[string]]::new()
+$privateFiles = [System.Collections.Generic.List[string]]::new()
+$invalidFiles = [System.Collections.Generic.List[string]]::new()
+$assetFiles = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
+$errors = [System.Collections.Generic.List[string]]::new()
 
-# Step 1: Reset staging area
-if (-not $NoReset) {
-    Write-Host "[INFO] Clearing staging area (git reset)..." -ForegroundColor Gray
-    git reset | Out-Null
-    Write-Host "[OK]   Staging area cleared`n" -ForegroundColor Green
-} else {
-    Write-Host "[INFO] Append mode, not clearing staging area`n" -ForegroundColor Gray
+function Get-RelativeRepoPath {
+    param([Parameter(Mandatory = $true)][string]$FullPath)
+
+    $rootWithSeparator = $repoRoot.TrimEnd('\') + '\'
+    if (-not $FullPath.StartsWith($rootWithSeparator, [System.StringComparison]::OrdinalIgnoreCase)) {
+        throw "Path escapes repository: $FullPath"
+    }
+    return $FullPath.Substring($rootWithSeparator.Length).Replace('\', '/')
 }
 
-# Step 2: Scan _vault/ directory
-$totalFiles = 0
-$addedFiles = 0
-$skippedFiles = 0
-$skippedList = @()
-$errorList = @()
+function Get-PublicationState {
+    param([Parameter(Mandatory = $true)][string]$Content)
 
-function Test-Published {
-    param([string]$FilePath)
-    try {
-        $content = Get-Content $FilePath -Raw -Encoding UTF8 -ErrorAction Stop
+    if ($Content -notmatch '(?s)\A---\s*\r?\n(?<fm>.*?)\r?\n---') {
+        return 'Invalid'
     }
-    catch {
-        $script:errorList += "[ERROR] Cannot read file: $FilePath"
-        return $false
+
+    $frontmatter = $Matches['fm']
+    $matches = [regex]::Matches($frontmatter, '(?m)^published:\s*(true|false)\s*$')
+    if ($matches.Count -ne 1) {
+        return 'Invalid'
     }
-    # Match YAML frontmatter (--- ... ---)
-    if ($content -match '^---\s*\r?\n(.*?)\r?\n---') {
-        $frontmatter = $Matches[1]
-        if ($frontmatter -match 'published:\s*false') {
-            return $false
+    if ($matches[0].Groups[1].Value -eq 'true') {
+        foreach ($requiredField in @('title', 'date')) {
+            if ([regex]::Matches($frontmatter, "(?m)^$requiredField\s*:").Count -ne 1) {
+                return 'Invalid'
+            }
+        }
+        return 'Published'
+    }
+    return 'Private'
+}
+
+function Add-ReferencedAssets {
+    param(
+        [Parameter(Mandatory = $true)][string]$MarkdownPath,
+        [Parameter(Mandatory = $true)][string]$Content
+    )
+
+    $scanContent = [regex]::Replace($Content, '(?ms)^\s*```.*?^\s*```\s*', '')
+    $scanContent = [regex]::Replace($scanContent, '(?ms)^\s*~~~.*?^\s*~~~\s*', '')
+    $urls = [System.Collections.Generic.List[string]]::new()
+    foreach ($match in [regex]::Matches($scanContent, '!\[[^\]]*\]\((?<url>[^)\s]+)')) {
+        $urls.Add($match.Groups['url'].Value.Trim('<', '>'))
+    }
+    foreach ($match in [regex]::Matches($scanContent, '<img\b[^>]*\bsrc=["''](?<url>[^"'']+)["'']', 'IgnoreCase')) {
+        $urls.Add($match.Groups['url'].Value)
+    }
+
+    foreach ($url in $urls) {
+        if ($url -match '^(?:[a-z][a-z0-9+.-]*:|#)') { continue }
+
+        $pathOnly = ($url -split '[?#]', 2)[0]
+        if ($pathOnly.StartsWith('/')) {
+            $candidate = Join-Path $repoRoot $pathOnly.TrimStart('/').Replace('/', '\')
+        }
+        else {
+            $candidate = Join-Path (Split-Path -Parent $MarkdownPath) $pathOnly.Replace('/', '\')
+        }
+
+        $fullPath = [System.IO.Path]::GetFullPath($candidate)
+        $repoPrefix = $repoRoot.TrimEnd('\') + '\'
+        if (-not $fullPath.StartsWith($repoPrefix, [System.StringComparison]::OrdinalIgnoreCase)) {
+            $errors.Add("Asset path escapes repository: $url in $(Get-RelativeRepoPath $MarkdownPath)")
+            continue
+        }
+        if (-not (Test-Path -LiteralPath $fullPath -PathType Leaf)) {
+            $errors.Add("Missing asset: $url in $(Get-RelativeRepoPath $MarkdownPath)")
+            continue
+        }
+        [void]$assetFiles.Add((Get-RelativeRepoPath $fullPath))
+    }
+}
+
+if (-not (Test-Path -LiteralPath $vaultRoot -PathType Container)) {
+    throw "Vault directory not found: $vaultRoot"
+}
+
+if (-not $NoReset -and -not $DryRun) {
+    git reset -q HEAD -- _vault
+    if ($LASTEXITCODE -ne 0) { throw 'Unable to clear the _vault staging scope.' }
+}
+
+$markdownFiles = Get-ChildItem -LiteralPath $vaultRoot -Recurse -File -Filter '*.md' |
+    Where-Object { $_.Name -ne '_index.md' } |
+    Sort-Object FullName
+
+foreach ($file in $markdownFiles) {
+    $content = Get-Content -LiteralPath $file.FullName -Raw -Encoding UTF8
+    $relativePath = Get-RelativeRepoPath $file.FullName
+    $state = Get-PublicationState $content
+
+    switch ($state) {
+        'Published' {
+            $publishedFiles.Add($relativePath)
+            Add-ReferencedAssets -MarkdownPath $file.FullName -Content $content
+        }
+        'Private' {
+            $privateFiles.Add($relativePath)
+        }
+        default {
+            $invalidFiles.Add($relativePath)
+            $errors.Add("Missing or invalid explicit published field: $relativePath")
         }
     }
-    return $true
 }
 
-function Process-Directory {
-    param([string]$DirPath, [string]$Label)
-    if (-not (Test-Path $DirPath)) {
-        Write-Host "[WARN] Directory not found: $DirPath`n" -ForegroundColor Yellow
-        return
+$deletedTracked = @(git ls-files --deleted -- _vault)
+if ($LASTEXITCODE -ne 0) { throw 'Unable to inspect deleted tracked Vault files.' }
+
+if (-not $DryRun) {
+    foreach ($path in $deletedTracked) {
+        git add -u -- $path
+        if ($LASTEXITCODE -ne 0) { throw "Unable to stage deletion: $path" }
     }
-    Write-Host "--- Scanning $Label ($DirPath) ---" -ForegroundColor Cyan
-    $files = Get-ChildItem -Path $DirPath -Recurse -Filter "*.md" -File
-    $localTotal = 0
-    $localAdded = 0
-    $localSkipped = 0
-    foreach ($file in $files) {
-        if ($file.Name -eq "_index.md") { continue }
-        $localTotal++
-        $script:totalFiles++
-        $relPath = Resolve-Path $file.FullName -Relative
-        $isPublished = Test-Published -FilePath $file.FullName
-        if ($isPublished) {
-            $localAdded++
-            $script:addedFiles++
-            if (-not $DryRun) { git add $file.FullName 2>&1 | Out-Null }
-            Write-Host "  [ADD]    $relPath" -ForegroundColor Green
-        } else {
-            $localSkipped++
-            $script:skippedFiles++
-            $script:skippedList += $relPath
-            Write-Host "  [SKIP]   $relPath" -ForegroundColor Yellow
+
+    foreach ($path in @($privateFiles) + @($invalidFiles)) {
+        $tracked = @(git ls-files -- $path)
+        if ($LASTEXITCODE -ne 0) { throw "Unable to inspect tracked state: $path" }
+        if ($tracked.Count -gt 0) {
+            git rm -q -f --cached -- $path
+            if ($LASTEXITCODE -ne 0) { throw "Unable to untrack private file: $path" }
         }
     }
-    Write-Host "  Dir stats: +$localAdded / -$localSkipped / =$localTotal`n" -ForegroundColor Gray
+
+    foreach ($path in $publishedFiles) {
+        git add -f -- $path
+        if ($LASTEXITCODE -ne 0) { throw "Unable to stage published file: $path" }
+    }
+    foreach ($path in $assetFiles) {
+        git add -f -- $path
+        if ($LASTEXITCODE -ne 0) { throw "Unable to stage asset: $path" }
+    }
 }
 
-# Scan _vault/
-Process-Directory -DirPath (Join-Path $repoRoot "_vault") -Label "_vault/"
+Write-Host ''
+Write-Host 'Vault publication preview'
+Write-Host "  Published Markdown : $($publishedFiles.Count)"
+Write-Host "  Referenced assets  : $($assetFiles.Count)"
+Write-Host "  Private Markdown   : $($privateFiles.Count)"
+Write-Host "  Invalid/blocked    : $($invalidFiles.Count)"
+Write-Host "  Deleted tracked    : $($deletedTracked.Count)"
 
-# Optionally scan _posts/
-if ($IncludePosts) {
-    Process-Directory -DirPath (Join-Path $repoRoot "_posts") -Label "_posts/"
+if ($invalidFiles.Count -gt 0) {
+    Write-Host ''
+    Write-Host 'Blocked files:' -ForegroundColor Red
+    foreach ($path in $invalidFiles) { Write-Host "  - $path" -ForegroundColor Red }
 }
-
-# Step 3: Summary
-Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "  Publish Summary" -ForegroundColor Cyan
-Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "  Staged:     $addedFiles" -ForegroundColor Green
-Write-Host "  Skipped:    $skippedFiles" -ForegroundColor Yellow
-Write-Host "  Total:      $totalFiles" -ForegroundColor Gray
-Write-Host "========================================" -ForegroundColor Cyan
-
-if ($skippedList.Count -gt 0) {
-    Write-Host "`nFiles excluded (published:false):" -ForegroundColor Yellow
-    foreach ($s in $skippedList) { Write-Host "  - $s" -ForegroundColor DarkYellow }
-}
-
-if ($errorList.Count -gt 0) {
-    Write-Host "`nErrors:" -ForegroundColor Red
-    foreach ($e in $errorList) { Write-Host "  $e" -ForegroundColor Red }
+if ($errors.Count -gt 0) {
+    Write-Host ''
+    Write-Host 'Errors:' -ForegroundColor Red
+    foreach ($message in $errors) { Write-Host "  - $message" -ForegroundColor Red }
 }
 
 if ($DryRun) {
-    Write-Host "`n[DRY RUN] Preview mode, no files were actually staged" -ForegroundColor Magenta
+    Write-Host ''
+    Write-Host 'Dry run only; staging area was not changed.' -ForegroundColor Cyan
 }
 
-if ($skippedFiles -gt 0 -or $errorList.Count -gt 0) { exit 1 }
+if ($errors.Count -gt 0) { exit 1 }
 exit 0

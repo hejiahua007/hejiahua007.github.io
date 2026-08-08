@@ -1,174 +1,121 @@
 # Vault 使用与迁移指南
 
-## 概述
+## 架构
 
-本项目采用了"单目录知识库"架构：
+本地 `_vault/` 同时是宿舍电脑的长期 Markdown 主库和网站内容源，但二者通过 `published` 严格隔离：
 
-- **`_vault/`**：所有文章统一存放在此，按 A1-A4 四级分类层级组织
-- **`tools/safe-publish.ps1`**：发布门控脚本，读取 frontmatter 的 `published` 字段，只将 `true` 的文件 git add
-- **`_plugins/vault_generator.rb`**：Jekyll 插件，构建时自动扫描 `_vault/` 并注入站点
+| 状态 | 本地可见 | Git 暂存 | 网站展示 |
+|---|---:|---:|---:|
+| `published: true` | 是 | 是 | 是 |
+| `published: false` | 是 | 否 | 否 |
+| 缺失或非法 | 是 | 阻止发布 | 否 |
 
-## 目录结构
+公开采用 fail-closed：只有明确、唯一、未加引号的布尔值 `true` 才公开。
 
-```
+## 层级
+
+```text
 _vault/
-├── A1-回忆归档/
-│   ├── B1-24年回忆/
-│   ├── B2-22年回忆/
-│   └── B3-23年回忆/
-├── A2-规划/
-│   ├── B1-人生曼陀罗图/
-│   └── B2-2026年计划/
-│       └── C1-1月计划/
-│           └── E1-日记录/
-├── A3-项目/
-│   ├── B1-毕设/
-│   ├── B2-人生管理体系/
-│   ├── B3-估值雷达/
-│   └── B4-信息雷达/
-└── A4-知识库/
-    ├── B1-基金/
-    │   ├── C1-基金学习/
-    │   ├── C2-低估基金挑选/
-    │   └── C3-基金投资计划/
-    ├── B2-阅读/
-    │   └── C1-书籍：后真相时代/
-    ├── B3-Python/
-    ├── B4-嵌入式/
-    └── B5-求职技能/
+├─ A1-回忆归档/   日记、日志、生活记录、阶段回顾
+├─ A2-规划/       目标、计划、职业规划
+├─ A3-项目/       项目设计、过程、成果和证据
+└─ A4-知识库/     可复用知识与阅读笔记
 ```
 
-## 文章 Frontmatter 规范
+文件夹是网站导航层级。A/B/C 前缀只负责排序，不表达文章编号。新文章不再强制 D 编号。
 
-所有新文章必须包含以下 frontmatter 模板：
+完整机器规则见 [config/vault-taxonomy.json](../config/vault-taxonomy.json)。
+
+## 新建或整理文章
+
+最小 front matter：
 
 ```yaml
 ---
 title: "文章标题"
-date: YYYY-MM-DD HH:MM:SS +0800
-categories: [主分类, 子分类]
-tags: [标签1, 标签2]
-pin: false
-published: true
-author:
-    name: hejiahua007
-    link: https://space.bilibili.com/507838758
-toc: true
-comments: true
-math: false
-mermaid: true
+date: 2026-08-08 20:00:00 +0800
+tags: []
+published: false
 ---
 ```
 
-### published 字段说明
-
-| 值 | 含义 | git 行为 | 网站行为 |
-|---|---|---|---|
-| `true` | 公开 | `safe-publish.ps1` 会 git add | Jekyll 构建并展示 |
-| `false` | 私密（仅本地） | `safe-publish.ps1` 跳过，不提交 | 不在站点出现 |
-
-**注意**：`published: false` 的文件存在于本地 `_vault/` 中，可被 Obsidian 正常读写，但永远不会被推送到 GitHub。
-
-## 日常使用
-
-### 1. 写新文章
-
-直接在 `_vault/` 对应分类目录下创建 `.md` 文件，使用上述 frontmatter 模板。
-
-### 2. 使用 Obsidian 阅读编辑
-
-用 Obsidian 打开本项目根目录作为 Vault，即可浏览和编辑 `_vault/` 中所有文件（包括 `published: false` 的私密文件）。
-
-### 3. 发布流程（替代 `git add -A`）
-
-**不要使用 `git add -A` 或 `git add .`！** 使用安全发布脚本：
+旧文章缺少字段时可以运行：
 
 ```powershell
-# 预览模式（不实际修改）
-.\tools\safe-publish.ps1 -DryRun
-
-# 正式发布
-.\tools\safe-publish.ps1
-
-# 然后正常提交推送
-git commit -m "your message"
-git push
+.\tools\normalize-vault-frontmatter.ps1
+.\tools\normalize-vault-frontmatter.ps1 -Apply
 ```
 
-脚本会输出详细日志，显示哪些文件被暂存、哪些被排除。
+脚本只补缺失字段，并始终将缺失的 `published` 补为 `false`。
 
-## 每月迁移（life-vault → hejiahua007.github.io）
+## 网站构建行为
 
-### 迁移步骤
+`_plugins/vault_generator.rb`：
 
-1. **在宿舍电脑上拉取最新 life-vault**：
-   ```powershell
-   cd D:\DevTools\vs_project\life-vault
-   git pull --rebase
-   ```
+1. 递归扫描 `_vault/*.md`；
+2. 只接收 `published: true`；
+3. 从路径推导分类；
+4. 生成稳定且唯一的文章 URL；
+5. 为分类目录生成索引；
+6. 分类数量只统计公开文章；
+7. 重写公开文章的相对图片路径并复制图片；
+8. 与旧 `_posts` 同名时优先使用 Vault 版本。
 
-2. **手动复制文件到 hejiahua007.github.io**：
-   - 根据文件内容，将 life-vault 中的文件复制到 `_vault/` 对应分类目录
-   - 日记类文件 → `A1-回忆归档/对应年份/`
-   - 计划类文件 → `A2-规划/`
-   - 项目文件 → `A3-项目/对应项目/`
-   - 知识笔记 → `A4-知识库/对应分类/`
+## 发布门控
 
-3. **添加/调整 frontmatter**：
-   - 补充标题、日期、分类、标签等信息
-   - **关键**：设置 `published: true` 或 `false`
+```powershell
+.\tools\validate-vault.ps1 -ChangedOnly
+.\tools\safe-publish.ps1 -DryRun
+.\tools\safe-publish.ps1
+```
 
-4. **安全发布**：
-   ```powershell
-   cd D:\DevTools\vs_project\hejiahua007.github.io
-   .\tools\safe-publish.ps1
-   git commit -m "迁移：YYYY年MM月 life-vault 内容"
-   git push
-   ```
+`safe-publish.ps1`：
 
-### 分类建议
+- 只清理 `_vault` 范围的暂存状态；
+- 保留其他代码的暂存状态；
+- 暂存 `published: true`；
+- 对 `false` 或非法文件执行本地保留、Git 取消跟踪；
+- 暂存公开文章引用的本地资源；
+- 图片不存在时失败；
+- 不提交、不推送。
 
-| life-vault 内容 | 迁移到 |
-|---|---|
-| 日记、日志 | `A1-回忆归档/B?-XX年回忆/` |
-| 年/月/日计划 | `A2-规划/B2-2026年计划/` |
-| 项目相关笔记 | `A3-项目/B?-项目名/` |
-| 技术学习笔记 | `A4-知识库/B?-分类/` |
-| 阅读笔记 | `A4-知识库/B2-阅读/` |
-| 工作反思 | `A1-回忆归档/` 或 `A2-规划/` |
+## 月度迁移
 
-## 技术说明
+月度迁移由一个控制脚本和两个窄职责智能体组成：
 
-### Jekyll 插件工作原理
+```text
+Prepare → 迁移智能体(JSON) → Apply → 整理智能体(Markdown)
+        → 校验 → 人工发布 → Finalize → 人工清理源仓提交
+```
 
-`_plugins/vault_generator.rb` 在 Jekyll 构建时：
+完整步骤见 [plan/月度自动化迁移与发布计划.md](../plan/月度自动化迁移与发布计划.md)。
 
-1. 递归扫描 `_vault/` 下所有 `.md` 文件（排除 `_index.md`）
-2. 解析 frontmatter，跳过 `published: false` 的文件
-3. 从文件路径自动推导 `categories`（如 `_vault/A4-知识库/B3-Python/xxx.md` → `[知识库, Python]`）
-4. 动态创建 `Jekyll::Document` 并注入 `site.posts` collection
-5. 为每个分类目录生成索引页（面包屑 + 子分类 + 文章列表）
+关键安全性：
 
-### safe-publish.ps1 工作原理
+- Prepare 只生成 inventory；
+- 迁移智能体不操作文件；
+- Apply 先预检和备份，再复制，禁止覆盖不同内容；
+- 整理智能体不能把 `false` 改成 `true`；
+- Finalize 需要显式参数，并只删除哈希验证通过的源文件；
+- 两个仓库的 commit/push 都由人工执行。
 
-1. 执行 `git reset` 清空暂存区
-2. 递归扫描 `_vault/` 中所有 `.md` 文件
-3. 读取每个文件的 YAML frontmatter
-4. 匹配 `published:` 字段：
-   - `true` 或未设置 → `git add` 该文件
-   - `false` → 跳过，输出黄色日志
-5. 输出统计：暂存数、排除数、总计
+## 旧 `_posts`
 
-## 常见问题
+`_posts` 不再新增。当前先保留文件，构建时按同名去重。运行以下命令更新审计：
 
-**Q: published: false 的文件在 Obsidian 中能看到吗？**
-A: 可以。这些文件存在于本地 `_vault/` 中，Obsidian 正常读写。
+```powershell
+.\tools\audit-legacy-posts.ps1
+```
 
-**Q: 不小心用 git add -A 提交了私密文件怎么办？**
-A: 使用 `safe-publish.ps1` 重置后再操作。如果已经推送，需要从 git 历史中清理。
+只有审计为 exact 的文件才有资格后续删除；非 exact 文件必须人工比较。Git 历史可以恢复已删除的旧文件。
 
-**Q: 旧文章（_posts/ 下的）怎么处理？**
-A: 已全部迁移到 `_vault/` 对应分类目录。`_posts/` 保留作为备份，后续可以清理。
+## 建议的人工检查
 
-**Q: 如何新增一个分类？**
-A: 在 `_vault/` 下创建新目录，放入 `_index.md` 占位文件，插件会自动识别。
+每月正式推送前检查：
+
+1. `validate-vault` 为 0 error；
+2. `safe-publish -DryRun` 数量合理；
+3. `git diff --cached` 不含私密文章；
+4. Agent 整理结果没有新增不存在的事实；
+5. 本地图片都能打开；
+6. GitHub Actions 构建成功后再 Finalize 源仓。

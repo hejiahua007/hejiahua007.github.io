@@ -3,6 +3,9 @@
 
 require 'yaml'
 require 'pathname'
+require 'set'
+require 'digest'
+require 'date'
 
 module Jekyll
   # ============================================================
@@ -10,7 +13,7 @@ module Jekyll
   # ============================================================
   # 功能：
   #   1. 递归扫描 _vault/ 下所有 .md 文件（排除 _index.md）
-  #   2. 解析 frontmatter，published:false 的文件跳过
+  #   2. 解析 frontmatter，只有 published:true 的文件才发布（fail closed）
   #   3. 从文件路径自动推导 categories
   #   4. 动态创建 Jekyll::Document 并注入 site.posts
   #   5. 为每个分类目录生成 VaultIndexPage（面包屑 + 子分类 + 文章列表）
@@ -30,6 +33,8 @@ module Jekyll
       @dir_map = {}
 
       @vault_docs = []
+      @registered_assets = Set.new
+      @all_vault_basenames = Set.new
       @published_count = 0
       @skipped_count = 0
 
@@ -50,6 +55,8 @@ module Jekyll
       Dir.glob(File.join(@vault_dir, '**', '*.md')).each do |filepath|
         next if File.basename(filepath) == '_index.md'
 
+        @all_vault_basenames << File.basename(filepath)
+
         rel_path = Pathname.new(filepath).relative_path_from(Pathname.new(@vault_dir)).to_s
         dir_key  = File.dirname(rel_path)
         dir_key  = '.' if dir_key == '.'
@@ -60,8 +67,14 @@ module Jekyll
         frontmatter = parse_frontmatter(content)
         next unless frontmatter
 
-        # published:false → 跳过
-        if frontmatter['published'] == false
+        # Fail closed: missing/invalid published never reaches the public site.
+        unless frontmatter['published'] == true
+          @skipped_count += 1
+          next
+        end
+
+        unless frontmatter['title'] && frontmatter['date']
+          Jekyll.logger.warn('VaultGenerator:', "Missing title/date: #{rel_path}")
           @skipped_count += 1
           next
         end
@@ -85,7 +98,7 @@ module Jekyll
 
         doc_data['author'] = frontmatter['author'] if frontmatter['author']
 
-        body = extract_body(content)
+        body = rewrite_local_assets(extract_body(content), filepath, rel_path)
 
         @vault_docs << {
           path:    filepath,
@@ -99,7 +112,8 @@ module Jekyll
         @dir_map[dir_key][:posts] << {
           'title' => doc_data['title'],
           'date'  => doc_data['date'],
-          'url'   => nil # 注入后由 Jekyll 生成
+          'url'   => nil,
+          'source_path' => filepath
         }
       end
 
@@ -118,6 +132,12 @@ module Jekyll
     def inject_posts
       posts_collection = @site.collections['posts']
 
+      # During the transition, prefer _vault over a legacy _posts file with
+      # the same basename. This removes duplicate pages without deleting data.
+      posts_collection.docs.reject! do |doc|
+        doc.path.include?('_posts') && @all_vault_basenames.include?(File.basename(doc.path))
+      end
+
       @vault_docs.each do |vd|
         doc = Jekyll::Document.new(vd[:path], {
                                      site:       @site,
@@ -127,8 +147,9 @@ module Jekyll
         # 设置数据和内容（绕过 read 方法，因为文件不在 _posts/ 中）
         doc.data.merge!(vd[:data])
 
-        # output 设置：复用 Chirpy 默认的 /posts/:title/ 格式
-        doc.data['permalink'] ||= "/posts/#{Jekyll::Utils.slugify(vd[:data]['title'])}/"
+        # Use a stable, unique URL. Chinese-only titles can slugify to an empty
+        # string, so a path hash is always included.
+        doc.data['permalink'] ||= build_permalink(vd[:path], vd[:data]['title'])
 
         doc.content = vd[:content]
 
@@ -136,6 +157,11 @@ module Jekyll
         Jekyll::Hooks.trigger(:posts, :post_init, doc)
 
         posts_collection.docs << doc
+
+        post_entry = @dir_map[vd[:dir_key]][:posts].find do |entry|
+          entry['source_path'] == vd[:path]
+        end
+        post_entry['url'] = doc.data['permalink'] if post_entry
       end
 
       # 按日期倒序排列
@@ -152,7 +178,7 @@ module Jekyll
 
         info = @dir_map[dir]
         # 提取目录名（去掉 A1- B1- C1- 等前缀作为显示名）
-        display_name = dir.split('/').last.sub(/^[A-Z]\d-/, '')
+        display_name = dir.split('/').last.sub(/^[A-Z]\d+-/, '')
         page = VaultIndexPage.new(@site, dir, display_name, info)
         @site.pages << page
       end
@@ -172,7 +198,7 @@ module Jekyll
     def parse_frontmatter(content)
       return nil unless content =~ /\A---\s*\r?\n(.*?)\r?\n---/m
 
-      YAML.safe_load(Regexp.last_match(1), permitted_classes: [Time])
+      YAML.safe_load(Regexp.last_match(1), permitted_classes: [Date, Time])
     rescue StandardError => e
       Jekyll.logger.warn('VaultGenerator:', "YAML parse error: #{e.message}")
       nil
@@ -189,11 +215,81 @@ module Jekyll
       dir = File.dirname(rel_path)
       return [] if dir == '.'
 
-      dir.split('/').map { |d| d.sub(/^[A-Z]\d-/, '') }.reject(&:empty?)
+      dir.split('/').map { |d| d.sub(/^[A-Z]\d+-/, '') }.reject(&:empty?)
     end
 
     def basename_no_ext(filepath)
       File.basename(filepath, File.extname(filepath))
+    end
+
+    def build_permalink(filepath, title)
+      rel_path = Pathname.new(filepath).relative_path_from(Pathname.new(@vault_dir)).to_s
+      basename = basename_no_ext(filepath).sub(/^\d{4}-\d{2}-\d{2}-/, '')
+      slug = Jekyll::Utils.slugify(basename)
+      slug = Jekyll::Utils.slugify(title.to_s) if slug.empty?
+      digest = Digest::SHA1.hexdigest(rel_path)[0, 10]
+      slug = 'vault' if slug.empty?
+      "/posts/#{slug}-#{digest}/"
+    end
+
+    def rewrite_local_assets(body, article_path, rel_path)
+      rewritten = body.gsub(/(!\[[^\]]*\]\()([^)\s]+)([^)]*\))/) do
+        prefix = Regexp.last_match(1)
+        source = Regexp.last_match(2)
+        suffix = Regexp.last_match(3)
+        public_url = register_local_asset(source, article_path, rel_path)
+        "#{prefix}#{public_url || source}#{suffix}"
+      end
+
+      rewritten.gsub(/(<img\b[^>]*\bsrc=["'])([^"']+)(["'])/i) do
+        prefix = Regexp.last_match(1)
+        source = Regexp.last_match(2)
+        suffix = Regexp.last_match(3)
+        public_url = register_local_asset(source, article_path, rel_path)
+        "#{prefix}#{public_url || source}#{suffix}"
+      end
+    end
+
+    def register_local_asset(source, article_path, rel_path)
+      return nil if source =~ %r{\A(?:[a-z][a-z0-9+.-]*:|/|#)}i
+
+      clean_source = source.sub(/\A</, '').sub(/>\z/, '').split(/[?#]/, 2).first
+      asset_path = File.expand_path(clean_source, File.dirname(article_path))
+      vault_prefix = File.expand_path(@vault_dir) + File::SEPARATOR
+      return nil unless asset_path.start_with?(vault_prefix) && File.file?(asset_path)
+
+      article_key = Digest::SHA1.hexdigest(rel_path)[0, 12]
+      destination_dir = File.join('assets', 'vault', article_key)
+      asset_key = [asset_path, destination_dir]
+
+      unless @registered_assets.include?(asset_key)
+        source_dir = Pathname.new(File.dirname(asset_path))
+                             .relative_path_from(Pathname.new(@site.source)).to_s
+        @site.static_files << VaultStaticFile.new(
+          @site,
+          @site.source,
+          source_dir,
+          File.basename(asset_path),
+          destination_dir
+        )
+        @registered_assets << asset_key
+      end
+
+      "/#{destination_dir.tr('\\', '/')}/#{File.basename(asset_path)}"
+    rescue StandardError => e
+      Jekyll.logger.warn('VaultGenerator:', "Asset error #{source}: #{e.message}")
+      nil
+    end
+  end
+
+  class VaultStaticFile < StaticFile
+    def initialize(site, base, source_dir, name, destination_dir)
+      super(site, base, source_dir, name)
+      @vault_destination_dir = destination_dir
+    end
+
+    def destination(dest)
+      File.join(dest, @vault_destination_dir, @name)
     end
   end
 
@@ -225,7 +321,7 @@ module Jekyll
       # 构建子目录列表
       subdirs = (dir_info[:dirs] || []).map do |d|
         name = d.split('/').last
-        display = name.sub(/^[A-Z]\d-/, '')
+        display = name.sub(/^[A-Z]\d+-/, '')
         {
           'name'  => display,
           'path'  => d,
@@ -257,10 +353,18 @@ module Jekyll
     private
 
     def count_posts_in_dir(dir)
-      # 递归统计该目录及子目录中的文章数
-      vault_dir = File.join(@site.source, '_vault')
-      glob = File.join(vault_dir, dir, '**', '*.md')
-      Dir.glob(glob).count { |f| File.basename(f) != '_index.md' }
+      # Count only documents that passed the strict publication gate.
+      @site.collections['posts'].docs.count do |doc|
+        begin
+          next false unless doc.path.include?(File.join('_vault', dir))
+
+          rel = Pathname.new(doc.path)
+                        .relative_path_from(Pathname.new(File.join(@site.source, '_vault'))).to_s
+          rel.start_with?("#{dir}/")
+        rescue ArgumentError
+          false
+        end
+      end
     end
 
     def build_breadcrumbs(dir_path)
@@ -269,7 +373,7 @@ module Jekyll
 
       parts = dir_path.split('/')
       parts.each_with_index do |part, i|
-        display = part.sub(/^[A-Z]\d-/, '')
+        display = part.sub(/^[A-Z]\d+-/, '')
         path   = parts[0..i].join('/')
         crumbs << { 'name' => display, 'url' => "/vault/#{path}/" }
       end
