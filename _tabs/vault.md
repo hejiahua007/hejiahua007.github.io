@@ -10,17 +10,13 @@ order: 3
 
 ## 分类导览
 
-### [A1-回忆归档]({{ '/vault/' | relative_url }}A1-回忆归档/)
-过往的日记、反思和经历，按年份归档。
+{% for section in site.data.vault_sections %}
+### [{{ section.label }}]({{ section.url | relative_url }})
 
-### [A2-规划]({{ '/vault/' | relative_url }}A2-规划/)
-人生曼陀罗图、年度计划与目标管理。
-
-### [A3-项目]({{ '/vault/' | relative_url }}A3-项目/)
-个人项目作品，包含毕设、工具和应用。
-
-### [A4-知识库]({{ '/vault/' | relative_url }}A4-知识库/)
-技术学习笔记、阅读笔记和知识整理，涵盖 Python、嵌入式、基金、求职等内容。
+{{ section.description }}
+{% else %}
+目前还没有公开的知识库内容。
+{% endfor %}
 
 ---
 

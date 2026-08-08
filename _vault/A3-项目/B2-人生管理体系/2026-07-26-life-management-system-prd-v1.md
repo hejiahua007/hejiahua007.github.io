@@ -5,6 +5,7 @@ categories: [项目, 人生管理体系]
 tags: [PRD, 人生管理]
 pin: false
 published: true
+permalink: /posts/life-management-system-prd-v1/
 author: 
     name: hejiahua007
     link: https://space.bilibili.com/507838758
@@ -18,7 +19,7 @@ mermaid: true
 
 > 版本：0.1  
 > 阶段：MVP 方案  
-> 决策依据：[《人生管理系统：需求澄清与初步方案》](./LIFE_MANAGEMENT_SYSTEM_DISCOVERY.md)
+> 决策依据：[《人生管理系统：需求澄清与初步方案》](/posts/life-management-system-discovery/)
 
 ## 1. 一页式产品定义
 

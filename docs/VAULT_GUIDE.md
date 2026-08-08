@@ -99,6 +99,19 @@ Prepare → 迁移智能体(JSON) → Apply → 整理智能体(Markdown)
 - Finalize 需要显式参数，并只删除哈希验证通过的源文件；
 - 两个仓库的 commit/push 都由人工执行。
 
+## 旧 Word 规划转换
+
+2026 年一月至七月的 Word 规划可以重复执行以下命令转换：
+
+```powershell
+& 'C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' `
+  .\tools\convert-planning-docx.py `
+  --source 'C:\Users\Administrator\Desktop\新建文件夹\规划' `
+  --target '.\_vault\A2-规划\B2-2026年计划'
+```
+
+脚本使用显式月份映射，保留段落、标题、列表、表格和内嵌图片，并输出每份文件的源文字数与 Markdown 正文字数。转换结果固定为 `published: false`，避免私人计划被意外发布。
+
 ## 旧 `_posts`
 
 `_posts` 不再新增。当前先保留文件，构建时按同名去重。运行以下命令更新审计：

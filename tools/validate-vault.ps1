@@ -99,9 +99,18 @@ foreach ($file in $files) {
     if ($publishedMatches.Count -ne 1) {
         Add-Issue error $relativePath 'published must be one unquoted boolean true or false.'
     }
+    $isPublished = $publishedMatches.Count -eq 1 -and $publishedMatches[0].Groups[1].Value -eq 'true'
 
     $scanContent = [regex]::Replace($content, '(?ms)^\s*```.*?^\s*```\s*', '')
     $scanContent = [regex]::Replace($scanContent, '(?ms)^\s*~~~.*?^\s*~~~\s*', '')
+    if ($isPublished) {
+        foreach ($match in [regex]::Matches($scanContent, '(?<!!)\[[^\]]*\]\((?<url>[^)\s]+)')) {
+            $url = $match.Groups['url'].Value.Trim('<', '>')
+            if ($url -notmatch '^[a-z][a-z0-9+.-]*:' -and ($url -split '[?#]', 2)[0] -match '\.md$') {
+                Add-Issue error $relativePath "Public Markdown link must use its final site permalink: $url"
+            }
+        }
+    }
     foreach ($match in [regex]::Matches($scanContent, '!\[[^\]]*\]\((?<url>[^)\s]+)')) {
         Test-AssetReference $file.FullName $relativePath $match.Groups['url'].Value
     }
@@ -109,6 +118,36 @@ foreach ($file in $files) {
         Test-AssetReference $file.FullName $relativePath $match.Groups['url'].Value
     }
 }
+
+# Explicit permalinks are optional, but when present they must be final and
+# unique across every public article, including files outside -ChangedOnly.
+$permalinkOwners = @{}
+Get-ChildItem -LiteralPath $vaultRoot -Recurse -File -Filter '*.md' |
+    Where-Object { $_.Name -ne '_index.md' } |
+    ForEach-Object {
+        $content = Get-Content -LiteralPath $_.FullName -Raw -Encoding UTF8
+        if ($content -notmatch '(?s)\A---\s*\r?\n(?<fm>.*?)\r?\n---') { return }
+        $frontmatter = $Matches['fm']
+        if ($frontmatter -notmatch '(?m)^published:\s*true\s*$') { return }
+        $permalinkMatches = [regex]::Matches($frontmatter, '(?m)^permalink:\s*(?<url>\S+)\s*$')
+        if ($permalinkMatches.Count -gt 1) {
+            Add-Issue error (Get-RelativeRepoPath $_.FullName) 'Duplicate field: permalink'
+            return
+        }
+        if ($permalinkMatches.Count -eq 0) { return }
+        $url = $permalinkMatches[0].Groups['url'].Value.Trim('"', "'")
+        $relativePath = Get-RelativeRepoPath $_.FullName
+        if ($url -notmatch '^/[^:]*?/$') {
+            Add-Issue error $relativePath "permalink must be a final root-relative URL ending in /: $url"
+            return
+        }
+        if ($permalinkOwners.ContainsKey($url)) {
+            Add-Issue error $relativePath "Duplicate public permalink also used by $($permalinkOwners[$url]): $url"
+        }
+        else {
+            $permalinkOwners[$url] = $relativePath
+        }
+    }
 
 $report = [ordered]@{
     generated_at = (Get-Date).ToString('o')

@@ -40,6 +40,7 @@ module Jekyll
 
       scan_vault
       inject_posts
+      expose_root_sections
       generate_index_pages
 
       Jekyll.logger.info('VaultGenerator:',
@@ -93,7 +94,8 @@ module Jekyll
           'toc'        => frontmatter.fetch('toc', true),
           'comments'   => frontmatter.fetch('comments', true),
           'math'       => frontmatter.fetch('math', false),
-          'mermaid'    => frontmatter.fetch('mermaid', true)
+          'mermaid'    => frontmatter.fetch('mermaid', true),
+          'permalink'  => frontmatter['permalink']
         }
 
         doc_data['author'] = frontmatter['author'] if frontmatter['author']
@@ -117,13 +119,7 @@ module Jekyll
         }
       end
 
-      # 收集子目录关系（用 .keys.dup 避免迭代中修改 hash）
-      @dir_map.keys.dup.each do |dir|
-        parent = File.dirname(dir)
-        parent = '.' if parent == '.'
-        @dir_map[parent] ||= { dirs: Set.new, posts: [] }
-        @dir_map[parent][:dirs] << dir if dir != '.'
-      end
+      build_directory_hierarchy
     end
 
     # ----------------------------------------------------------
@@ -149,7 +145,12 @@ module Jekyll
 
         # Use a stable, unique URL. Chinese-only titles can slugify to an empty
         # string, so a path hash is always included.
-        doc.data['permalink'] ||= build_permalink(vd[:path], vd[:data]['title'])
+        explicit_permalink = vd[:data]['permalink']
+        doc.data['permalink'] = if explicit_permalink && !explicit_permalink.empty?
+                                  explicit_permalink
+                                else
+                                  build_permalink(vd[:path], vd[:data]['title'])
+                                end
 
         doc.content = vd[:content]
 
@@ -181,6 +182,38 @@ module Jekyll
         display_name = dir.split('/').last.sub(/^[A-Z]\d+-/, '')
         page = VaultIndexPage.new(@site, dir, display_name, info)
         @site.pages << page
+      end
+    end
+
+    def build_directory_hierarchy
+      @dir_map.keys.dup.each do |leaf|
+        current = leaf
+        while current != '.'
+          parent = File.dirname(current)
+          parent = '.' if parent == '.'
+          @dir_map[parent] ||= { dirs: Set.new, posts: [] }
+          @dir_map[parent][:dirs] << current
+          current = parent
+        end
+      end
+    end
+
+    def expose_root_sections
+      descriptions = {
+        'A1-回忆归档' => '过往的日记、反思和经历，按年份归档。',
+        'A2-规划' => '年度计划与目标管理。',
+        'A3-项目' => '个人项目、设计过程与成果记录。',
+        'A4-知识库' => '技术学习、阅读笔记和可复用知识。'
+      }
+      root_dirs = @dir_map.fetch('.', { dirs: Set.new })[:dirs]
+      @site.data['vault_sections'] = root_dirs.sort.map do |dir|
+        label = File.basename(dir)
+        {
+          'label' => label,
+          'name' => label.sub(/^[A-Z]\d+-/, ''),
+          'url' => "/vault/#{dir}/",
+          'description' => descriptions.fetch(label, '公开内容分类。')
+        }
       end
     end
 
@@ -328,7 +361,7 @@ module Jekyll
           'url'   => "/vault/#{d}/",
           'count' => count_posts_in_dir(d)
         }
-      end.sort_by { |s| s['name'] }
+      end.sort_by { |s| natural_sort_key(s['path']) }
 
       # 文章列表（按日期倒序）
       posts = (dir_info[:posts] || []).sort_by { |p| p['date'] || Time.at(0) }.reverse
@@ -351,6 +384,12 @@ module Jekyll
     end
 
     private
+
+    def natural_sort_key(value)
+      value.downcase.scan(/\d+|\D+/).map do |part|
+        part.match?(/\A\d+\z/) ? [0, part.to_i] : [1, part]
+      end
+    end
 
     def count_posts_in_dir(dir)
       # Count only documents that passed the strict publication gate.

@@ -5,6 +5,7 @@ categories: [项目, 人生管理体系]
 tags: [需求分析, 人生管理]
 pin: false
 published: true
+permalink: /posts/life-management-system-discovery/
 author: 
     name: hejiahua007
     link: https://space.bilibili.com/507838758
@@ -19,7 +20,7 @@ mermaid: true
 > 状态：第一轮需求探索完成  
 > 使用方式：请直接在文末“待确认问题”中填写答案。允许只回答当前有感觉的问题，不要求一次答完。
 >
-> 已根据回答形成：[《人生管理系统 PRD v1》](./LIFE_MANAGEMENT_SYSTEM_PRD_V1.md)
+> 已根据回答形成：[《人生管理系统 PRD v1》](/posts/life-management-system-prd-v1/)
 
 ## 1. 我对这个想法的理解
 
