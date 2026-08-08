@@ -141,8 +141,8 @@ mermaid: true
 |---|---|---|
 | `README-项目总览.md` | 本文件，项目全貌 | 活跃 |
 | `2026-07-11-portfolio-optimization-log.md` | 网站优化日志 | 归档 |
-| `LIFE_MANAGEMENT_SYSTEM_DISCOVERY.md` | 早期需求探索 | 历史参考 |
-| `LIFE_MANAGEMENT_SYSTEM_PRD_V1.md` | v1 PRD | 历史参考 |
+| `2026-07-25-life-management-system-discovery.md` | 早期需求探索 | 历史参考 |
+| `2026-07-26-life-management-system-prd-v1.md` | v1 PRD | 历史参考 |
 | `_index.md` | 目录索引 | 占位 |
 
 ## 7. 待办 / 已知问题
