@@ -1,7 +1,7 @@
 ---
 title: 树莓派——目标检测
 date: 2024-2-7 15:04:00 +0800
-categories: [树莓派]
+categories: [项目, 毕设]
 tags: [树莓派]
 pin: false
 author: 

@@ -1,7 +1,7 @@
 ---
 title: 树莓派——语音合成
 date: 2023-11-5 14:00:00 +0800
-categories: [树莓派]
+categories: [项目, 毕设]
 tags: [树莓派]
 pin: false
 author: 

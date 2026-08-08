@@ -1,7 +1,7 @@
 ---
 title: 有道云翻译
 date: 2023-10-26 10:14:00 +0800
-categories: [sleep, sleepyfanyi]
+categories: [项目, 毕设]
 tags: [文本翻译]
 pin: false
 author: 

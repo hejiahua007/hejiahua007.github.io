@@ -1,7 +1,7 @@
 ---
 title: 语音合成
 date: 2023-10-13 17:37:00 +0800
-categories: [sleep, sleepyuyin]
+categories: [项目, 毕设]
 tags: [语音合成]
 pin: false
 author: 

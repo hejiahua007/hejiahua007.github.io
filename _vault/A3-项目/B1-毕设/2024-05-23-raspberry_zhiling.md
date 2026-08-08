@@ -1,7 +1,7 @@
 ---
 title: 树莓派——家居控制指令
 date: 2024-5-18 16:15:00 +0800
-categories: [树莓派]
+categories: [项目, 毕设]
 tags: [树莓派]
 pin: false
 author: 

@@ -1,7 +1,7 @@
 ---
 title: 安卓————优化
 date: 2023-12-25 10:00:00 +0800
-categories: [安卓]
+categories: [项目, 毕设]
 tags: [安卓]
 pin: false
 author: 

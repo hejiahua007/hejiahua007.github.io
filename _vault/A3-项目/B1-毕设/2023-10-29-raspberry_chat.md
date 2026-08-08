@@ -1,8 +1,8 @@
 ---
 title: 树莓派——智谱chat
 date: 2023-10-29 12:00:00 +0800
-categories: [树莓派]
-tags: [树莓派]
+categories: [项目, 毕设]
+stags: [树莓派]
 pin: false
 author: 
     name: hejiahua007

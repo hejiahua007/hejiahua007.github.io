@@ -1,7 +1,7 @@
 ---
 title: 树莓派——YOLOv5-Lite 2
 date: 2024-4-8 16:15:00 +0800
-categories: [树莓派]
+categories: [项目, 毕设]
 tags: [树莓派]
 pin: false
 author: 

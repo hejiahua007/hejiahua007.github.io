@@ -1,7 +1,7 @@
 ---
 title: 树莓派——YOLOv5-Lite1 数据集制作（手机）
 date: 2024-2-7 15:04:00 +0800
-categories: [树莓派]
+categories: [项目, 毕设]
 tags: [树莓派]
 pin: false
 author: 

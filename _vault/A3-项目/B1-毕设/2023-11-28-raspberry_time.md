@@ -1,7 +1,7 @@
 ---
 title: 树莓派——解决时间问题，编译慢（搁置）
 date: 2023-11-29 14:10:00 +0800
-categories: [树莓派]
+categories: [项目, 毕设]
 tags: [树莓派]
 pin: false
 author: 

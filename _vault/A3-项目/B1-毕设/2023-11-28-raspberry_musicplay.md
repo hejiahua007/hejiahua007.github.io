@@ -1,8 +1,8 @@
 ---
 title: 树莓派——音乐播放
 date: 2023-11-28 21:40:00 +0800
-categories: [树莓派]
-tags: [树莓派]
+categories: [项目, 毕设]
+stags: [树莓派]
 pin: false
 author: 
     name: hejiahua007

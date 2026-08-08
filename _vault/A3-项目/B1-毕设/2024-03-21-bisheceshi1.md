@@ -1,7 +1,7 @@
 ---
 title: 毕设测试1
 date: 2024-3-21 9:00:00 +0800
-categories: [毕设测试]
+categories: [项目, 毕设]
 tags: [毕设测试]
 pin: false
 author: 
