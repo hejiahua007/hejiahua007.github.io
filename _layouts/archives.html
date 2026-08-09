@@ -1,0 +1,30 @@
+---
+layout: base
+---
+<div class="listing-page page-shell">
+  <header class="listing-hero listing-hero--archive">
+    <p class="eyebrow">ARCHIVES · {{ site.posts.size }} NOTES</p>
+    <h1>时间把散落的日子，<br>慢慢连成一条路。</h1>
+    <p>按记录加入花园的时间回看。新的在前，旧的也没有消失。</p>
+  </header>
+  <div class="archive-years">
+    {% for year in site.data.vault_archives %}
+    <section class="archive-year">
+      <header><h2>{{ year.year }}</h2><span>{{ year.count }} 篇</span></header>
+      <div class="archive-months">
+        {% for month in year.months %}
+        <details {% if forloop.first and forloop.parentloop.first %}open{% endif %}>
+          <summary><span>{{ month.label }}</span><small>{{ month.count }} 篇</small><b aria-hidden="true">⌄</b></summary>
+          <div class="archive-posts">
+            {% for post in month.posts %}
+            <a href="{{ post.url | relative_url }}"><time>{{ post.day }}</time><strong>{{ post.title }}</strong><span>{{ post.section }}</span></a>
+            {% endfor %}
+          </div>
+        </details>
+        {% endfor %}
+      </div>
+    </section>
+    {% else %}<p class="empty-state">暂时还没有公开记录。</p>{% endfor %}
+  </div>
+</div>
+

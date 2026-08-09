@@ -6,6 +6,8 @@ require 'pathname'
 require 'set'
 require 'digest'
 require 'date'
+require 'time'
+require 'uri'
 
 module Jekyll
   # ============================================================
@@ -39,9 +41,13 @@ module Jekyll
       @skipped_count = 0
 
       scan_vault
+      prepare_urls
       inject_posts
       expose_root_sections
       expose_projects
+      expose_tree
+      expose_tags
+      expose_archives
       generate_index_pages
 
       Jekyll.logger.info('VaultGenerator:',
@@ -106,15 +112,17 @@ module Jekyll
           'status'     => frontmatter['status'],
           'featured'   => frontmatter['featured'] == true
         }
+        # Vault notes often contain code examples such as {{value}}. They are
+        # content, not Liquid templates, so render Markdown without Liquid.
+        doc_data['render_with_liquid'] = false
 
         doc_data['author'] = frontmatter['author'] if frontmatter['author']
-
-        body = rewrite_local_assets(extract_body(content), filepath, rel_path)
 
         @vault_docs << {
           path:    filepath,
           data:    doc_data,
-          content: body,
+          content: extract_body(content),
+          rel_path: rel_path,
           dir_key: dir_key
         }
 
@@ -135,6 +143,25 @@ module Jekyll
     # ----------------------------------------------------------
     # 2. 注入 posts collection
     # ----------------------------------------------------------
+    def prepare_urls
+      @published_path_urls = {}
+      basename_candidates = Hash.new { |hash, key| hash[key] = [] }
+      @vault_docs.each do |vd|
+        explicit_permalink = vd[:data]['permalink']
+        permalink = if explicit_permalink && !explicit_permalink.empty?
+                      explicit_permalink
+                    else
+                      build_permalink(vd[:path], vd[:data]['title'])
+                    end
+        vd[:data]['permalink'] = permalink
+        @published_path_urls[File.expand_path(vd[:path])] = permalink
+        basename_candidates[File.basename(vd[:path]).downcase] << permalink
+      end
+      @published_basename_urls = basename_candidates.filter_map do |basename, urls|
+        [basename, urls.first] if urls.length == 1
+      end.to_h
+    end
+
     def inject_posts
       posts_collection = @site.collections['posts']
 
@@ -155,14 +182,10 @@ module Jekyll
 
         # Use a stable, unique URL. Chinese-only titles can slugify to an empty
         # string, so a path hash is always included.
-        explicit_permalink = vd[:data]['permalink']
-        doc.data['permalink'] = if explicit_permalink && !explicit_permalink.empty?
-                                  explicit_permalink
-                                else
-                                  build_permalink(vd[:path], vd[:data]['title'])
-                                end
+        doc.data['permalink'] = vd[:data]['permalink']
         doc.data['layout'] = 'vault_post'
         doc.data['vault_breadcrumbs'] = build_vault_breadcrumbs(vd[:dir_key])
+        doc.data['vault_dir_path'] = vd[:dir_key]
         doc.data['vault_dir_url'] = vd[:dir_key] == '.' ? '/vault/' : "/vault/#{vd[:dir_key]}/"
         doc.data['vault_dir_name'] = if vd[:dir_key] == '.'
                                       '资料库'
@@ -170,7 +193,8 @@ module Jekyll
                                       clean_folder_name(File.basename(vd[:dir_key]))
                                     end
 
-        doc.content = vd[:content]
+        body = rewrite_local_assets(vd[:content], vd[:path], vd[:rel_path])
+        doc.content = rewrite_local_links(body, vd[:path])
 
         # 触发 post_init hooks（如 posts-lastmod-hook）
         Jekyll::Hooks.trigger(:posts, :post_init, doc)
@@ -218,10 +242,10 @@ module Jekyll
 
     def expose_root_sections
       descriptions = {
-        'A1-回忆归档' => '过往的日记、反思和经历，按年份归档。',
-        'A2-规划' => '年度计划与目标管理。',
-        'A3-项目' => '个人项目、设计过程与成果记录。',
-        'A4-知识库' => '技术学习、阅读笔记和可复用知识。'
+        'A1-回忆归档' => '走过的日子、当时的心情，以及多年后仍想记得的片段。',
+        'A2-规划' => '曾经想去的方向、做过的选择，以及计划怎样随生活变化。',
+        'A3-项目' => '出于需要或兴趣做出的东西，连同过程、失误和下一次尝试。',
+        'A4-知识库' => '读过的书、学过的方法，以及未来还可能重新用到的理解。'
       }
       root_dirs = @dir_map.fetch('.', { dirs: Set.new })[:dirs]
       @site.data['vault_sections'] = root_dirs.sort.map do |dir|
@@ -264,6 +288,105 @@ module Jekyll
 
       @site.data['vault_projects'] = projects.sort_by do |project|
         natural_sort_key(project['code'])
+      end
+    end
+
+    def expose_tree
+      @site.data['vault_tree'] = tree_nodes_for('.')
+    end
+
+    def tree_nodes_for(parent)
+      info = @dir_map.fetch(parent, { dirs: Set.new, posts: [] })
+      info[:dirs].sort_by { |path| natural_sort_key(path) }.map do |path|
+        label = File.basename(path)
+        direct_posts = @dir_map.fetch(path, { posts: [] })[:posts]
+                               .sort_by { |post| [post['date'] || Time.at(0), post['title'].to_s] }
+                               .reverse
+                               .map do |post|
+          {
+            'title' => post['title'],
+            'date' => post['date'],
+            'filename' => post['filename'],
+            'url' => post['url']
+          }
+        end
+
+        {
+          'label' => label,
+          'code' => folder_code(label),
+          'name' => clean_folder_name(label),
+          'path' => path,
+          'url' => "/vault/#{path}/",
+          'count' => count_vault_docs(path),
+          'children' => tree_nodes_for(path),
+          'posts' => direct_posts
+        }
+      end
+    end
+
+    def expose_tags
+      groups = Hash.new { |hash, key| hash[key] = [] }
+      @vault_docs.each do |vd|
+        entry = @dir_map[vd[:dir_key]][:posts].find { |item| item['source_path'] == vd[:path] }
+        next unless entry && entry['url']
+
+        Array(vd[:data]['tags']).each do |tag|
+          name = tag.to_s.strip
+          next if name.empty?
+
+          groups[name] << {
+            'title' => vd[:data]['title'],
+            'date' => vd[:data]['date'],
+            'url' => entry['url'],
+            'section' => vd[:data]['vault_categories'].first || '资料库'
+          }
+        end
+      end
+
+      @site.data['vault_tags'] = groups.map do |name, posts|
+        {
+          'name' => name,
+          'id' => "tag-#{Digest::SHA1.hexdigest(name)[0, 10]}",
+          'count' => posts.length,
+          'posts' => posts.sort_by { |post| post['date'] || Time.at(0) }.reverse
+        }
+      end.sort_by { |group| [-group['count'], group['name']] }
+    end
+
+    def expose_archives
+      by_year = Hash.new { |hash, key| hash[key] = Hash.new { |months, month| months[month] = [] } }
+      @vault_docs.each do |vd|
+        date = vd[:data]['date']
+        date = Time.parse(date.to_s) unless date.respond_to?(:year)
+        entry = @dir_map[vd[:dir_key]][:posts].find { |item| item['source_path'] == vd[:path] }
+        next unless entry && entry['url']
+
+        by_year[date.year][date.month] << {
+          'title' => vd[:data]['title'],
+          'date' => date,
+          'day' => format('%02d', date.day),
+          'url' => entry['url'],
+          'section' => vd[:data]['vault_categories'].first || '资料库'
+        }
+      rescue ArgumentError
+        next
+      end
+
+      @site.data['vault_archives'] = by_year.keys.sort.reverse.map do |year|
+        months = by_year[year].keys.sort.reverse.map do |month|
+          posts = by_year[year][month].sort_by { |post| post['date'] }.reverse
+          {
+            'month' => month,
+            'label' => "#{month} 月",
+            'count' => posts.length,
+            'posts' => posts
+          }
+        end
+        {
+          'year' => year,
+          'count' => months.sum { |month| month['count'] },
+          'months' => months
+        }
       end
     end
 
@@ -397,6 +520,46 @@ module Jekyll
     rescue StandardError => e
       Jekyll.logger.warn('VaultGenerator:', "Asset error #{source}: #{e.message}")
       nil
+    end
+
+    def rewrite_local_links(body, article_path)
+      rewritten = body.gsub(/(?<!!)\[([^\]]+)\]\(([^)\s]+)([^)]*)\)/) do
+        label = Regexp.last_match(1)
+        source = Regexp.last_match(2)
+        suffix = Regexp.last_match(3)
+        target = resolve_markdown_link(source, article_path)
+        target == :private ? label : "[#{label}](#{target || source}#{suffix})"
+      end
+
+      rewritten.gsub(/(<a\b[^>]*\bhref=["'])([^"']+)(["'])/i) do
+        prefix = Regexp.last_match(1)
+        source = Regexp.last_match(2)
+        suffix = Regexp.last_match(3)
+        target = resolve_markdown_link(source, article_path)
+        target == :private ? "#{prefix}##{suffix}" : "#{prefix}#{target || source}#{suffix}"
+      end
+    end
+
+    def resolve_markdown_link(source, article_path)
+      return nil if source.start_with?('#')
+
+      if source =~ %r{\Ahttps?://}i
+        uri = URI.parse(source)
+        site_host = URI.parse(@site.config['url'].to_s).host
+        return nil unless uri.host == site_host && File.extname(uri.path).downcase == '.md'
+
+        return @published_basename_urls[File.basename(uri.path).downcase]
+      end
+      return nil if source =~ %r{\A(?:[a-z][a-z0-9+.-]*:|/)}i
+
+      path_part, fragment = source.split('#', 2)
+      return nil unless File.extname(path_part).downcase == '.md'
+
+      target_path = File.expand_path(path_part, File.dirname(article_path))
+      target_url = @published_path_urls[target_path] || @published_basename_urls[File.basename(path_part).downcase]
+      return :private unless target_url
+
+      fragment && !fragment.empty? ? "#{target_url}##{fragment}" : target_url
     end
   end
 

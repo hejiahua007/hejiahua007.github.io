@@ -56,6 +56,8 @@ build() {
 }
 
 test() {
+  pwsh -NoProfile -File tools/audit-public-site.ps1 -SitePath "$SITE_DIR"
+
   bundle exec htmlproofer \
     --disable-external \
     --check-html \
@@ -106,7 +108,11 @@ deploy() {
   git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
   git update-ref -d HEAD
-  git add -A
+  # This branch contains only the verified static site. Use explicit pathspecs;
+  # Vault publication on main is handled separately by safe-publish.ps1.
+  git add -f -- '*'
+  [[ -f .nojekyll ]] && git add -f -- .nojekyll
+  [[ -f CNAME ]] && git add -f -- CNAME
   git commit -m "[Automation] Site update No.${GITHUB_RUN_NUMBER}"
 
   if $_no_pages_branch; then

@@ -1,0 +1,54 @@
+---
+layout: base
+---
+{% assign profile = site.data.profile %}
+<div class="about-page page-shell">
+  <header class="about-hero">
+    <div class="about-hero__portrait" aria-hidden="true">
+      <div class="portrait-ring"><img src="{{ '/assets/config/avatar.jpg' | relative_url }}" alt=""></div>
+      <span>KEEP<br>GROWING</span>
+    </div>
+    <div class="about-hero__copy">
+      <p class="eyebrow">ABOUT ME</p>
+      <h1>我想成为一个<br><em>清醒、柔软、能创造</em>的人。</h1>
+      <p>{{ profile.intro }}</p>
+      <div class="button-row"><a class="button button--primary" href="mailto:{{ site.author.email }}">和我打个招呼</a><a class="text-link" href="https://github.com/{{ site.author.github }}">GitHub ↗</a></div>
+    </div>
+  </header>
+
+  <section class="about-story section-space">
+    <div class="section-heading"><p class="eyebrow">A SMALL PORTRAIT</p><h2>我大概是怎样的人</h2></div>
+    <div class="about-story__grid">
+      <p class="about-story__lead">{{ profile.portrait }}</p>
+      <ol>
+        {% for principle in profile.principles %}<li><span>0{{ forloop.index }}</span><p>{{ principle }}</p></li>{% endfor %}
+      </ol>
+    </div>
+  </section>
+
+  <section class="journey-section section-space" aria-labelledby="journey-title">
+    <div class="section-heading"><p class="eyebrow">THE ROAD SO FAR</p><h2 id="journey-title">走过的路</h2></div>
+    <div class="journey-grid">
+      <article><time>{{ profile.education.period }}</time><h3>{{ profile.education.school }}</h3><p>{{ profile.education.major }} · 本科</p><span>从硬件、网络和传感器开始理解技术怎样进入真实生活。</span></article>
+      <article><time>{{ profile.experience.period }}</time><h3>{{ profile.experience.role }}</h3><p>软件、设备与现场</p><span>{{ profile.experience.summary }}</span></article>
+      <article class="journey-grid__now"><time>现在与以后</time><h3>继续做喜欢的东西</h3><p>记录 · 阅读 · 创造</p><span>让职业能力服务于生活，也让生活反过来滋养作品。</span></article>
+    </div>
+  </section>
+
+  <section class="skills-section section-space" aria-labelledby="skills-title">
+    <div class="section-heading section-heading--split"><div><p class="eyebrow">THINGS I CAN MAKE</p><h2 id="skills-title">会做的事</h2></div><p>它们是工具，不是我的全部。</p></div>
+    <div class="skills-list">
+      {% for skill in profile.skills %}<article><span>0{{ forloop.index }}</span><h3>{{ skill.name }}</h3><p>{{ skill.detail }}</p></article>{% endfor %}
+    </div>
+  </section>
+
+  <section class="about-projects section-space" aria-labelledby="about-projects-title">
+    <div class="section-heading section-heading--split"><div><p class="eyebrow">MADE ALONG THE WAY</p><h2 id="about-projects-title">一路做过的项目</h2></div><a class="text-link" href="{{ '/vault/A3-项目/' | relative_url }}">浏览项目目录 →</a></div>
+    <div class="about-project-grid">
+      {% for project in site.data.vault_projects limit: 6 %}
+      <a href="{{ project.docs_url | relative_url }}"><span>{{ project.code }}</span><h3>{{ project.name }}</h3><p>{{ project.summary }}</p><small>{{ project.count }} 篇文档 · {{ project.status }}</small></a>
+      {% else %}<p class="empty-state">项目介绍仍在整理。</p>{% endfor %}
+    </div>
+  </section>
+</div>
+

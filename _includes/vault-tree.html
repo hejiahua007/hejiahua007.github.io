@@ -1,0 +1,36 @@
+<ul class="vault-tree__list{% if include.depth == 0 %} vault-tree__list--root{% endif %}" role="tree">
+  {% for node in include.nodes %}
+    {% assign active_path = page.vault_dir_path | default: page.dir_path | default: '' %}
+    {% assign should_open = false %}
+    {% if active_path contains node.path %}{% assign should_open = true %}{% endif %}
+    <li class="vault-tree__node" role="treeitem">
+      <details data-tree-path="{{ node.path }}" {% if should_open %}open{% endif %}>
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="{{ node.url | relative_url }}" data-folder-link>
+            {% if node.code != '' %}<small>{{ node.code }}</small>{% endif %}{{ node.name }}
+          </a>
+          <span class="vault-tree__count">{{ node.count }}</span>
+        </summary>
+        {% if node.children.size > 0 %}
+          {% assign next_depth = include.depth | plus: 1 %}
+          {% include vault-tree.html nodes=node.children depth=next_depth %}
+        {% endif %}
+        {% if node.posts.size > 0 %}
+          <ul class="vault-tree__files" role="group">
+            {% for item in node.posts %}
+              <li>
+                <a href="{{ item.url | relative_url }}" {% if page.url == item.url %}aria-current="page"{% endif %}>
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>{{ item.title }}</span>
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </details>
+    </li>
+  {% endfor %}
+</ul>
+

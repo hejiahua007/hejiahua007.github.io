@@ -1,78 +1,56 @@
 ---
-layout: default
+layout: directory
 ---
-
-<div class="lm-page vault-directory">
-  <nav class="vault-path" aria-label="Vault 路径">
+<div class="vault-folder-page">
+  <nav class="breadcrumbs" aria-label="当前位置">
     {% for crumb in page.breadcrumbs %}
-      {% if forloop.last %}
-        <span class="vault-path-current">
-          {% if crumb.code != '' %}<b>{{ crumb.code }}</b>{% endif %}{{ crumb.name }}
-        </span>
-      {% else %}
-        <a href="{{ crumb.url | relative_url }}">
-          {% if crumb.code != '' %}<b>{{ crumb.code }}</b>{% endif %}{{ crumb.name }}
-        </a>
-        <span class="vault-path-separator" aria-hidden="true">/</span>
-      {% endif %}
+      {% unless forloop.first %}<span aria-hidden="true">/</span>{% endunless %}
+      {% if forloop.last %}<span aria-current="page">{{ crumb.name }}</span>{% else %}<a href="{{ crumb.url | relative_url }}">{{ crumb.name }}</a>{% endif %}
     {% endfor %}
   </nav>
-
-  <header class="lm-page-header">
+  <header class="folder-header">
+    <span class="folder-header__mark" aria-hidden="true">{{ page.folder_code }}</span>
     <div>
-      <p class="lm-kicker">OBSIDIAN VAULT · {{ page.dir_path }}</p>
-      <h1><span>{{ page.folder_code }}</span>{{ page.title }}</h1>
+      <p class="eyebrow">{{ page.folder_label }}</p>
+      <h1>{{ page.title }}</h1>
       <p>{{ page.description }}</p>
     </div>
-    <a class="lm-button lm-button-quiet" href="{{ '/vault/' | relative_url }}">返回资料库根目录</a>
   </header>
 
   {% if page.subdirs.size > 0 %}
-  <section class="lm-section">
-    <div class="lm-section-title">
-      <div><p class="lm-kicker">FOLDERS</p><h2>子文件夹</h2></div>
-      <span>{{ page.subdirs.size }} 个</span>
+  <section class="folder-section" aria-labelledby="subfolders-title">
+    <div class="section-heading section-heading--split">
+      <h2 id="subfolders-title">文件夹</h2><span>{{ page.subdirs.size }} 个</span>
     </div>
-    <div class="vault-folder-grid">
+    <div class="folder-grid">
       {% for sub in page.subdirs %}
-      <a class="vault-folder-card" href="{{ sub.url | relative_url }}">
-        <div class="vault-folder-mark"><span>{{ sub.code }}</span></div>
-        <div class="vault-folder-copy">
-          <p>{{ sub.label }}</p>
-          <h3>{{ sub.name }}</h3>
-          <small>{{ sub.count }} 篇公开内容</small>
-        </div>
-        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+      <a class="folder-card" href="{{ sub.url | relative_url }}">
+        <span class="folder-card__icon" aria-hidden="true"></span>
+        <div><small>{{ sub.label }}</small><h3>{{ sub.name }}</h3><p>{{ sub.count }} 篇公开记录</p></div>
+        <b aria-hidden="true">→</b>
       </a>
       {% endfor %}
     </div>
   </section>
   {% endif %}
 
-  <section class="lm-section vault-article-section">
-    <div class="lm-section-title">
-      <div><p class="lm-kicker">FILES</p><h2>当前文件夹的文章</h2></div>
-      <span>{{ page.posts.size }} 篇</span>
+  <section class="folder-section" aria-labelledby="files-title">
+    <div class="section-heading section-heading--split">
+      <h2 id="files-title">当前文件夹的文件</h2><span>{{ page.posts.size }} 篇</span>
     </div>
     {% if page.posts.size > 0 %}
-    <div class="vault-file-list">
+    <div class="file-list">
       {% for post in page.posts %}
-      <a class="vault-file-row" href="{{ post.url | relative_url }}">
-        <span class="vault-file-icon"><i class="far fa-file-alt" aria-hidden="true"></i></span>
-        <span class="vault-file-copy">
-          <strong>{{ post.title }}</strong>
-          <small>{{ post.filename }}</small>
-        </span>
-        <time>{{ post.date | date: "%Y-%m-%d" }}</time>
-        <i class="fas fa-chevron-right" aria-hidden="true"></i>
+      <a class="file-row" href="{{ post.url | relative_url }}">
+        <span class="file-row__icon" aria-hidden="true"></span>
+        <span class="file-row__copy"><strong>{{ post.title }}</strong><small>{{ post.filename }}</small></span>
+        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%Y.%m.%d' }}</time>
+        <b aria-hidden="true">↗</b>
       </a>
       {% endfor %}
     </div>
     {% else %}
-    <div class="lm-empty">
-      <i class="far fa-folder-open" aria-hidden="true"></i>
-      <p>这个文件夹没有直接公开的文章，请继续进入上方子文件夹。</p>
-    </div>
+    <div class="empty-state">这个文件夹没有直属公开文件，请继续打开上方的子文件夹。</div>
     {% endif %}
   </section>
 </div>

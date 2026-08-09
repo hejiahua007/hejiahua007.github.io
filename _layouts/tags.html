@@ -1,0 +1,26 @@
+---
+layout: base
+---
+<div class="listing-page page-shell">
+  <header class="listing-hero">
+    <p class="eyebrow">TAGS · CONSTELLATIONS</p>
+    <h1>从另一条线索，<br>遇见相似的念头。</h1>
+    <p>目录回答“它放在哪里”，标签回答“它还和什么有关”。</p>
+  </header>
+  <nav class="tag-cloud" aria-label="全部标签">
+    {% for group in site.data.vault_tags %}<a href="#{{ group.id }}"><span>#</span>{{ group.name }} <small>{{ group.count }}</small></a>{% endfor %}
+  </nav>
+  <div class="tag-groups">
+    {% for group in site.data.vault_tags %}
+    <section class="tag-group" id="{{ group.id }}">
+      <header><h2><span>#</span>{{ group.name }}</h2><p>{{ group.count }} 篇</p></header>
+      <div class="tag-posts">
+        {% for post in group.posts %}
+        <a href="{{ post.url | relative_url }}"><time>{{ post.date | date: '%Y.%m.%d' }}</time><strong>{{ post.title }}</strong><span>{{ post.section }}</span></a>
+        {% endfor %}
+      </div>
+    </section>
+    {% else %}<p class="empty-state">暂时还没有公开标签。</p>{% endfor %}
+  </div>
+</div>
+

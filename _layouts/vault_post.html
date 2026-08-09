@@ -1,19 +1,29 @@
 ---
-layout: post
+layout: directory
 ---
-
-<div class="vault-post-context">
-  <nav class="vault-path" aria-label="Vault 路径">
-    {% for crumb in page.vault_breadcrumbs %}
-      <a href="{{ crumb.url | relative_url }}">
-        {% if crumb.code != '' %}<b>{{ crumb.code }}</b>{% endif %}{{ crumb.name }}
-      </a>
-      <span class="vault-path-separator" aria-hidden="true">/</span>
-    {% endfor %}
-    <span class="vault-path-current">{{ page.title }}</span>
+<article class="vault-article">
+  <header class="article-header article-header--vault">
+    <nav class="breadcrumbs" aria-label="当前位置">
+      {% for crumb in page.vault_breadcrumbs %}
+        {% unless forloop.first %}<span aria-hidden="true">/</span>{% endunless %}
+        <a href="{{ crumb.url | relative_url }}">{{ crumb.name }}</a>
+      {% endfor %}
+    </nav>
+    <p class="eyebrow">A NOTE IN THE GARDEN</p>
+    <h1>{{ page.title }}</h1>
+    <div class="article-meta">
+      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%Y年%m月%d日' }}</time>
+      {% if page.vault_categories %}<span>{{ page.vault_categories | join: ' / ' }}</span>{% endif %}
+    </div>
+  </header>
+  <div class="article-body prose">{{ content }}</div>
+  {% if page.tags.size > 0 %}
+  <footer class="article-tags">
+    {% for tag in page.tags %}<a href="{{ '/tags/' | relative_url }}"># {{ tag }}</a>{% endfor %}
+  </footer>
+  {% endif %}
+  <nav class="article-return" aria-label="文章后导航">
+    <a href="{{ page.vault_dir_url | relative_url }}">← 返回“{{ page.vault_dir_name }}”文件夹</a>
+    <a href="{{ '/vault/' | relative_url }}">资料库根目录 ↑</a>
   </nav>
-  <a class="vault-back-link" href="{{ page.vault_dir_url | relative_url }}"><i class="fas fa-arrow-left" aria-hidden="true"></i> 返回“{{ page.vault_dir_name }}”文件夹</a>
-</div>
-
-{{ content }}
-
+</article>

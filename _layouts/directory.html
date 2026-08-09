@@ -1,0 +1,25 @@
+---
+layout: base
+---
+<div class="directory-page">
+  <button class="directory-open" type="button" data-directory-open aria-controls="vault-sidebar" aria-expanded="false">
+    <span aria-hidden="true">☰</span> 打开目录
+  </button>
+  <div class="directory-overlay" data-directory-overlay></div>
+  <aside class="vault-sidebar" id="vault-sidebar" aria-label="Vault 文件目录" data-vault-sidebar>
+    <div class="vault-sidebar__header">
+      <div><p>OBSIDIAN VIEW</p><h2>我的目录</h2></div>
+      <button type="button" data-directory-close aria-label="关闭目录">×</button>
+    </div>
+    <p class="vault-sidebar__hint">这里只呈现明确选择公开的文件。</p>
+    <nav class="vault-tree" aria-label="公开资料库文件树">
+      {% include vault-tree.html nodes=site.data.vault_tree depth=0 %}
+    </nav>
+    <footer>
+      <span class="status-dot" aria-hidden="true"></span>
+      与本地 Vault 保持同一层级
+    </footer>
+  </aside>
+  <section class="directory-content">{{ content }}</section>
+</div>
+

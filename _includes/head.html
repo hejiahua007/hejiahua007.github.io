@@ -1,0 +1,26 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f7f2e8">
+{% assign meta_title = page.title | default: site.title %}
+{% if page.url == '/' %}{% assign full_title = site.title %}{% else %}{% capture full_title %}{{ meta_title }} · {{ site.title }}{% endcapture %}{% endif %}
+{% assign meta_description = page.description | default: page.excerpt | default: site.description | strip_html | strip_newlines | truncate: 155 %}
+<title>{{ full_title | escape }}</title>
+<meta name="description" content="{{ meta_description | escape }}">
+<link rel="canonical" href="{{ page.url | absolute_url }}">
+<meta property="og:type" content="{% if page.layout == 'post' or page.layout == 'vault_post' %}article{% else %}website{% endif %}">
+<meta property="og:title" content="{{ full_title | escape }}">
+<meta property="og:description" content="{{ meta_description | escape }}">
+<meta property="og:url" content="{{ page.url | absolute_url }}">
+{% if site.social_image %}<meta property="og:image" content="{{ site.social_image | absolute_url }}">{% endif %}
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="{{ '/assets/config/avatar.jpg' | relative_url }}" type="image/jpeg">
+<link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+<script>
+  (function () {
+    var stored = localStorage.getItem('garden-theme');
+    var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.dataset.theme = theme;
+  }());
+</script>
+

@@ -1,4 +1,4 @@
-name: "Automatic build"
+name: "Build and publish life garden"
 on:
   push:
     branches:
@@ -7,6 +7,13 @@ on:
       - .gitignore
       - README.md
       - LICENSE
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pages-branch
+  cancel-in-progress: false
 
 jobs:
   continuous-delivery:
@@ -23,11 +30,6 @@ jobs:
         with:
           ruby-version: '3.1'
           bundler-cache: true
-
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
 
       - name: Deploy
         run: bash tools/deploy.sh

@@ -1,47 +1,10 @@
 ---
-layout: default
+layout: base
 ---
-
-<div class="lm-page projects-page">
-  <header class="lm-page-header projects-header">
-    <div>
-      <p class="lm-kicker">A3 · PROJECTS</p>
-      <h1>项目橱窗</h1>
-      <p>这里负责快速了解项目；点击“浏览项目资料”后，会进入与 Obsidian 一致的项目文件夹，继续查看该项目的全部公开文档。</p>
-    </div>
-    <a class="lm-button lm-button-quiet" href="{{ '/vault/A3-项目/' | relative_url }}">查看 A3 完整目录</a>
-  </header>
-
-  <div class="projects-summary">
-    <span><b>{{ site.data.vault_projects.size }}</b> 个项目</span>
-    <span>简介与文档同源</span>
-    <span>只展示 published: true</span>
-  </div>
-
-  <section class="project-showcase" aria-label="项目列表">
-    {% for project in site.data.vault_projects %}
-    <article class="project-card {% if project.featured %}is-featured{% endif %}">
-      <header>
-        <span class="project-code">{{ project.code }}</span>
-        <span class="project-status">{{ project.status }}</span>
-      </header>
-      <div class="project-card-body">
-        <p class="project-folder">A3-项目 / {{ project.code }}-{{ project.name }}</p>
-        <h2>{{ project.name }}</h2>
-        <p>{{ project.summary }}</p>
-        <div class="project-stack">
-          {% for technology in project.stack %}<span>{{ technology }}</span>{% endfor %}
-        </div>
-      </div>
-      <footer>
-        <a class="project-primary-link" href="{{ project.docs_url | relative_url }}">浏览项目资料 <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
-        <a href="{{ project.intro_url | relative_url }}">阅读项目简介</a>
-        <span>{{ project.count }} 篇公开文档</span>
-      </footer>
-    </article>
-    {% else %}
-    <div class="lm-empty"><p>还没有标记为 project_card 的公开项目简介。</p></div>
-    {% endfor %}
-  </section>
+<div class="compat-page page-shell">
+  <p class="eyebrow">A SMALL CHANGE</p>
+  <h1>项目不再单独占据一个入口。</h1>
+  <p>它们仍然都在，只是回到了生活的脉络里。你可以从“关于”快速认识这些作品，也可以沿着 A3 项目目录查看完整文档。</p>
+  <div class="button-row"><a class="button button--primary" href="{{ '/about/#about-projects-title' | relative_url }}">从关于页认识项目</a><a class="button button--ghost" href="{{ '/vault/A3-项目/' | relative_url }}">打开 A3 项目目录</a></div>
 </div>
 

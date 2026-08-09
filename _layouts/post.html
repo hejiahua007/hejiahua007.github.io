@@ -1,0 +1,20 @@
+---
+layout: base
+---
+<article class="article-page page-shell">
+  <header class="article-header">
+    <a class="article-back" href="{{ '/archives/' | relative_url }}">← 返回归档</a>
+    <p class="eyebrow">NOTE FROM THE GARDEN</p>
+    <h1>{{ page.title }}</h1>
+    <div class="article-meta">
+      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%Y年%m月%d日' }}</time>
+      <span>约 {{ content | strip_html | number_of_words }} 字</span>
+    </div>
+  </header>
+  <div class="article-body prose">{{ content }}</div>
+  {% if page.tags.size > 0 %}
+  <footer class="article-tags" aria-label="文章标签">
+    {% for tag in page.tags %}<a href="{{ '/tags/' | relative_url }}"># {{ tag }}</a>{% endfor %}
+  </footer>
+  {% endif %}
+</article>

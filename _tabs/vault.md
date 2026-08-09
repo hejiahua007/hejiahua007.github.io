@@ -1,6 +1,6 @@
 ---
 layout: vault_home
-title: 资料库
+title: 目录
 icon: fas fa-folder
 order: 1
 ---
