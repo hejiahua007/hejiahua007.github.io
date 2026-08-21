@@ -3,7 +3,7 @@
     {% assign active_path = page.vault_dir_path | default: page.dir_path | default: '' %}
     {% assign should_open = false %}
     {% if active_path contains node.path %}{% assign should_open = true %}{% endif %}
-    <li class="vault-tree__node" role="treeitem">
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
       <details data-tree-path="{{ node.path }}" {% if should_open %}open{% endif %}>
         <summary>
           <span class="vault-tree__chevron" aria-hidden="true"></span>
@@ -20,7 +20,7 @@
         {% if node.posts.size > 0 %}
           <ul class="vault-tree__files" role="group">
             {% for item in node.posts %}
-              <li>
+              <li data-tree-file>
                 <a href="{{ item.url | relative_url }}" {% if page.url == item.url %}aria-current="page"{% endif %}>
                   <span class="vault-tree__file" aria-hidden="true"></span>
                   <span>{{ item.title }}</span>
@@ -33,4 +33,3 @@
     </li>
   {% endfor %}
 </ul>
-

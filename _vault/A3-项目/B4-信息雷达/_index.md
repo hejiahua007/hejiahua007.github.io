@@ -20,7 +20,7 @@ Python 3.11+ | FastAPI | Electron | Vue3 | TypeScript | SQLite | RSS/Atom
 
 ## 源项目
 
-`signal-radar`，位于 `D:\DevTools\vs_project\signal-radar`
+`signal-radar`，保存在本地同名项目仓库中（本机路径不公开）。
 
 ## 参考文档
 

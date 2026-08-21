@@ -2,6 +2,7 @@
 layout: base
 ---
 {% assign home = site.data.home %}
+{% assign latest_post = site.posts.first %}
 <div class="home-page">
   <section class="home-hero page-shell" aria-labelledby="home-title">
     <div class="home-hero__copy">
@@ -18,7 +19,7 @@ layout: base
       <div class="paper-note">
         <span>今日札记</span>
         <p>世界很大，<br>先把眼前的一小步走好。</p>
-        <i>08 · 09</i>
+        <i>{% if latest_post %}{{ latest_post.date | date: '%m · %d' }}{% else %}今日{% endif %}</i>
       </div>
       <div class="leaf leaf--one"></div>
       <div class="leaf leaf--two"></div>
@@ -51,6 +52,27 @@ layout: base
     </div>
   </section>
 
+  {% assign featured_projects = site.data.vault_projects | where: 'featured', true %}
+  {% if featured_projects.size > 0 %}
+  <section class="featured-section page-shell section-space" aria-labelledby="featured-title">
+    <div class="section-heading section-heading--split">
+      <div><p class="eyebrow">MADE WITH CURIOSITY</p><h2 id="featured-title">最近在做的东西</h2></div>
+      <p>软件只是我表达好奇心的一种方式。这里保留问题、取舍和能够复核的过程。</p>
+    </div>
+    <div class="featured-grid">
+      {% for project in featured_projects limit: 3 %}
+      <article class="featured-card">
+        <div class="featured-card__top"><span>{{ project.code }}</span><small>{{ project.status }}</small></div>
+        <h3><a href="{{ project.intro_url | relative_url }}">{{ project.name }}</a></h3>
+        <p>{{ project.summary }}</p>
+        {% if project.stack.size > 0 %}<ul aria-label="相关技术">{% for item in project.stack limit: 4 %}<li>{{ item }}</li>{% endfor %}</ul>{% endif %}
+        <footer><a href="{{ project.intro_url | relative_url }}">读项目简介</a><a href="{{ project.docs_url | relative_url }}">查看 {{ project.count }} 篇文档</a></footer>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
   <section class="recent-section section-space">
     <div class="page-shell">
       <div class="section-heading section-heading--split">
@@ -66,7 +88,7 @@ layout: base
               {% if post.vault_categories %}<span>{{ post.vault_categories.first }}</span>{% endif %}
             </div>
             <h3>{{ post.title }}</h3>
-            <p>{{ post.excerpt | strip_html | strip_newlines | truncate: 105 }}</p>
+            <p>{{ post.summary | default: post.excerpt | strip_html | strip_newlines | truncate: 105 }}</p>
             <span class="recent-card__more">继续阅读 <b aria-hidden="true">↗</b></span>
           </a>
         </article>

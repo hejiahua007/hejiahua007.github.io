@@ -277,7 +277,7 @@ cao ,labelme居然有点问题，居然没有保存，浪费我时间。
 将数据集弄好后，训练，睡觉，发现昨天停电，电脑关机。要恢复训练。
 
     要继续从上次中断的训练继续进行，你可以使用last.pt文件作为权重来恢复训练。这个文件代表训练过程中最后一次保存的模型状态。使用这个权重文件，你可以继续训练，而不需要从头开始。    这里是如何使用last.pt文件继续训练的示例命令：
-    python train.py --weights C:\Users\123\Desktop\yolo\YOLOv5-Lite-master\runs\train\exp\weights\last.pt --resume
+    python train.py --weights <PROJECT_ROOT>\runs\train\exp\weights\last.pt --resume
     这里的关键参数包括：
     --weights 指定要加载的预训练权重文件路径。
     --resume 指示训练脚本从上次中断的地方继续训练。

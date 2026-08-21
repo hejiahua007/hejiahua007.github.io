@@ -93,6 +93,7 @@ module Jekyll
         # Vault 文件夹是唯一公开层级。主题自带 categories 仅保留给旧文章，
         # 避免同一篇 Vault 文章同时出现两套互相冲突的导航。
         vault_categories = derive_categories(rel_path)
+        article_body = remove_duplicate_title(extract_body(content), frontmatter['title'])
 
         doc_data = {
           'title'      => frontmatter['title'] || basename_no_ext(filepath),
@@ -107,7 +108,7 @@ module Jekyll
           'mermaid'    => frontmatter.fetch('mermaid', true),
           'permalink'  => frontmatter['permalink'],
           'project_card' => frontmatter['project_card'] == true,
-          'summary'    => frontmatter['summary'],
+          'summary'    => frontmatter['summary'] || infer_summary(article_body),
           'stack'      => frontmatter['stack'] || [],
           'status'     => frontmatter['status'],
           'featured'   => frontmatter['featured'] == true
@@ -121,7 +122,7 @@ module Jekyll
         @vault_docs << {
           path:    filepath,
           data:    doc_data,
-          content: extract_body(content),
+          content: article_body,
           rel_path: rel_path,
           dir_key: dir_key
         }
@@ -415,6 +416,33 @@ module Jekyll
       content.sub(/\A---\s*\r?\n.*?\r?\n---\r?\n?/m, '')
     end
 
+    def remove_duplicate_title(body, title)
+      match = body.match(/\A\s*#\s+(.+?)\s*\r?\n/)
+      return body unless match && match[1].strip == title.to_s.strip
+
+      body.sub(/\A\s*#\s+.+?\s*\r?\n/, '')
+    end
+
+    def infer_summary(body)
+      without_code = body.gsub(/```.*?```/m, '').gsub(/~~~.*?~~~/m, '')
+      paragraph = without_code.split(/\r?\n\s*\r?\n/).map(&:strip).find do |candidate|
+        next false if candidate.empty?
+        next false if candidate.match?(/\A(?:\#{1,6}\s|[-*+]\s|\d+[.)]\s|>|\|)/)
+
+        candidate.length >= 18
+      end
+      return nil unless paragraph
+
+      plain = paragraph
+              .gsub(/!\[[^\]]*\]\([^)]*\)/, '')
+              .gsub(/\[([^\]]+)\]\([^)]*\)/, '\\1')
+              .gsub(/<[^>]+>/, '')
+              .gsub(/[`*_~]/, '')
+              .gsub(/\s+/, ' ')
+              .strip
+      plain.length > 140 ? "#{plain[0, 137]}…" : plain
+    end
+
     def derive_categories(rel_path)
       # _vault/A4-知识库/B1-基金/C1-基金学习/xxx.md
       # => ["知识库", "基金", "基金学习"]
@@ -560,6 +588,9 @@ module Jekyll
       return :private unless target_url
 
       fragment && !fragment.empty? ? "#{target_url}##{fragment}" : target_url
+    rescue URI::InvalidURIError
+      Jekyll.logger.warn('VaultGenerator:', "Invalid link left unchanged: #{source}")
+      nil
     end
   end
 

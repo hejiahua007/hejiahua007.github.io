@@ -4,8 +4,8 @@ layout: base
 {% assign profile = site.data.profile %}
 <div class="about-page page-shell">
   <header class="about-hero">
-    <div class="about-hero__portrait" aria-hidden="true">
-      <div class="portrait-ring"><img src="{{ '/assets/config/avatar.jpg' | relative_url }}" alt="何嘉华的照片"></div>
+    <div class="about-hero__portrait">
+      <div class="portrait-ring"><img src="{{ '/assets/config/avatar.jpg' | relative_url }}" width="640" height="640" alt="一只戴着伊丽莎白圈、脸颊泛红的柴犬头像" fetchpriority="high" decoding="async"></div>
       <span>KEEP<br>GROWING</span>
     </div>
     <div class="about-hero__copy">
@@ -46,8 +46,15 @@ layout: base
     <div class="section-heading section-heading--split"><div><p class="eyebrow">MADE ALONG THE WAY</p><h2 id="about-projects-title">一路做过的项目</h2></div><a class="text-link" href="{{ '/vault/A3-项目/' | relative_url }}">浏览项目目录 →</a></div>
     <div class="about-project-grid">
       {% for project in site.data.vault_projects limit: 6 %}
-      <a href="{{ project.docs_url | relative_url }}"><span>{{ project.code }}</span><h3>{{ project.name }}</h3><p>{{ project.summary }}</p><small>{{ project.count }} 篇文档 · {{ project.status }}</small></a>
+      <article>
+        <div class="about-project-card__top"><span>{{ project.code }}</span><small>{{ project.status }}</small></div>
+        <h3><a href="{{ project.intro_url | relative_url }}">{{ project.name }}</a></h3>
+        <p>{{ project.summary }}</p>
+        {% if project.stack.size > 0 %}<ul aria-label="相关技术">{% for item in project.stack limit: 4 %}<li>{{ item }}</li>{% endfor %}</ul>{% endif %}
+        <footer><a href="{{ project.intro_url | relative_url }}">项目简介</a><a href="{{ project.docs_url | relative_url }}">{{ project.count }} 篇公开文档</a></footer>
+      </article>
       {% else %}<p class="empty-state">项目介绍仍在整理。</p>{% endfor %}
     </div>
+    <p class="evidence-note"><span aria-hidden="true">✓</span> 项目卡片只引用已公开的介绍与文档；未公开的工作资料不作为展示证据。</p>
   </section>
 </div>

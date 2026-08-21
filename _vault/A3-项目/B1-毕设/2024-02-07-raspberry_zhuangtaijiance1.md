@@ -747,17 +747,17 @@ Starting training for 300 epochs...
         0/299   0.0986G    0.1211   0.02475   0.04159    0.1874        32       320: 100%|██████████| 7/7 [00:15<00:00,  2.15s/it]
                 Class      Images      Labels           P           R      mAP@.5  mAP@.5:.95:   0%|          | 0/1 [00:01<?, ?it/s]
     Traceback (most recent call last):
-    File "C:\Users\123\Desktop\yolo\YOLOv5-Lite-master\train.py", line 545, in <module>
+    File "<PROJECT_ROOT>\train.py", line 545, in <module>
         train(hyp, opt, device, tb_writer)
-    File "C:\Users\123\Desktop\yolo\YOLOv5-Lite-master\train.py", line 355, in train
+    File "<PROJECT_ROOT>\train.py", line 355, in train
         results, maps, times = test.test(data_dict,
-    File "C:\Users\123\Desktop\yolo\YOLOv5-Lite-master\test.py", line 121, in test
+    File "<PROJECT_ROOT>\test.py", line 121, in test
         out = non_max_suppression(out, conf_thres=conf_thres, iou_thres=iou_thres, labels=lb, multi_label=True)
-    File "C:\Users\123\Desktop\yolo\YOLOv5-Lite-master\utils\general.py", line 497, in non_max_suppression
+    File "<PROJECT_ROOT>\utils\general.py", line 497, in non_max_suppression
         i = torchvision.ops.nms(boxes, scores, iou_thres)  # NMS
-    File "C:\Users\123\Desktop\yolo\YOLOv5-Lite-master\venv\lib\site-packages\torchvision\ops\boxes.py", line 41, in nms
+    File "<PROJECT_ROOT>\venv\lib\site-packages\torchvision\ops\boxes.py", line 41, in nms
         return torch.ops.torchvision.nms(boxes, scores, iou_threshold)
-    File "C:\Users\123\Desktop\yolo\YOLOv5-Lite-master\venv\lib\site-packages\torch\_ops.py", line 692, in __call__
+    File "<PROJECT_ROOT>\venv\lib\site-packages\torch\_ops.py", line 692, in __call__
         return self._op(*args, **kwargs or {})
     NotImplementedError: Could not run 'torchvision::nms' with arguments from the 'CUDA' backend. This could be because the operator doesn't exist for this backend, or was omitted during the selective/custom build process (if using custom build). If you are a Facebook employee using PyTorch on mobile, please visit https://fburl.com/ptmfixes for possible resolutions. 'torchvision::nms' is only available for these backends: [CPU, QuantizedCPU, BackendSelect, Python, FuncTorchDynamicLayerBackMode, Functionalize, Named, Conjugate, Negative, ZeroTensor, ADInplaceOrView, AutogradOther, AutogradCPU, AutogradCUDA, AutogradXLA, AutogradMPS, AutogradXPU, AutogradHPU, AutogradLazy, AutogradMeta, Tracer, AutocastCPU, AutocastCUDA, FuncTorchBatched, FuncTorchVmapMode, Batched, VmapMode, FuncTorchGradWrapper, PythonTLSSnapshot, FuncTorchDynamicLayerFrontMode, PreDispatch, PythonDispatcher].
 
@@ -2826,7 +2826,7 @@ def process_image(image_path, brightness_factor):
     cv2.imwrite(image_path, eq_with_decreased_brightness)
 
 # 获取指定路径下的所有图片文件
-image_folder_path = r'C:\Users\123\Desktop\yolo\data_collect\valid\images'
+image_folder_path = r'<DATASET_ROOT>\valid\images'
 image_files = [f for f in os.listdir(image_folder_path) if os.path.isfile(os.path.join(image_folder_path, f))]
 
 # 亮度降低因子
@@ -2893,7 +2893,7 @@ def process_and_save_image(image_path):
     cv2_img = cv2.cvtColor(processed_image_rgb, cv2.COLOR_RGB2BGR)
     cv2.imwrite(image_path, cv2_img)
 
-image_folder_path = r'C:\Users\123\Desktop\yolo\data_collect\valid\images'
+image_folder_path = r'<DATASET_ROOT>\valid\images'
 image_files = [f for f in os.listdir(image_folder_path) if os.path.isfile(os.path.join(image_folder_path, f))]
 
 for image_file in image_files:

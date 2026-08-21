@@ -20,6 +20,7 @@ published: true
 在树莓派上直接使用pip3 install zhipuai后就可以直接使用了
 
 ``` c
+import os
 import zhipuai
 
 prompt_jan =[
@@ -82,7 +83,7 @@ tmp_prompt=[]
 
 
 
-zhipuai.api_key = "xxxxxxxxxxx"
+zhipuai.api_key = os.environ["ZHIPUAI_API_KEY"]
 
 def pack_record(role: str, content: str):
 

@@ -378,6 +378,8 @@ import pvcobra
 
 import time
 
+import os
+
 porcupine_key = "cinmq/v7vHEzd3vrbTD9I24KiGgxbmUBXjxCcgG8kGnx8l48h57L6g=="
 
 porcupine_model = '../file/model/hello-chat_en_raspberry-pi_v3_0_0.ppn'
@@ -484,13 +486,13 @@ def save_audio(data, filename="../file/tmp/recorded_audio.wav"):
 
     
 
-''' 你的APPID AK SK  参数在申请的百度云语音服务的控制台查看'''
+'''凭据从环境变量读取，不要写入源码或公开笔记。'''
 
-APP_ID = '41921615'
+APP_ID = os.environ['BAIDU_SPEECH_APP_ID']
 
-API_KEY = '066z1Dktz7pNjWFWrZ3CSV6z'
+API_KEY = os.environ['BAIDU_SPEECH_API_KEY']
 
-SECRET_KEY = 'YloZH3xxv08TCVXGs13BoLP1gfPK0IRM'
+SECRET_KEY = os.environ['BAIDU_SPEECH_SECRET_KEY']
 
 textPath = '../file/tmp/text.txt'
 

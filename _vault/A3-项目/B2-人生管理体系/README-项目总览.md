@@ -7,10 +7,10 @@ pin: true
 published: true
 permalink: /posts/project-life-management-system/
 project_card: true
-summary: "连接日常记录、长期 Obsidian Vault 与公开作品集的个人信息管理体系。"
+summary: "连接低成本日常记录、长期 Obsidian Vault 与选择性公开网站的个人信息管理体系。"
 stack: [Markdown, Obsidian, Git, Jekyll, PowerShell]
 status: "阶段 1 · 持续试用"
-featured: false
+featured: true
 author: 
     name: hejiahua007
     link: https://space.bilibili.com/507838758

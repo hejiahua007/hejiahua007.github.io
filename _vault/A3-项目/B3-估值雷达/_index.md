@@ -14,7 +14,7 @@ published: true
 
 ## 源项目
 
-`基金策略` (fund-strategy-client)，位于 `D:\DevTools\vs_project\基金策略`
+`基金策略`（fund-strategy-client），保存在本地项目仓库中（本机路径不公开）。
 
 ## 参考文档
 
