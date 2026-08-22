@@ -95,9 +95,11 @@ module Jekyll
         vault_categories = derive_categories(rel_path)
         article_body = remove_duplicate_title(extract_body(content), frontmatter['title'])
 
+        normalized_date = normalize_date(frontmatter['date'], rel_path)
+
         doc_data = {
           'title'      => frontmatter['title'] || basename_no_ext(filepath),
-          'date'       => frontmatter['date'],
+          'date'       => normalized_date,
           'categories' => [],
           'vault_categories' => vault_categories,
           'tags'       => frontmatter['tags'] || [],
@@ -226,6 +228,23 @@ module Jekyll
         page = VaultIndexPage.new(@site, dir, display_name, info)
         @site.pages << page
       end
+    end
+
+    # YAML may return a Time for well-formed dates and a String for malformed
+    # ones. Keep publication resilient by normalizing both types once. When a
+    # note's date contains a typo, its filename remains a reliable day-level
+    # fallback for ordering, archives, and permalink generation.
+    def normalize_date(value, rel_path)
+      return value.to_time if value.respond_to?(:to_time)
+
+      Time.parse(value.to_s)
+    rescue ArgumentError, TypeError
+      filename = File.basename(rel_path, File.extname(rel_path))
+      match = filename.match(/(\d{4})\D+(\d{1,2})\D+(\d{1,2})/)
+      raise unless match
+
+      Jekyll.logger.warn('VaultGenerator:', "Invalid date #{value.inspect}; using filename date: #{rel_path}")
+      Time.new(match[1].to_i, match[2].to_i, match[3].to_i, 0, 0, 0, '+08:00')
     end
 
     def build_directory_hierarchy
