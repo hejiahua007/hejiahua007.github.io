@@ -28,7 +28,10 @@ resolve_target = lambda do |source_file, raw_url|
               end
 
   choices = [candidate]
-  choices << candidate.join('index.html') if candidate.extname.empty?
+  # A directory-style URL may end in a filename containing a dot (for example
+  # "v2.1/"). Its final segment is not a file extension when the URL has a
+  # trailing slash.
+  choices << candidate.join('index.html') if clean_url.end_with?('/') || candidate.extname.empty?
   choices << Pathname.new("#{candidate}.html") if candidate.extname.empty?
   choices.find(&:file?)
 rescue ArgumentError

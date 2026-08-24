@@ -148,14 +148,17 @@ module Jekyll
     # ----------------------------------------------------------
     def prepare_urls
       @published_path_urls = {}
+      @legacy_permalink_urls = {}
       basename_candidates = Hash.new { |hash, key| hash[key] = [] }
       @vault_docs.each do |vd|
-        explicit_permalink = vd[:data]['permalink']
-        permalink = if explicit_permalink && !explicit_permalink.empty?
-                      explicit_permalink
-                    else
-                      build_permalink(vd[:path], vd[:data]['title'])
-                    end
+        # The Vault path is the public information architecture. Article URLs
+        # must move with their Markdown files instead of being flattened under
+        # /posts/ with a generated hash.
+        permalink = build_permalink(vd[:path])
+        legacy_permalink = vd[:data]['permalink']
+        if legacy_permalink && !legacy_permalink.empty? && legacy_permalink != permalink
+          @legacy_permalink_urls[legacy_permalink] = permalink
+        end
         vd[:data]['permalink'] = permalink
         @published_path_urls[File.expand_path(vd[:path])] = permalink
         basename_candidates[File.basename(vd[:path]).downcase] << permalink
@@ -183,8 +186,7 @@ module Jekyll
         # 设置数据和内容（绕过 read 方法，因为文件不在 _posts/ 中）
         doc.data.merge!(vd[:data])
 
-        # Use a stable, unique URL. Chinese-only titles can slugify to an empty
-        # string, so a path hash is always included.
+        # Use the canonical URL derived from the complete _vault path.
         doc.data['permalink'] = vd[:data]['permalink']
         doc.data['layout'] = 'vault_post'
         doc.data['vault_breadcrumbs'] = build_vault_breadcrumbs(vd[:dir_key])
@@ -510,14 +512,10 @@ module Jekyll
       end
     end
 
-    def build_permalink(filepath, title)
-      rel_path = Pathname.new(filepath).relative_path_from(Pathname.new(@vault_dir)).to_s
-      basename = basename_no_ext(filepath).sub(/^\d{4}-\d{2}-\d{2}-/, '')
-      slug = Jekyll::Utils.slugify(basename)
-      slug = Jekyll::Utils.slugify(title.to_s) if slug.empty?
-      digest = Digest::SHA1.hexdigest(rel_path)[0, 10]
-      slug = 'vault' if slug.empty?
-      "/posts/#{slug}-#{digest}/"
+    def build_permalink(filepath)
+      rel_path = Pathname.new(filepath)
+                         .relative_path_from(Pathname.new(@vault_dir)).to_s.tr('\\', '/')
+      "/vault/#{rel_path.sub(/\.md\z/i, '')}/"
     end
 
     def rewrite_local_assets(body, article_path, rel_path)
@@ -590,6 +588,14 @@ module Jekyll
     def resolve_markdown_link(source, article_path)
       return nil if source.start_with?('#')
 
+      if source.start_with?('/')
+        path_part, fragment = source.split('#', 2)
+        target_url = @legacy_permalink_urls[path_part]
+        return nil unless target_url
+
+        return fragment && !fragment.empty? ? "#{target_url}##{fragment}" : target_url
+      end
+
       if source =~ %r{\Ahttps?://}i
         uri = URI.parse(source)
         site_host = URI.parse(@site.config['url'].to_s).host
@@ -597,7 +603,7 @@ module Jekyll
 
         return @published_basename_urls[File.basename(uri.path).downcase]
       end
-      return nil if source =~ %r{\A(?:[a-z][a-z0-9+.-]*:|/)}i
+      return nil if source =~ %r{\A[a-z][a-z0-9+.-]*:}i
 
       path_part, fragment = source.split('#', 2)
       return nil unless File.extname(path_part).downcase == '.md'

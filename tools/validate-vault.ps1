@@ -119,8 +119,8 @@ foreach ($file in $files) {
     }
 }
 
-# Explicit permalinks are optional, but when present they must be final and
-# unique across every public article, including files outside -ChangedOnly.
+# Explicit permalinks are legacy metadata. The generator ignores them and uses
+# the _vault path, but malformed or duplicate values are still worth reporting.
 $permalinkOwners = @{}
 Get-ChildItem -LiteralPath $vaultRoot -Recurse -File -Filter '*.md' |
     Where-Object { $_.Name -ne '_index.md' } |

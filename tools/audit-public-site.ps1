@@ -20,7 +20,9 @@ if (Test-Path -LiteralPath $vaultRoot -PathType Container) {
     foreach ($file in Get-ChildItem -LiteralPath $vaultRoot -Recurse -File -Filter '*.md') {
         if ($file.Name -eq '_index.md') { continue }
         $content = Get-Content -LiteralPath $file.FullName -Raw -Encoding UTF8
-        $publishedMatches = [regex]::Matches($content, '(?m)^published:\s*(true|false)\s*$')
+        $frontmatterMatch = [regex]::Match($content, '(?s)\A---\s*\r?\n(?<fm>.*?)\r?\n---')
+        $frontmatter = if ($frontmatterMatch.Success) { $frontmatterMatch.Groups['fm'].Value } else { '' }
+        $publishedMatches = [regex]::Matches($frontmatter, '(?m)^published:\s*(true|false)\s*$')
         $isPublic = $publishedMatches.Count -eq 1 -and $publishedMatches[0].Groups[1].Value -eq 'true'
         if ($isPublic) { continue }
 
@@ -34,12 +36,10 @@ if (Test-Path -LiteralPath $vaultRoot -PathType Container) {
             $sha1.Dispose()
         }
         $digest = ([System.BitConverter]::ToString($hashBytes) -replace '-', '').ToLowerInvariant()
-        $postDigest = $digest.Substring(0, 10)
         $assetDigest = $digest.Substring(0, 12)
 
-        $matchingPost = @(Get-ChildItem -LiteralPath (Join-Path $siteRoot 'posts') -Directory -ErrorAction SilentlyContinue |
-            Where-Object { $_.Name.EndsWith("-$postDigest", [System.StringComparison]::OrdinalIgnoreCase) })
-        if ($matchingPost.Count -gt 0) {
+        $privateArticlePath = Join-Path $siteRoot ("vault/" + ($relativePath -replace '\.md$', '') + '/index.html')
+        if (Test-Path -LiteralPath $privateArticlePath -PathType Leaf) {
             $errors.Add("Private note generated a public page: $relativePath")
         }
         if (Test-Path -LiteralPath (Join-Path $siteRoot "assets/vault/$assetDigest")) {
