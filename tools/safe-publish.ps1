@@ -136,7 +136,7 @@ foreach ($file in $markdownFiles) {
     }
 }
 
-$deletedTracked = @(git ls-files --deleted -- _vault)
+$deletedTracked = @(git -c core.quotepath=false ls-files --deleted -- _vault)
 if ($LASTEXITCODE -ne 0) { throw 'Unable to inspect deleted tracked Vault files.' }
 
 if (-not $DryRun) {
