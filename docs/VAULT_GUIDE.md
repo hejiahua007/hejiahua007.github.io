@@ -113,6 +113,15 @@ published: false
 
 ## 月度迁移
 
+当 `life-vault` 已经使用与长期库一致的目录时，优先使用无 AI 的同路径同步：
+
+```powershell
+.\tools\sync-from-lifevault.ps1 -Mode Plan
+.\tools\sync-from-lifevault.ps1 -Mode Apply
+```
+
+该入口自动生成路由 JSON，并把复制和备份交给 `monthly-migration.ps1`；新文件保持原路径，冲突文件保留等待人工复核，源文件不会删除。只有确实需要重新分类时才使用下面的迁移智能体流程。
+
 月度迁移由一个控制脚本和两个窄职责智能体组成：
 
 ```text
@@ -158,3 +167,9 @@ Prepare → 迁移智能体(JSON) → Apply → 整理智能体(Markdown)
 4. Agent 整理结果没有新增不存在的事实；
 5. 本地图片都能打开；
 6. GitHub Actions 构建成功后再 Finalize 源仓。
+
+日常直接发布可以使用：
+
+```powershell
+.\tools\publish-vault.ps1 -Message "content: 更新生活记录" -Push
+```

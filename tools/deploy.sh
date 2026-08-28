@@ -60,6 +60,8 @@ test() {
 
   pwsh -NoProfile -File tools/audit-public-site.ps1 -SitePath "$SITE_DIR"
 
+  pwsh -NoProfile -File tools/verify-vault-mapping.ps1 -SitePath "$SITE_DIR"
+
   bundle exec htmlproofer \
     --disable-external \
     --check-html \

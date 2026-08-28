@@ -62,22 +62,34 @@ Vault 构建插件会把明确公开文章引用的本地图片复制到公开�
 
 ## 发布
 
-先校验和预览：
+### 直接维护网站 Vault
+
+只需要在 `_vault/` 的目标文件夹中增加或移动 Markdown 和相对图片，不需要修改 `_posts`、页面配置或 `_site`。文章网页地址自动等于其 Vault 相对路径。
+
+先预演：
 
 ```powershell
-.\tools\validate-vault.ps1 -ChangedOnly
-.\tools\safe-publish.ps1 -DryRun
+.\tools\publish-vault.ps1 -Message "content: 内容说明" -DryRun
 ```
 
-人工确认后：
+确认后发布：
 
 ```powershell
-.\tools\safe-publish.ps1
-git diff --cached --stat
-git diff --cached
-git commit -m "content: 内容说明"
-git push origin main
+.\tools\publish-vault.ps1 -Message "content: 内容说明" -Push
 ```
+
+脚本会依次验证 front matter、仅暂存 `published: true`、清理并构建 `_site`、检查网页与 `_vault` 路径一一对应、提交，并在指定 `-Push` 时推送。
+
+### 从 life-vault 同步
+
+同一层级直接同步，不调用 AI、不分类、不改名：
+
+```powershell
+.\tools\sync-from-lifevault.ps1 -Mode Plan
+.\tools\sync-from-lifevault.ps1 -Mode Apply
+```
+
+同路径同内容会跳过；新文件会原路径复制；同路径不同内容会保留源文件并列入冲突报告，禁止覆盖。同步不会删除 `life-vault` 文件。
 
 不要使用 `git add -A` 发布 Vault 内容。`.gitignore` 默认忽略 `_vault`，发布脚本只强制加入明确公开的文件和资源。
 

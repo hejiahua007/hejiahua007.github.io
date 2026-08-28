@@ -11,10 +11,15 @@ bundle install
 bundle exec jekyll serve
 ```
 
-正式发布 Vault 内容前必须运行：
+从 `life-vault` 原路径同步（默认只生成计划，不复制）：
 
 ```powershell
-.\tools\validate-vault.ps1 -ChangedOnly
-.\tools\safe-publish.ps1 -DryRun
-.\tools\safe-publish.ps1
+.\tools\sync-from-lifevault.ps1 -Mode Plan
+.\tools\sync-from-lifevault.ps1 -Mode Apply
+```
+
+直接在 `_vault/` 中增加或移动文件后，用一个命令完成公开校验、构建、提交和推送：
+
+```powershell
+.\tools\publish-vault.ps1 -Message "content: 更新生活记录" -Push
 ```
