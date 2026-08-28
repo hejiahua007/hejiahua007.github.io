@@ -1,0 +1,2436 @@
+<!doctype html>
+<html lang="zh-CN" id="top">
+  <head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f7f2e8">
+
+
+
+<title>ESP01————舵机 · 何嘉华的生活花园</title>
+<meta name="description" content="理性计划会减少错误、节省时间">
+<meta name="author" content="何嘉华">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://hejiahua007.github.io/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2024-01-26-ESP01_duoji/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:site_name" content="何嘉华的生活花园">
+<meta property="og:title" content="ESP01————舵机 · 何嘉华的生活花园">
+<meta property="og:description" content="理性计划会减少错误、节省时间">
+<meta property="og:url" content="https://hejiahua007.github.io/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2024-01-26-ESP01_duoji/">
+<meta property="og:image" content="https://hejiahua007.github.io/assets/config/og-life-garden.jpg">
+
+<meta property="article:published_time" content="2024-01-26T09:18:00+08:00">
+<meta property="article:modified_time" content="2026-08-07T16:42:06+08:00">
+<meta property="article:tag" content="ESP01">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ESP01————舵机 · 何嘉华的生活花园">
+<meta name="twitter:description" content="理性计划会减少错误、节省时间">
+<meta name="twitter:image" content="https://hejiahua007.github.io/assets/config/og-life-garden.jpg">
+<link rel="alternate" type="application/atom+xml" title="何嘉华的生活花园" href="https://hejiahua007.github.io/feed.xml">
+<link rel="icon" href="/assets/config/avatar.jpg" type="image/jpeg">
+<link rel="stylesheet" href="/assets/css/style.css">
+<script type="application/ld+json">
+
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "ESP01————舵机",
+  "description": "理性计划会减少错误、节省时间",
+  "datePublished": "2024-01-26T09:18:00+08:00",
+  "dateModified": "2026-08-07T16:42:06+08:00",
+  "mainEntityOfPage": "https://hejiahua007.github.io/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2024-01-26-ESP01_duoji/",
+  "author": { "@type": "Person", "name": "何嘉华", "url": "https://hejiahua007.github.io/about/" },
+  "publisher": { "@type": "Person", "name": "何嘉华" },
+  "image": "https://hejiahua007.github.io/assets/config/og-life-garden.jpg"
+}
+
+</script>
+<script>
+  (function () {
+    var stored = null;
+    try { stored = localStorage.getItem('garden-theme'); } catch (_error) { stored = null; }
+    var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.dataset.theme = theme;
+  }());
+</script>
+</head>
+  <body class="page-vault_post">
+    <a class="skip-link" href="#main-content">跳到正文</a>
+    <header class="site-header" data-site-header>
+  <div class="site-header__inner">
+    <a class="site-brand" href="/" aria-label="回到首页">
+      <span class="site-brand__mark" aria-hidden="true">嘉</span>
+      <span><strong>何嘉华</strong><small>生活花园</small></span>
+    </a>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" data-nav-toggle>
+      <span></span><span></span><span></span><span class="sr-only">打开导航</span>
+    </button>
+
+    <nav class="primary-nav" id="primary-nav" aria-label="主导航" data-primary-nav>
+      <a href="/" >首页</a>
+      <a href="/vault/" aria-current="page">目录</a>
+      <a href="/about/" >关于</a>
+      <a href="/tags/" >标签</a>
+      <a href="/archives/" >归档</a>
+    </nav>
+
+    <button class="theme-toggle" type="button" aria-label="切换到深色模式" title="切换明暗模式" aria-pressed="false" data-theme-toggle>
+      <span class="theme-toggle__sun" aria-hidden="true">☀</span>
+      <span class="theme-toggle__moon" aria-hidden="true">☾</span>
+    </button>
+  </div>
+</header>
+
+    <main id="main-content" tabindex="-1"><div class="directory-page">
+  <button class="directory-open" type="button" data-directory-open aria-controls="vault-sidebar" aria-expanded="false">
+    <span aria-hidden="true">☰</span> 打开目录
+  </button>
+  <div class="directory-overlay" data-directory-overlay></div>
+  <aside class="vault-sidebar" id="vault-sidebar" aria-label="Vault 文件目录" data-vault-sidebar>
+    <div class="vault-sidebar__header">
+      <div><p>OBSIDIAN VIEW</p><h2>我的目录</h2></div>
+      <button type="button" data-directory-close aria-label="关闭目录">×</button>
+    </div>
+    <p class="vault-sidebar__hint">这里只呈现明确选择公开的文件。</p>
+    <div class="vault-filter">
+      <label class="sr-only" for="vault-filter-input">筛选公开目录</label>
+      <span aria-hidden="true">⌕</span>
+      <input id="vault-filter-input" type="search" inputmode="search" autocomplete="off" placeholder="筛选文件夹或文章" data-vault-filter>
+      <button type="button" aria-label="清空目录筛选" title="清空" data-vault-filter-clear hidden>×</button>
+    </div>
+    <p class="vault-filter__status" aria-live="polite" data-vault-filter-status></p>
+    <nav class="vault-tree" aria-label="公开资料库文件树">
+      <ul class="vault-tree__list vault-tree__list--root" role="tree">
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A1-回忆归档" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/" data-folder-link>
+            <small>A1</small>回忆归档
+          </a>
+          <span class="vault-tree__count">14</span>
+        </summary>
+        
+          
+          <ul class="vault-tree__list" role="tree">
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A1-回忆归档/B1-24年回忆" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B1-24%E5%B9%B4%E5%9B%9E%E5%BF%86/" data-folder-link>
+            <small>B1</small>24年回忆
+          </a>
+          <span class="vault-tree__count">4</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B1-24%E5%B9%B4%E5%9B%9E%E5%BF%86/2024-06-18-survival-challenge-10/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>生存挑战第十期————自省</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B1-24%E5%B9%B4%E5%9B%9E%E5%BF%86/2024-04-18-survival-challenge-8/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>生存挑战第八期————记录感受生活</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B1-24%E5%B9%B4%E5%9B%9E%E5%BF%86/2024-04-18-survival-challenge-9/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>生存挑战第九期————平衡</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B1-24%E5%B9%B4%E5%9B%9E%E5%BF%86/2024-03-21-novel_2/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>小说02————剧本创作1</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A1-回忆归档/B2-22年回忆" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B2-22%E5%B9%B4%E5%9B%9E%E5%BF%86/" data-folder-link>
+            <small>B2</small>22年回忆
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B2-22%E5%B9%B4%E5%9B%9E%E5%BF%86/2022-05-21-hello-world/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>你好，世界！</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A1-回忆归档/B3-23年回忆" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B3-23%E5%B9%B4%E5%9B%9E%E5%BF%86/" data-folder-link>
+            <small>B3</small>23年回忆
+          </a>
+          <span class="vault-tree__count">9</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B3-23%E5%B9%B4%E5%9B%9E%E5%BF%86/2023-12-17-novel_1/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>小说01————思考与规划</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B3-23%E5%B9%B4%E5%9B%9E%E5%BF%86/2023-10-28-diary7/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>diary7</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B3-23%E5%B9%B4%E5%9B%9E%E5%BF%86/2023-10-25-music_maker/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>音乐编曲——FL Studio</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B3-23%E5%B9%B4%E5%9B%9E%E5%BF%86/2023-10-25-diary6/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>diary6</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B3-23%E5%B9%B4%E5%9B%9E%E5%BF%86/2023-10-24-diary5/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>diary5</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B3-23%E5%B9%B4%E5%9B%9E%E5%BF%86/2023-10-16-diary4/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>diary4</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B3-23%E5%B9%B4%E5%9B%9E%E5%BF%86/2023-10-16-diary3/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>diary3</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B3-23%E5%B9%B4%E5%9B%9E%E5%BF%86/2023-10-14-diary2/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>diary2</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B3-23%E5%B9%B4%E5%9B%9E%E5%BF%86/2023-10-13-diary1/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>diary</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+</ul>
+
+        
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A2-规划" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A2-%E8%A7%84%E5%88%92/" data-folder-link>
+            <small>A2</small>规划
+          </a>
+          <span class="vault-tree__count">19</span>
+        </summary>
+        
+          
+          <ul class="vault-tree__list" role="tree">
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A2-规划/B1-人生曼陀罗图" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A2-%E8%A7%84%E5%88%92/B1-%E4%BA%BA%E7%94%9F%E6%9B%BC%E9%99%80%E7%BD%97%E5%9B%BE/" data-folder-link>
+            <small>B1</small>人生曼陀罗图
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B1-%E4%BA%BA%E7%94%9F%E6%9B%BC%E9%99%80%E7%BD%97%E5%9B%BE/D1-%E4%BA%BA%E7%94%9F%E7%9A%84%E6%9B%BC%E9%99%80%E7%BD%97%E5%9B%BE/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>人生的曼陀罗图</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A2-规划/B2-2026年计划" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/" data-folder-link>
+            <small>B2</small>2026年计划
+          </a>
+          <span class="vault-tree__count">17</span>
+        </summary>
+        
+          
+          <ul class="vault-tree__list" role="tree">
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A2-规划/B2-2026年计划/C9-8月计划" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/" data-folder-link>
+            <small>C9</small>8月计划
+          </a>
+          <span class="vault-tree__count">17</span>
+        </summary>
+        
+          
+          <ul class="vault-tree__list" role="tree">
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A2-规划/B2-2026年计划/C9-8月计划/D2-日记录" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/" data-folder-link>
+            <small>D2</small>日记录
+          </a>
+          <span class="vault-tree__count">16</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8828%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月28日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8827%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月27日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8826%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月26日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8825%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月25日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8824%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月24日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8823%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月23日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8822%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月22日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8821%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月21日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8820%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月20日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8819%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月19日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8818%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月18日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8817%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月17日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8816%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月16日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8815%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月15日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8809%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月09日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8808%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月078记录</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+</ul>
+
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D1-08%E6%9C%88%E8%AE%A1%E5%88%92/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月计划</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+</ul>
+
+        
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A2-规划/B3-职业规划" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A2-%E8%A7%84%E5%88%92/B3-%E8%81%8C%E4%B8%9A%E8%A7%84%E5%88%92/" data-folder-link>
+            <small>B3</small>职业规划
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B3-%E8%81%8C%E4%B8%9A%E8%A7%84%E5%88%92/D1-%E8%81%8C%E4%B8%9A%E8%A7%84%E5%88%92%E5%88%86%E6%9E%90/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>职业规划分析</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+</ul>
+
+        
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A3-项目" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/" data-folder-link>
+            <small>A3</small>项目
+          </a>
+          <span class="vault-tree__count">57</span>
+        </summary>
+        
+          
+          <ul class="vault-tree__list" role="tree">
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A3-项目/B1-毕设" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/" data-folder-link>
+            <small>B1</small>毕设
+          </a>
+          <span class="vault-tree__count">25</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/%E9%A1%B9%E7%9B%AE%E7%AE%80%E4%BB%8B/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>毕业设计：树莓派智能睡眠助手</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2024-05-23-raspberry_zhiling/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——家居控制指令</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2024-04-08-raspberry_zhuangtaijiance4/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——YOLOv5-Lite 4</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2024-04-08-raspberry_zhuangtaijiance3/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——YOLOv5-Lite 2</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2024-03-21-bisheceshi1/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>毕设测试1</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2024-02-07-raspberry_zhuangtaijiance/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——目标检测</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2024-02-07-raspberry_zhuangtaijiance1/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——YOLOv5-Lite1 数据集制作（手机）</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-12-25-Android_fenxi/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>安卓————前言</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2024-04-26-Android_youhua1/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>安卓————优化</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-11-28-raspberry_weather_forecast/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——天气预报</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-11-28-raspberry_time/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——解决时间问题，编译慢（搁置）</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-11-28-raspberry_musicplay/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——音乐播放</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-11-28-raspberry-clock/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——闹钟（定时器）</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-11-28-raspberry-geyan/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——每日一言</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-11-28-raspberry-beiwanglu/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——备忘录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-11-28-raspberry-tcp_server/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——tcp_server</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-11-28-raspberry-sqlite3/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——sqlite3</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-11-27-raspberry_finial/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——语音合成最终版</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-11-05-raspberry_speaking/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——语音合成</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-10-29-raspberry_chat/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——智谱chat</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-10-26-translate/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>有道云翻译</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-10-14-chat/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>chat聊天机器人的搭建</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-10-13-yuyinhecheng/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>语音合成</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-10-24-chat/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>chat(智谱)</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-10-13-yuyin/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>语音唤醒、语音识别</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A3-项目/B2-人生管理体系" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B2-%E4%BA%BA%E7%94%9F%E7%AE%A1%E7%90%86%E4%BD%93%E7%B3%BB/" data-folder-link>
+            <small>B2</small>人生管理体系
+          </a>
+          <span class="vault-tree__count">7</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B2-%E4%BA%BA%E7%94%9F%E7%AE%A1%E7%90%86%E4%BD%93%E7%B3%BB/%E9%80%89%E6%8B%A9%E6%80%A7%E5%85%AC%E5%BC%80-%E6%8A%8A%E9%9A%90%E7%A7%81%E8%BE%B9%E7%95%8C%E5%86%99%E8%BF%9B%E5%8F%91%E5%B8%83%E6%B5%81%E7%A8%8B/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>选择性公开：把隐私边界写进发布流程</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B2-%E4%BA%BA%E7%94%9F%E7%AE%A1%E7%90%86%E4%BD%93%E7%B3%BB/Life-Vault-%E9%A1%B9%E7%9B%AE%E7%AE%80%E4%BB%8B/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>Life Vault：极简人生记录活跃仓</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B2-%E4%BA%BA%E7%94%9F%E7%AE%A1%E7%90%86%E4%BD%93%E7%B3%BB/%E4%B8%AA%E4%BA%BA%E4%BD%9C%E5%93%81%E9%9B%86%E7%BD%91%E7%AB%99-%E9%A1%B9%E7%9B%AE%E7%AE%80%E4%BB%8B/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>个人作品集与长期知识库网站</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B2-%E4%BA%BA%E7%94%9F%E7%AE%A1%E7%90%86%E4%BD%93%E7%B3%BB/README-%E9%A1%B9%E7%9B%AE%E6%80%BB%E8%A7%88/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>人生管理体系 - 项目总览</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B2-%E4%BA%BA%E7%94%9F%E7%AE%A1%E7%90%86%E4%BD%93%E7%B3%BB/2026-07-26-life-management-system-prd-v1/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>人生管理系统 PRD v1</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B2-%E4%BA%BA%E7%94%9F%E7%AE%A1%E7%90%86%E4%BD%93%E7%B3%BB/2026-07-25-life-management-system-discovery/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>人生管理系统：需求澄清与初步方案</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B2-%E4%BA%BA%E7%94%9F%E7%AE%A1%E7%90%86%E4%BD%93%E7%B3%BB/2026-07-11-portfolio-optimization-log/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>个人网站优化日志：从学生博客到职业作品集</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A3-项目/B3-估值雷达" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B3-%E4%BC%B0%E5%80%BC%E9%9B%B7%E8%BE%BE/" data-folder-link>
+            <small>B3</small>估值雷达
+          </a>
+          <span class="vault-tree__count">6</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B3-%E4%BC%B0%E5%80%BC%E9%9B%B7%E8%BE%BE/%E9%A1%B9%E7%9B%AE%E7%AE%80%E4%BB%8B/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>基金策略客户端</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B3-%E4%BC%B0%E5%80%BC%E9%9B%B7%E8%BE%BE/%E9%A1%B9%E7%9B%AE%E6%9E%B6%E6%9E%84%E4%B8%8E%E5%BC%80%E5%8F%91%E9%9A%BE%E5%BA%A6%E8%AF%B4%E6%98%8E/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>项目架构与开发约束</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B3-%E4%BC%B0%E5%80%BC%E9%9B%B7%E8%BE%BE/%E9%A1%B9%E7%9B%AE%E4%B8%8A%E4%B8%8B%E6%96%87/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>基金策略客户端：项目上下文</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B3-%E4%BC%B0%E5%80%BC%E9%9B%B7%E8%BE%BE/%E6%96%87%E6%A1%A3%E7%B4%A2%E5%BC%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>文档索引</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B3-%E4%BC%B0%E5%80%BC%E9%9B%B7%E8%BE%BE/%E5%9F%BA%E9%87%91%E4%BC%B0%E5%80%BC%E7%9F%A5%E8%AF%86%E5%BA%93/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>指数、基金与定投研究知识库</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B3-%E4%BC%B0%E5%80%BC%E9%9B%B7%E8%BE%BE/%E6%8C%87%E6%95%B0%E5%8A%A8%E4%BD%9C%E5%80%8D%E7%8E%87%E4%B8%8E%E6%8E%92%E9%99%A4%E8%A7%84%E5%88%99/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>指数动作、倍率与四级关注度规则</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A3-项目/B4-信息雷达" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B4-%E4%BF%A1%E6%81%AF%E9%9B%B7%E8%BE%BE/" data-folder-link>
+            <small>B4</small>信息雷达
+          </a>
+          <span class="vault-tree__count">2</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B4-%E4%BF%A1%E6%81%AF%E9%9B%B7%E8%BE%BE/%E8%AE%A9AI%E7%A0%94%E7%A9%B6%E5%85%88%E4%BA%A4%E8%AF%81%E6%8D%AE-%E4%BB%8E%E7%AD%94%E6%A1%88%E5%88%B0%E8%AF%81%E6%8D%AE%E9%93%BE/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>让 AI 研究先交证据：从答案到证据链</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B4-%E4%BF%A1%E6%81%AF%E9%9B%B7%E8%BE%BE/%E9%A1%B9%E7%9B%AE%E7%AE%80%E4%BB%8B/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>Signal Radar：证据约束的信息求索平台</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A3-项目/B5-AI项目经理" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B5-AI%E9%A1%B9%E7%9B%AE%E7%BB%8F%E7%90%86/" data-folder-link>
+            <small>B5</small>AI项目经理
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B5-AI%E9%A1%B9%E7%9B%AE%E7%BB%8F%E7%90%86/%E9%A1%B9%E7%9B%AE%E7%AE%80%E4%BB%8B/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>企业微信 AI 项目经理</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A3-项目/B6-桌面宠物" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B6-%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9/" data-folder-link>
+            <small>B6</small>桌面宠物
+          </a>
+          <span class="vault-tree__count">13</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B6-%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9/D1-%E9%A1%B9%E7%9B%AE%E6%A6%82%E8%A7%88/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>灵伴桌面宠物：项目简介</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B6-%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9/D13-%E6%8F%90%E9%86%92%E4%BC%98%E5%8C%96%E4%B8%8E%E5%BD%A2%E8%B1%A1%E6%8D%A2%E8%A3%85-v2.3/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>灵伴桌面宠物 — 提醒优化与形象换装系统 v2.3</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B6-%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9/D12-%E7%AB%9E%E5%93%81%E5%8A%9F%E8%83%BD%E5%B7%AE%E8%B7%9D%E5%88%86%E6%9E%90-v2.2/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>灵伴桌面宠物 — 竞品功能差距分析 v2.2</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B6-%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9/D11-%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%8C%96%E8%AE%A1%E5%88%92-v2.1/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>灵伴桌面宠物 — 深度优化计划 v2.1</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B6-%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9/D10-%E5%BC%80%E5%8F%91%E4%BB%BB%E5%8A%A1%E6%B8%85%E5%8D%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>灵伴桌面宠物 — 开发任务清单 (v2.0 P0)</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B6-%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9/D9-%E6%8A%80%E6%9C%AF%E5%80%BA%E5%8A%A1%E6%B8%85%E7%90%86%E6%B8%85%E5%8D%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>灵伴桌面宠物 — 技术债务清理清单</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B6-%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9/D8-%E5%95%86%E4%B8%9A%E5%8C%96%E8%B7%AF%E7%BA%BF%E5%9B%BE/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>灵伴桌面宠物 — 商业化路线图</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B6-%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9/D7-UI-UX%E6%94%B9%E7%89%88%E6%96%B9%E6%A1%88/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>灵伴桌面宠物 — UI/UX 改版方案</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B6-%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9/D6-%E5%8A%9F%E8%83%BD%E4%BC%98%E5%85%88%E7%BA%A7%E7%9F%A9%E9%98%B5/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>灵伴桌面宠物 — 功能优先级矩阵</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B6-%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9/D5-PRD-v2/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>灵伴桌面宠物 (Ling Pet) — 产品需求文档 v2.0</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B6-%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9/D4-%E5%8A%9F%E8%83%BD%E6%A8%A1%E5%9D%97%E8%AF%B4%E6%98%8E/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>灵伴桌面宠物 — 功能模块说明</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B6-%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9/D3-%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84%E6%96%87%E6%A1%A3/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>灵伴桌面宠物 — 技术架构文档</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B6-%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9/D2-%E4%BA%A7%E5%93%81%E9%9C%80%E6%B1%82%E6%96%87%E6%A1%A3/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>灵伴桌面宠物 — 产品需求文档 (PRD)</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A3-项目/B9-焊缝检测" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B9-%E7%84%8A%E7%BC%9D%E6%A3%80%E6%B5%8B/" data-folder-link>
+            <small>B9</small>焊缝检测
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B9-%E7%84%8A%E7%BC%9D%E6%A3%80%E6%B5%8B/%E9%A1%B9%E7%9B%AE%E7%AE%80%E4%BB%8B/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>焊缝缺陷 YOLO 训练实验</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A3-项目/B10-YOLO训练" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B10-YOLO%E8%AE%AD%E7%BB%83/" data-folder-link>
+            <small>B10</small>YOLO训练
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B10-YOLO%E8%AE%AD%E7%BB%83/%E9%A1%B9%E7%9B%AE%E7%AE%80%E4%BB%8B/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>YOLO26 目标检测训练与推理工具集</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+</ul>
+
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/README-%E9%A1%B9%E7%9B%AE%E6%80%BB%E8%A7%88/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>本地项目总览</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库" open>
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/" data-folder-link>
+            <small>A4</small>知识库
+          </a>
+          <span class="vault-tree__count">56</span>
+        </summary>
+        
+          
+          <ul class="vault-tree__list" role="tree">
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B1-基金" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B1-%E5%9F%BA%E9%87%91/" data-folder-link>
+            <small>B1</small>基金
+          </a>
+          <span class="vault-tree__count">5</span>
+        </summary>
+        
+          
+          <ul class="vault-tree__list" role="tree">
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B1-基金/C1-基金学习" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B1-%E5%9F%BA%E9%87%91/C1-%E5%9F%BA%E9%87%91%E5%AD%A6%E4%B9%A0/" data-folder-link>
+            <small>C1</small>基金学习
+          </a>
+          <span class="vault-tree__count">3</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B1-%E5%9F%BA%E9%87%91/C1-%E5%9F%BA%E9%87%91%E5%AD%A6%E4%B9%A0/D3-%E9%A9%AC%E5%85%8B%E6%80%9D-%E6%8A%95%E8%B5%84%E6%9C%80%E9%87%8D%E8%A6%81%E7%9A%84%E4%BA%8B/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>马克思-投资最重要的事</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B1-%E5%9F%BA%E9%87%91/C1-%E5%9F%BA%E9%87%91%E5%AD%A6%E4%B9%A0/D1-%E7%BA%A6%E7%BF%B0%E4%BC%AF%E6%A0%BC-%E4%BD%8E%E4%BC%B0%E5%80%BC%E6%8C%87%E6%95%B0%E5%AE%9A%E6%8A%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>约翰伯格-低估值指数定投</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B1-%E5%9F%BA%E9%87%91/C1-%E5%9F%BA%E9%87%91%E5%AD%A6%E4%B9%A0/D2-%E6%A0%BC%E6%9E%97%E6%8B%89%E5%B8%83%E7%89%B9-%E8%82%A1%E5%B8%82%E7%A8%B3%E8%B5%9A/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>格林拉布特-股市稳赚</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B1-基金/C2-低估基金挑选" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B1-%E5%9F%BA%E9%87%91/C2-%E4%BD%8E%E4%BC%B0%E5%9F%BA%E9%87%91%E6%8C%91%E9%80%89/" data-folder-link>
+            <small>C2</small>低估基金挑选
+          </a>
+          <span class="vault-tree__count">2</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B1-%E5%9F%BA%E9%87%91/C2-%E4%BD%8E%E4%BC%B0%E5%9F%BA%E9%87%91%E6%8C%91%E9%80%89/D1-%E5%9F%BA%E9%87%91%E6%8B%86%E8%A7%A3/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>基金拆解</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B1-%E5%9F%BA%E9%87%91/C2-%E4%BD%8E%E4%BC%B0%E5%9F%BA%E9%87%91%E6%8C%91%E9%80%89/D2-%E4%BD%8E%E4%BC%B0%E5%9F%BA%E9%87%91%E6%8C%91%E9%80%89/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>低估基金挑选</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+</ul>
+
+        
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B2-阅读" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/" data-folder-link>
+            <small>B2</small>阅读
+          </a>
+          <span class="vault-tree__count">9</span>
+        </summary>
+        
+          
+          <ul class="vault-tree__list" role="tree">
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B2-阅读/C1-书籍-后真相时代" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C1-%E4%B9%A6%E7%B1%8D-%E5%90%8E%E7%9C%9F%E7%9B%B8%E6%97%B6%E4%BB%A3/" data-folder-link>
+            <small>C1</small>书籍-后真相时代
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C1-%E4%B9%A6%E7%B1%8D-%E5%90%8E%E7%9C%9F%E7%9B%B8%E6%97%B6%E4%BB%A3/D1-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>后真相时代 阅读笔记</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B2-阅读/C2-书籍-深度关系" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C2-%E4%B9%A6%E7%B1%8D-%E6%B7%B1%E5%BA%A6%E5%85%B3%E7%B3%BB/" data-folder-link>
+            <small>C2</small>书籍-深度关系
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C2-%E4%B9%A6%E7%B1%8D-%E6%B7%B1%E5%BA%A6%E5%85%B3%E7%B3%BB/D1-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>深度关系 阅读笔记</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B2-阅读/C3-书籍-以始为终的人生智慧" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C3-%E4%B9%A6%E7%B1%8D-%E4%BB%A5%E5%A7%8B%E4%B8%BA%E7%BB%88%E7%9A%84%E4%BA%BA%E7%94%9F%E6%99%BA%E6%85%A7/" data-folder-link>
+            <small>C3</small>书籍-以始为终的人生智慧
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C3-%E4%B9%A6%E7%B1%8D-%E4%BB%A5%E5%A7%8B%E4%B8%BA%E7%BB%88%E7%9A%84%E4%BA%BA%E7%94%9F%E6%99%BA%E6%85%A7/D1-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>以始为终的人生智慧 阅读笔记</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B2-阅读/C4-书籍-5%的改变" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C4-%E4%B9%A6%E7%B1%8D-5%25%E7%9A%84%E6%94%B9%E5%8F%98/" data-folder-link>
+            <small>C4</small>书籍-5%的改变
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C4-%E4%B9%A6%E7%B1%8D-5%25%E7%9A%84%E6%94%B9%E5%8F%98/D1-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>5%的改变 阅读笔记</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B2-阅读/C5-书籍-情绪心理学" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C5-%E4%B9%A6%E7%B1%8D-%E6%83%85%E7%BB%AA%E5%BF%83%E7%90%86%E5%AD%A6/" data-folder-link>
+            <small>C5</small>书籍-情绪心理学
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C5-%E4%B9%A6%E7%B1%8D-%E6%83%85%E7%BB%AA%E5%BF%83%E7%90%86%E5%AD%A6/D1-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>情绪心理学 阅读笔记</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B2-阅读/C6-书籍-人生的十二法则" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C6-%E4%B9%A6%E7%B1%8D-%E4%BA%BA%E7%94%9F%E7%9A%84%E5%8D%81%E4%BA%8C%E6%B3%95%E5%88%99/" data-folder-link>
+            <small>C6</small>书籍-人生的十二法则
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C6-%E4%B9%A6%E7%B1%8D-%E4%BA%BA%E7%94%9F%E7%9A%84%E5%8D%81%E4%BA%8C%E6%B3%95%E5%88%99/D1-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>人生的十二法则 阅读笔记</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B2-阅读/C7-书籍-瞬变" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C7-%E4%B9%A6%E7%B1%8D-%E7%9E%AC%E5%8F%98/" data-folder-link>
+            <small>C7</small>书籍-瞬变
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C7-%E4%B9%A6%E7%B1%8D-%E7%9E%AC%E5%8F%98/D1-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>瞬变 阅读笔记</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B2-阅读/C8-书籍-幽默感" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C8-%E4%B9%A6%E7%B1%8D-%E5%B9%BD%E9%BB%98%E6%84%9F/" data-folder-link>
+            <small>C8</small>书籍-幽默感
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C8-%E4%B9%A6%E7%B1%8D-%E5%B9%BD%E9%BB%98%E6%84%9F/D1-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>幽默感 阅读笔记</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B2-阅读/C9-书籍-正午之魔" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C9-%E4%B9%A6%E7%B1%8D-%E6%AD%A3%E5%8D%88%E4%B9%8B%E9%AD%94/" data-folder-link>
+            <small>C9</small>书籍-正午之魔
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C9-%E4%B9%A6%E7%B1%8D-%E6%AD%A3%E5%8D%88%E4%B9%8B%E9%AD%94/D1-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>阅读————正午之魔</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+</ul>
+
+        
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B3-Python" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B3-Python/" data-folder-link>
+            <small>B3</small>Python
+          </a>
+          <span class="vault-tree__count">13</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B3-Python/2023-10-24-python_xiecheng/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>python_协程7</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B3-Python/2023-10-24-python_xinxigeli/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>python_信息隔离5</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B3-Python/2023-10-24-python_xianchengtongxin/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>python_线程间的通信4</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B3-Python/2023-10-24-python_suo/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>python_线程锁3</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B3-Python/2023-10-24-python_class/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>python_class</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B3-Python/2023-10-24-python_xianchengchi/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>python_线程池6</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B3-Python/2023-10-24-python_bingfa/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>python_并发编程1</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B3-Python/2023-10-24-python_duoxiancheng/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>python_创建多线程2</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B3-Python/2023-10-24-python_yield/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>python_yield8</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B3-Python/2023-10-24-python_async3/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>python_async9</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B3-Python/2023-10-24-python_async2/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>python_async8</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B3-Python/2023-10-24-python_async/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>python_async</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B3-Python/2023-10-14-pythonvenv/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>python环境复制</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B4-嵌入式" open>
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/" data-folder-link>
+            <small>B4</small>嵌入式
+          </a>
+          <span class="vault-tree__count">18</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2024-02-02-stm32f103_tiaoshi/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>STM32F103——调试</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2024-01-26-ESP01_fengshan/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>ESP01————风扇</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2024-01-26-ESP01_duoji/" aria-current="page">
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>ESP01————舵机</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2024-01-25-ESP01_zhiwuqi/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>ESP01————制雾器</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2024-01-13-ESP01_qianyan/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>ESP01————前言</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2023-12-07-stm32f103_qiti/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>STM32F103——气体质量</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2023-12-07-stm32f103_voice/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>STM32F103——声音</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2023-12-07-stm32f103_guangzhao/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>STM32F103——光照</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2023-12-07-stm32f103_chuankou/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>STM32F103——串口</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2023-12-07-stm32f103_wifi/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>STM32F103——wifi</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2023-12-07-stm32f103_esp8266/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>STM32F103——esp8266</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2023-12-07-stm32f103_wenduchuanganqi/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>STM32F103——DHT11温度传感器</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2023-11-16-raspberry_python3.7_change/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——python版本切换/环境搭建</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2023-10-29-NTC/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>热敏传感器</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2023-10-26-raspberry_wake/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——语音唤醒</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2023-10-28-raspberry_recongnize/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——语音识别</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2023-10-13-process2/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>进程线程-基本概念</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2023-10-13-process1/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>进程线程-前言</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B5-求职技能" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B5-%E6%B1%82%E8%81%8C%E6%8A%80%E8%83%BD/" data-folder-link>
+            <small>B5</small>求职技能
+          </a>
+          <span class="vault-tree__count">10</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B5-%E6%B1%82%E8%81%8C%E6%8A%80%E8%83%BD/2024-03-16-search/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>学习规范的寻找外国资料</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B5-%E6%B1%82%E8%81%8C%E6%8A%80%E8%83%BD/2023-10-18-jisuanjijichu7/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>计算机基础——软件工程</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B5-%E6%B1%82%E8%81%8C%E6%8A%80%E8%83%BD/2023-10-17-jisuanjijichu6/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>计算机基础——软件工程</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B5-%E6%B1%82%E8%81%8C%E6%8A%80%E8%83%BD/2023-10-17-jisuanjijichu5/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>计算机基础——C语言程序设计</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B5-%E6%B1%82%E8%81%8C%E6%8A%80%E8%83%BD/2023-10-14-jisuanjijichu4/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>计算机基础——操作系统</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B5-%E6%B1%82%E8%81%8C%E6%8A%80%E8%83%BD/2023-10-13-mainshiyinhang/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>面试准备</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B5-%E6%B1%82%E8%81%8C%E6%8A%80%E8%83%BD/2023-10-13-mainshixuzhi/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>投简历需知（技巧）</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B5-%E6%B1%82%E8%81%8C%E6%8A%80%E8%83%BD/2023-10-14-jisuanjijichu2/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>（day0）计算机基础——计算机组成原理</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B5-%E6%B1%82%E8%81%8C%E6%8A%80%E8%83%BD/2023-10-14-jisuanjijichu1/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>计算机基础</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B5-%E6%B1%82%E8%81%8C%E6%8A%80%E8%83%BD/2023-10-14-jisuanjijichu3/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>（day1）计算机基础———计算机网络</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B7-方法与实践" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B7-%E6%96%B9%E6%B3%95%E4%B8%8E%E5%AE%9E%E8%B7%B5/" data-folder-link>
+            <small>B7</small>方法与实践
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B7-%E6%96%B9%E6%B3%95%E4%B8%8E%E5%AE%9E%E8%B7%B5/%E4%BB%8E%E8%AE%A1%E5%88%92%E5%88%B0%E8%B6%8B%E5%8A%BF-%E4%B8%80%E7%A7%8D%E6%9B%B4%E8%BD%BB%E7%9A%84%E8%AE%B0%E5%BD%95%E6%96%B9%E6%B3%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>从计划到趋势：一种更轻的记录方法</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+</ul>
+
+        
+        
+      </details>
+    </li>
+  
+</ul>
+
+    </nav>
+    <footer>
+      <span class="status-dot" aria-hidden="true"></span>
+      与本地 Vault 保持同一层级
+    </footer>
+  </aside>
+  <section class="directory-content"><article class="vault-article">
+  <header class="article-header article-header--vault">
+    <nav class="breadcrumbs" aria-label="当前位置">
+      
+        
+        <a href="/vault/">资料库</a>
+      
+        <span aria-hidden="true">/</span>
+        <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/">知识库</a>
+      
+        <span aria-hidden="true">/</span>
+        <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a>
+      
+    </nav>
+    <p class="eyebrow">A NOTE IN THE GARDEN</p>
+    <h1>ESP01————舵机</h1>
+    <div class="article-meta">
+      <time datetime="2024-01-26T09:18:00+08:00">2024年01月26日</time>
+      <span>知识库 / 嵌入式</span>
+    </div>
+  </header>
+  <div class="article-body prose">
+<p><strong>理性计划会减少错误、节省时间</strong></p>
+
+<h2 id="目标">目标</h2>
+
+<ol>
+  <li>学会舵机的使用</li>
+  <li>学会esp8266的烧录</li>
+  <li>实现远程控制舵机</li>
+</ol>
+
+<h2 id="锻炼能力">锻炼能力</h2>
+
+<ol>
+  <li>合理规划时间计划，尽可能的高效</li>
+  <li>尽可能的将做、写、思考结合在一起，养成习惯</li>
+</ol>
+
+<h2 id="规划安排5min">规划安排（5min）</h2>
+
+<p>时间：2-2.5h</p>
+
+<ol>
+  <li>学会烧录、电亮一个led灯：
+    <ul>
+      <li>收集esp8066的资料、收集esp8266的烧录资料、撰写实验步骤（20min）</li>
+      <li>根据实验步骤进行操作、记录结果（10min）</li>
+    </ul>
+  </li>
+  <li>学会舵机的使用：
+    <ul>
+      <li>收集舵机的资料、收集舵机的使用资料、撰写使用方法（20min）</li>
+      <li>根据资料写代码、实验、记录结果（10min）</li>
+    </ul>
+  </li>
+  <li>结合前两步、实现远程控制（20min）</li>
+</ol>
+
+<p>预测：顺利的话，应该能在1.5h内完成、但不顺利的话可能一个下午都完不成，再查找一个又一个的问题中过去，若是不顺利、重心就放在了锻炼能力、锻炼思考这边，而不是放在完成目标这边。</p>
+
+<h2 id="相关资料">相关资料</h2>
+
+<h3 id="一收集esp8266的资料收集esp8266的烧录资料撰写实验步骤20min">一、收集esp8266的资料、收集esp8266的烧录资料、撰写实验步骤（20min）</h3>
+
+<ol>
+  <li>esp8266资料</li>
+</ol>
+
+<p><img loading="lazy" decoding="async" src="/assets/blog_res/2024-1-26-ESP01_duoji/image-9.png" alt="image-9" />
+什么是固件</p>
+
+<p>固件（Firmware）是指嵌入式系统中的一种软件，它是安装在硬件设备上的一组指令和数据，用于控制设备的操作和功能。固件位于硬件和操作系统之间，负责管理硬件设备的低级操作，例如启动、初始化和控制硬件功能。</p>
+
+<p>与传统软件不同，固件是直接存储在硬件设备的非易失性存储器中，例如闪存或只读存储器（ROM）。它通常以二进制形式存储，并由硬件设备的制造商预先安装或通过固件更新进行更新。</p>
+
+<p>固件的主要目的是为硬件设备提供基本的操作和功能。它可以实现设备的启动和关机过程、处理输入和输出、管理存储器、控制外围设备等。例如，固件可用于控制打印机的打印过程、路由器的网络连接、智能手机的硬件功能等。</p>
+
+<p>固件还可以包含操作系统的一部分，称为嵌入式操作系统。这种情况下，固件不仅负责硬件的控制，还提供了一些高级功能和服务，例如文件系统、网络协议栈、驱动程序等。</p>
+
+<p>由于固件直接与硬件交互，因此对设备的性能和功能有着重要的影响。固件更新是常见的做法，用于改进设备的性能、修复错误、增加新功能或提供安全性补丁。</p>
+
+<p>ESP8266芯片具有自己的固件，被称为ESP8266固件或NodeMCU固件。</p>
+
+<p>NodeMCU固件是一种开源固件，基于Lua脚本语言，特别设计用于ESP8266芯片。它提供了一套易于使用的功能和API，使开发者能够快速开发物联网应用程序。</p>
+
+<p>NodeMCU固件提供了一系列的功能模块和库，包括Wi-Fi连接管理、网络协议支持（例如HTTP、MQTT等）、GPIO控制、PWM输出、ADC采集、文件系统访问等。它还支持通过串口进行编程和调试，并提供了命令行交互界面。</p>
+
+<p>使用NodeMCU固件，开发者可以使用简单的Lua脚本语言来编写应用程序，而无需深入了解底层的Wi-Fi和网络协议。这使得ESP8266芯片的开发变得更加容易和快速。</p>
+
+<p>除了NodeMCU固件，ESP8266芯片还可以使用其他固件，例如官方提供的Espressif Systems的AT固件，或者第三方开发者基于ESP8266芯片开发的其他固件。这些固件提供了不同的功能和编程接口，以满足不同的开发需求。</p>
+
+<p>ESP8266的存储系统是32MB的 Flash + 80KB的SRAM。（可以理解为电脑的SSD和内存条）</p>
+
+<p>闪存通常分为以下几个部分：</p>
+
+<p>Bootloader（引导加载程序）：引导加载程序是在芯片上电时首先执行的代码，它负责初始化芯片、加载固件和跳转到固件的执行点。这个是你无法修改或者擦除的。</p>
+
+<p>Firmware（固件）：固件是主要的应用程序代码，它包含了设备的功能和逻辑。固件部分占据了闪存的大部分空间。这是我们可以修改的。</p>
+
+<p>File System（文件系统）：ESP8266芯片的闪存中的一部分可以用于文件系统，用于存储应用程序的配置文件、网页文件、数据文件等。通常采用SPIFFS（SPI Flash File System）作为文件系统。</p>
+
+<p>OTA（Over-The-Air）固件区域：这个区域用于存储通过OTA方式进行固件更新所需的数据。</p>
+
+<p>ESP8266的内存包括32 KiB指令RAM，32 KiB指令缓存RAM，80 KiB用户数据RAM（存储程序代码、变量、堆栈和其他运行时数据）和16 KiB ETS系统数据RAM</p>
+
+<p>固件和用户程序</p>
+
+<p>固件与底层硬件打交道如果要字节编写固件，就需要了解ESP8266 芯片的寄存器等信息，通常是一件麻烦的事情。所以我们通常使用厂商开发好的固件，直接用，或者基于固件编写上层应用。</p>
+
+<p>固件也是一种程序，开机就运行，通过编写不同的固件，他也能提供很多不同功能。</p>
+
+<p>通常使用AT指令来运行固件中设计好的各种功能，比如链接一个WiFi，固件为上层应用提供了友好的接口。<strong>我们可以使用Ardunio IDE来进行上层应用的开发</strong>，在我们的应用中，可以通过AT指令使用固件中开发好的功能。</p>
+
+<p>我们的程序下载到ESP8266上并不会修改固件内容，就像你给电脑安装一个软件一样，并不会修改系统功能。</p>
+
+<p>通常，也可以使用其他MCU连接ESP8266，通过发送AT指令和接收回复来进行编程。比如使用STM32与ESP8266进行串口通信，实现某些功能。</p>
+
+<p>烧录</p>
+
+<ol>
+  <li>https://zhuanlan.zhihu.com/p/669132595</li>
+</ol>
+
+<p>下载、配置arduino（已完成）</p>
+
+<p>设置开发板NodeMCU 1.0（ESP-12E Module）</p>
+
+<p>驱动下载：</p>
+
+<p>官网下载地址：https://cn.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers</p>
+
+<p>网盘: https://pan.baidu.com/s/101cJq2-qOyC_uRbNJ_vjqw?pwd=486z</p>
+
+<p>如果电脑上没有安装相应的驱动，是无法正常识别COM口的,成功安装驱动之后，将NodeMCU-ESP8266通过USB线连接到电脑上，就可以在设备管理器中看到COM3口设备了；</p>
+
+<p>下载测试用例</p>
+
+<p><img loading="lazy" decoding="async" src="/assets/blog_res/2024-1-26-ESP01_duoji/image.png" alt="image" /></p>
+
+<p><img loading="lazy" decoding="async" src="/assets/blog_res/2024-1-26-ESP01_duoji/image-1.png" alt="image-1" /></p>
+
+<p><img loading="lazy" decoding="async" src="/assets/blog_res/2024-1-26-ESP01_duoji/image-2.png" alt="image-2" /></p>
+
+<p><img loading="lazy" decoding="async" src="/assets/blog_res/2024-1-26-ESP01_duoji/image-3.png" alt="image-3" /></p>
+
+<ol>
+  <li>https://blog.csdn.net/weixin_64344153/article/details/130354145</li>
+</ol>
+
+<p>1.我们将使用Arduino IDE对ESP8266进行代码编译。</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>这是Arduino IDE下载地址:Software</td>
+      <td>Arduino</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Arduino安装好后我们选择开发板</p>
+
+<p><img loading="lazy" decoding="async" src="/assets/blog_res/2024-1-26-ESP01_duoji/image-4.png" alt="image-4" /></p>
+
+<p>2.选好开发板后，我们进行代码的烧录。我们在原有的例程上另外接了一颗LED灯，通过这两个灯的控制来更好理解blinker对开发板的控制。</p>
+
+<p>我们用官网的例程时要注意将例程中的这部分进行修改：</p>
+
+<p><img loading="lazy" decoding="async" src="/assets/blog_res/2024-1-26-ESP01_duoji/image-5.png" alt="image-5" /></p>
+
+<ol>
+  <li>https://blog.csdn.net/weixin_49861340/article/details/123792561</li>
+</ol>
+
+<p>烧录时的按键手法《最重要的要点》！！！！！！！！
+esp8266开发板上有两个按钮，FLASH和RST
+按下FLASH（或叫BOOT)不丢，然后按一下复位键（RST）松开复位键（RST），开发板上的灯会闪一下，此时FLASH(或叫BOOT)不要松，然后点上传，上传完毕后松开。</p>
+
+<p>现在就可以把开发板插入电脑了，右键我的电脑-&gt;管理-&gt;端口，我的esp8266开发板的串口号为COM5，记住你的开发板的串口号</p>
+
+<p>打开Arduino，点击工具-&gt;开发板-&gt;(选择如同，esp8266)</p>
+
+<p><img loading="lazy" decoding="async" src="/assets/blog_res/2024-1-26-ESP01_duoji/image-6.png" alt="image-6" /></p>
+
+<p>点击工具-&gt;端口-&gt;选择你的端口（可用点击获取开发板信息，如果出来一个小窗口并带有信息，说明连接正常）</p>
+
+<p>点击文件-&gt;示例-&gt;ESP8266-&gt;Blink</p>
+
+<p><img loading="lazy" decoding="async" src="/assets/blog_res/2024-1-26-ESP01_duoji/image-7.png" alt="image-7" /></p>
+
+<p>会弹出一个新的窗口，里面是实例代码，将其全选复制下来粘贴到一个新建的里面并保存，可以把里面的数值改小一点100和200，效果更明显</p>
+
+<p>左上角的√，验证代码是否正确</p>
+
+<p>开始烧录，用刚才的烧录手法进行上传！！！</p>
+
+<p>拔下esp8266开发板，再重新插上，这时开发板上的灯会不停闪烁，证明烧录成功（只要上电都会闪烁，因为代码已经被烧录到开发板中）（闪烁的频率就是刚才改的数值）</p>
+
+<p>dddouble
+2022.08.01
+1
+点赞
+上传的时候不需要在nodeMCU上按任何按键，也能成功，这是为什么？
+应该是上面的USB转串口有信号线自动连接到相应的管脚上了，所以不需要按。我用的板子也是不需要按。</p>
+
+<p>泡泡枪超人
+2022.12.11
+点赞
+Timed out waiting for packet header如何解决
+weixin_46396206
+Hello,World.
+回复
+@starry&amp;
+2023.07.20
+点赞
+首先：拔出usb
+然后按住：mcu上的flash按钮不松开
+然后插入usb。调处程序，点击上传，出现connecting时松开flash即可。</p>
+
+<ol>
+  <li>https://blog.csdn.net/zz531987464/article/details/83447583</li>
+  <li>https://blog.csdn.net/qq_44366571/article/details/107334239</li>
+</ol>
+
+<h3 id="收集舵机的资料收集舵机的使用资料撰写使用方法20min">收集舵机的资料、收集舵机的使用资料、撰写使用方法（20min）</h3>
+
+<p>代码
+<img loading="lazy" decoding="async" src="/assets/blog_res/2024-1-26-ESP01_duoji/image-8.png" alt="image-8" /></p>
+
+<p>https://www.basemu.com/servo-motor-sg90-with-nodemcu.html</p>
+
+<p>介绍资料
+<img loading="lazy" decoding="async" src="/assets/blog_res/2024-1-26-ESP01_duoji/image-10.png" alt="image-10" /></p>
+
+<p>伺服电机在工业领域已经出现很长时间了。由于它们的体积小，力量大，而且非常节能，所以人们在许多时候都会用到它。正因为具备这样的优点，普通的伺服电机常被用来制作遥控飞机或遥控汽车、机器人等。高精密的伺服电机也用于工业领域，如：机器人、自动化生产线、医药和食品生产等。但是伺服电机是如何工作的呢？</p>
+
+<p>伺服电机内部包含了伺服电路，还有一根可定位的输出轴，输出轴安装有齿轮机构（如下图所示），电机由一个电子信号进行控制，这个信号也决定了轴的运动量。</p>
+
+<p>伺服电机里面有什么？</p>
+
+<p><img loading="lazy" decoding="async" src="/assets/blog_res/2024-1-26-ESP01_duoji/image-11.png" alt="image-11" /></p>
+
+<p>要完全理解伺服器的工作原理，需要打开伺服电机的外壳，就可以看到里面有一些装置：一个小型的直流电机，电位器和一个控制电路。小电机和输出轴之间由减速齿轮组连接，输出轴与电位器的转轴连接，<em>当小电机旋转时，减速齿轮组带动输出轴和电位器运动，电位器的电阻也会随着发生变化。</em>当伺服电机输出轴转动到预定位置时，电机停止供电，反之，电机就会向既定方向继续转动，这样控制电路就可以精确地调节运动量和运动方向了。</p>
+
+<p>控制脉冲信号是通过信号线发送的。电机的速度与实际位置和理想位置的差成正比，所以伺服电机越接近理想位置，它的转动速度会越慢，反之它的转动速度越快，这就是伺服电机的比例控制，这也意味着伺服电机是非常高效的。</p>
+
+<p>伺服电机的控制是如何实现的？</p>
+
+<p>伺服系统通过控制线发送可变宽度的脉冲信号，脉冲宽度调制（PWM）信号。PWM信号包含一个最小脉冲，一个最大脉冲和一个重复频率。通常，伺服电机只能在两个不同的方向上旋转90° ，总共180° 。伺服电机的中立位置被定义90° ，在中立位置上伺服电机向顺时针或逆时针方向旋转的距离相同。PWM信号和脉冲的持续时间决定了转轴的位置，伺服电机脉冲间隔是20ms（毫秒）。例如，宽度为1.5ms（毫秒）的脉冲将使电机转向90位，脉冲宽度小于1.5 ms时电机将朝顺时针方向转动到0°位置，当脉冲宽度大于1.5ms时，电机将向逆时针方向旋转到180度。</p>
+
+<p><img loading="lazy" decoding="async" src="/assets/blog_res/2024-1-26-ESP01_duoji/image-12.png" alt="image-12" /></p>
+
+<p>伺服器接收到脉冲信号后，它将会移动指定的位置并保持在这个位置上，如果我们认为对它施加一定的外力，伺服机构产生抵抗力，并始终保持在既定位置上。伺服机构所能产生的最大力量称为伺服电机的转矩。伺服电机只有在接收到连续的重复脉冲时才能一直保持既定位置。</p>
+
+<p>伺服电机的种类</p>
+
+<p><img loading="lazy" decoding="async" src="/assets/blog_res/2024-1-26-ESP01_duoji/image-13.png" alt="image-13" /></p>
+
+<p>伺服电机分为两种：AC 和 DC。交流伺服电机的工作电流更高，它更倾向于在工业制造领域使用。直流伺服电机不是为高电流而设计的，通常更适合一些小型化的应用。通常，直流伺服电机比交流伺服电机便宜。精度较好的伺服电机在输出轴上安装有两个滚珠轴承，这样可以减少摩擦力，位置控制也相对精准。</p>
+
+<p>伺服电机的应用</p>
+
+<p>伺服电机常见的应用，如在遥控飞机上使用伺服电机来控制机翼摆动，机器人运用伺服电机作为关节，遥控汽车运用伺服电机实现转向等等。在食品生产、药品生产等领域，伺服电机也被设计用于高压和高温、高腐蚀性的严苛环境中，在工业运用时，对伺服电机的质量和精度要求也更高。无论是业余爱好，还是专业工程师，只有我们越了解伺服电机，才会有更多的设想，伺服电机也会带给我们更多的可能。</p>
+
+<h2 id="实验步骤">实验步骤</h2>
+
+<p>学会烧录、电亮一个led灯（用时1h）</p>
+
+<p>1.选择开发板</p>
+
+<p>有说NodeMCU 1.0（ESP-12E Module），有说LOLIN(WEMOS) D1 R2 &amp; mini，也有Generic ESP8266 Module，先试试第一个</p>
+
+<p>2.点击文件-&gt;示例-&gt;ESP8266-&gt;Blink</p>
+
+<p>结果，三个开发板可以用的示例文件都可以用，用时候不需要太多的计划，或许边查找资料，边记录，边实操会更省时间。</p>
+
+<p>结论：不需要太多的计划，大多数问题凭借直觉就足以解决，只需要查阅资料的时候，做好记录以及分类，方便再次使用</p>
+
+<p>烧录舵机代码（25min）</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;Servo.h&gt;</span><span class="cp">
+</span>
+<span class="n">Servo</span> <span class="n">myServo</span><span class="p">;</span>  <span class="c1">// 定义Servo对象来控制</span>
+<span class="kt">int</span> <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>    <span class="c1">// 角度存储变量</span>
+
+<span class="kt">void</span> <span class="nf">setup</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">myServo</span><span class="p">.</span><span class="n">attach</span><span class="p">(</span><span class="mi">14</span><span class="p">);</span> <span class="c1">//D5   </span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">loop</span><span class="p">()</span> <span class="p">{</span> 
+ <span class="k">for</span> <span class="p">(</span><span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">pos</span> <span class="o">&lt;=</span> <span class="mi">180</span><span class="p">;</span> <span class="n">pos</span> <span class="o">++</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 0°到180°</span>
+    <span class="c1">// in steps of 1 degree</span>
+    <span class="n">myServo</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">pos</span><span class="p">);</span>              <span class="c1">// 舵机角度写入</span>
+    <span class="n">delay</span><span class="p">(</span><span class="mi">15</span><span class="p">);</span>                       <span class="c1">// 等待转动到指定角度</span>
+  <span class="p">}</span> 
+  <span class="n">delay</span><span class="p">(</span><span class="mi">2000</span><span class="p">);</span><span class="c1">//延时2s</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">pos</span> <span class="o">=</span> <span class="mi">180</span><span class="p">;</span> <span class="n">pos</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">pos</span> <span class="o">--</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 从180°到0°</span>
+    <span class="n">myServo</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">pos</span><span class="p">);</span>              <span class="c1">// 舵机角度写入</span>
+    <span class="n">delay</span><span class="p">(</span><span class="mi">15</span><span class="p">);</span>                       <span class="c1">// 等待转动到指定角度</span>
+  <span class="p">}</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">2000</span><span class="p">);</span><span class="c1">//延时2s </span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>成功，但usb线插在电脑上运行舵机时，会出现串口断开脸上断开连上的情况，再次烧录时，直接蓝屏</p>
+
+<p>实物接线图：
+<img loading="lazy" decoding="async" src="/assets/blog_res/2024-1-26-ESP01_duoji/9eaa58799eb9829323d35366178eda2.jpg" alt="9eaa58799eb9829323d35366178eda2" /></p>
+
+<p><img loading="lazy" decoding="async" src="/assets/blog_res/2024-1-26-ESP01_duoji/1c34d72e60d6e8aa090d2d25b54b9f9.jpg" alt="1c34d72e60d6e8aa090d2d25b54b9f9" /></p>
+
+<p><img loading="lazy" decoding="async" src="/assets/blog_res/2024-1-26-ESP01_duoji/image-14.png" alt="image-14" />
+烧录wifi远程控制舵机代码（10min）</p>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;ESP8266WiFi.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;Servo.h&gt;</span><span class="cp">
+</span>
+<span class="k">const</span> <span class="kt">char</span> <span class="n">ssid</span><span class="p">[]</span> <span class="o">=</span> <span class="s">""</span><span class="p">;</span>      <span class="c1">// WiFi名</span>
+<span class="k">const</span> <span class="kt">char</span> <span class="n">pass</span><span class="p">[]</span> <span class="o">=</span> <span class="s">""</span><span class="p">;</span>    <span class="c1">// WiFi密码</span>
+<span class="n">WiFiClient</span> <span class="n">client</span><span class="p">;</span>                   <span class="c1">// 创建一个WiFiClient对象</span>
+<span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">server</span> <span class="o">=</span> <span class="s">"192.168.1.6"</span><span class="p">;</span>   <span class="c1">// 服务器的IP地址</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">port</span> <span class="o">=</span> <span class="mi">8888</span><span class="p">;</span>                <span class="c1">// 服务器的端口号</span>
+<span class="n">Servo</span> <span class="n">myServo</span><span class="p">;</span>                        <span class="c1">// 定义Servo对象来控制</span>
+<span class="kt">int</span> <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>                          <span class="c1">// 角度存储变量</span>
+
+<span class="c1">// 初始化</span>
+<span class="kt">void</span> <span class="nf">setup</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"esp8266 test"</span><span class="p">);</span>
+  <span class="n">initWiFi</span><span class="p">();</span>
+  <span class="n">myServo</span><span class="p">.</span><span class="n">attach</span><span class="p">(</span><span class="mi">14</span><span class="p">);</span> <span class="c1">// D5 </span>
+<span class="p">}</span>
+
+<span class="c1">// 主循环</span>
+<span class="kt">void</span> <span class="nf">loop</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"hello esp8266"</span><span class="p">);</span>
+  <span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+  <span class="c1">// 如果WiFi连接正常，尝试连接服务器</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">WiFi</span><span class="p">.</span><span class="n">status</span><span class="p">()</span> <span class="o">==</span> <span class="n">WL_CONNECTED</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"Connecting to "</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">server</span><span class="p">);</span>
+    <span class="c1">// 如果连接成功，发送HTTP请求</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="n">server</span><span class="p">,</span> <span class="n">port</span><span class="p">))</span> <span class="p">{</span>
+      <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Connected to server"</span><span class="p">);</span>
+      <span class="c1">// 发送GET请求，请求服务器发送LED的状态</span>
+      <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"GET_STATE_DUOJI&amp;duoji_ready"</span><span class="p">);</span>
+      <span class="c1">// 等待服务器的响应</span>
+      <span class="k">while</span> <span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">connected</span><span class="p">()</span> <span class="o">||</span> <span class="n">client</span><span class="p">.</span><span class="n">available</span><span class="p">())</span> <span class="p">{</span>
+        <span class="c1">// 如果有数据可读，读取并处理</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">available</span><span class="p">())</span> <span class="p">{</span>
+          <span class="n">String</span> <span class="n">line</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">readStringUntil</span><span class="p">(</span><span class="sc">'\n'</span><span class="p">);</span>
+          <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">line</span><span class="p">);</span>
+          <span class="c1">// 如果读到了LED的状态，根据状态控制LED灯，并向服务器发送反馈</span>
+          <span class="k">if</span> <span class="p">(</span><span class="n">line</span><span class="p">.</span><span class="n">startsWith</span><span class="p">(</span><span class="s">"DUOJI:"</span><span class="p">))</span> <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">duojiState</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="n">substring</span><span class="p">(</span><span class="mi">4</span><span class="p">).</span><span class="n">toInt</span><span class="p">();</span>
+            <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"DUOJI state: "</span><span class="p">);</span>
+            <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">duojiState</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">duojiState</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+              <span class="c1">// To 0°</span>
+              <span class="n">myServo</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+              <span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">duojiState</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+              <span class="c1">// To 90°</span>
+              <span class="n">myServo</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mi">90</span><span class="p">);</span>
+              <span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">duojiState</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+              <span class="c1">// To 180°</span>
+              <span class="n">myServo</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="mi">180</span><span class="p">);</span>
+              <span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+            <span class="p">}</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+      <span class="c1">// 断开连接</span>
+      <span class="n">client</span><span class="p">.</span><span class="n">stop</span><span class="p">();</span>
+      <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Disconnected from server"</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+      <span class="c1">// 如果连接失败，打印错误信息</span>
+      <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Connection failed"</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="c1">// 如果WiFi连接断开，打印错误信息</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"WiFi disconnected"</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 初始化WIFI</span>
+<span class="kt">void</span> <span class="nf">initWiFi</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"Connecting WiFi..."</span><span class="p">);</span>
+  <span class="n">WiFi</span><span class="p">.</span><span class="n">mode</span><span class="p">(</span><span class="n">WIFI_STA</span><span class="p">);</span> <span class="c1">// 配置WIFI为Station模式</span>
+  <span class="c1">// 设置静态IP地址，网关，子网掩码，DNS</span>
+  <span class="n">IPAddress</span> <span class="n">local_IP</span><span class="p">(</span><span class="mi">192</span><span class="p">,</span> <span class="mi">168</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">);</span>
+  <span class="n">IPAddress</span> <span class="n">gateway</span><span class="p">(</span><span class="mi">192</span><span class="p">,</span> <span class="mi">168</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+  <span class="n">IPAddress</span> <span class="n">subnet</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="n">IPAddress</span> <span class="n">primaryDNS</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">);</span>
+  <span class="n">IPAddress</span> <span class="n">secondaryDNS</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">WiFi</span><span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="n">local_IP</span><span class="p">,</span> <span class="n">gateway</span><span class="p">,</span> <span class="n">subnet</span><span class="p">,</span> <span class="n">primaryDNS</span><span class="p">,</span> <span class="n">secondaryDNS</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"STA Failed to configure"</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">WiFi</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">ssid</span><span class="p">,</span> <span class="n">pass</span><span class="p">);</span> <span class="c1">// 传入WIFI热点的ssid和密码</span>
+  <span class="k">while</span> <span class="p">(</span><span class="n">WiFi</span><span class="p">.</span><span class="n">status</span><span class="p">()</span> <span class="o">!=</span> <span class="n">WL_CONNECTED</span><span class="p">)</span> <span class="c1">// 等待连接成功</span>
+  <span class="p">{</span>
+    <span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"."</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">""</span><span class="p">);</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"WiFi connected"</span><span class="p">);</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"IP address: "</span><span class="p">);</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">WiFi</span><span class="p">.</span><span class="n">localIP</span><span class="p">());</span> <span class="c1">// 打印自己的IP地址</span>
+<span class="p">}</span>
+
+
+</code></pre></div></div>
+
+<h2 id="总结">总结</h2>
+
+<p>这次实验共花费时间不到2h，在可接受范围内。开始的第一个小时，我一直在查阅资料，查阅esp8266的烧录方法，心理想着尽可能的减少失误的概率，认为失误出错等于浪费时间，所以要尽可能的减小失误出错的概率，因而多方对比，大约用了45min的时间发现了2个方法，其中我主要查询的是arduino方法，因为这个是我最近在用的，其中有3中方法，，但选择的板子都不同，而且还有一个方法里说要注意按键手法，而评论区里面有人说要，有一些却不用，本打算继续查阅下去，找出最保险的方法，但已超出预期时间近25min。（计划还是有用的，避免了更大的错误），这里说明这类的小问题不需要这般大惊小怪的，试错成本极低，按照直觉来就可以了，有什么试什么就可以了。只有像树莓派那样下载安装个环境需要几十分钟甚至是几个小时的时候，试错成本极大，就需要多方对比。</p>
+
+<p>总之，计划是有必要的，做、写、反思结合在一起进行，计划和记录有时也不需要太详细、太循规蹈矩，小问题，快速解决就可以了，未来再次遇到可能也可以快速解决，甚至是会懒得翻着个，有价值的东西才需要记录和计划。</p>
+
+</div>
+  
+  <footer class="article-tags">
+    <a href="/tags/"># ESP01</a>
+  </footer>
+  
+  <nav class="article-return" aria-label="文章后导航">
+    <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/">← 返回“嵌入式”文件夹</a>
+    <a href="/vault/">资料库根目录 ↑</a>
+  </nav>
+</article>
+</section>
+</div>
+</main>
+    <footer class="site-footer">
+  <div class="site-footer__inner">
+    <div>
+      <p class="site-footer__name">何嘉华的生活花园</p>
+      <p>愿每一次记录，都让未来的自己多一条回来的路。</p>
+    </div>
+    <div class="site-footer__links">
+      <a href="https://github.com/hejiahua007" rel="me">GitHub</a>
+      <a href="mailto:19902358463@163.com">Email</a>
+      <a href="#top">回到顶部 ↑</a>
+    </div>
+  </div>
+  <p class="site-footer__copyright">© 2026 何嘉华 · 用 Jekyll 与长期记录慢慢生长</p>
+</footer>
+
+
+    <script src="/assets/js/site.js" defer></script>
+  </body>
+</html>
+

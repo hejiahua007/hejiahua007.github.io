@@ -1,0 +1,3414 @@
+<!doctype html>
+<html lang="zh-CN" id="top">
+  <head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f7f2e8">
+
+
+
+<title>树莓派——语音合成 · 何嘉华的生活花园</title>
+<meta name="description" content="代码：https://github.com/Eerrly/VITSAIChatVtube">
+<meta name="author" content="何嘉华">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://hejiahua007.github.io/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-11-05-raspberry_speaking/">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:site_name" content="何嘉华的生活花园">
+<meta property="og:title" content="树莓派——语音合成 · 何嘉华的生活花园">
+<meta property="og:description" content="代码：https://github.com/Eerrly/VITSAIChatVtube">
+<meta property="og:url" content="https://hejiahua007.github.io/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-11-05-raspberry_speaking/">
+<meta property="og:image" content="https://hejiahua007.github.io/assets/config/og-life-garden.jpg">
+
+<meta property="article:published_time" content="2023-11-05T14:00:00+08:00">
+<meta property="article:modified_time" content="2026-08-08T17:20:03+08:00">
+<meta property="article:tag" content="树莓派">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="树莓派——语音合成 · 何嘉华的生活花园">
+<meta name="twitter:description" content="代码：https://github.com/Eerrly/VITSAIChatVtube">
+<meta name="twitter:image" content="https://hejiahua007.github.io/assets/config/og-life-garden.jpg">
+<link rel="alternate" type="application/atom+xml" title="何嘉华的生活花园" href="https://hejiahua007.github.io/feed.xml">
+<link rel="icon" href="/assets/config/avatar.jpg" type="image/jpeg">
+<link rel="stylesheet" href="/assets/css/style.css">
+<script type="application/ld+json">
+
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "树莓派——语音合成",
+  "description": "代码：https://github.com/Eerrly/VITSAIChatVtube",
+  "datePublished": "2023-11-05T14:00:00+08:00",
+  "dateModified": "2026-08-08T17:20:03+08:00",
+  "mainEntityOfPage": "https://hejiahua007.github.io/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-11-05-raspberry_speaking/",
+  "author": { "@type": "Person", "name": "何嘉华", "url": "https://hejiahua007.github.io/about/" },
+  "publisher": { "@type": "Person", "name": "何嘉华" },
+  "image": "https://hejiahua007.github.io/assets/config/og-life-garden.jpg"
+}
+
+</script>
+<script>
+  (function () {
+    var stored = null;
+    try { stored = localStorage.getItem('garden-theme'); } catch (_error) { stored = null; }
+    var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.dataset.theme = theme;
+  }());
+</script>
+</head>
+  <body class="page-vault_post">
+    <a class="skip-link" href="#main-content">跳到正文</a>
+    <header class="site-header" data-site-header>
+  <div class="site-header__inner">
+    <a class="site-brand" href="/" aria-label="回到首页">
+      <span class="site-brand__mark" aria-hidden="true">嘉</span>
+      <span><strong>何嘉华</strong><small>生活花园</small></span>
+    </a>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" data-nav-toggle>
+      <span></span><span></span><span></span><span class="sr-only">打开导航</span>
+    </button>
+
+    <nav class="primary-nav" id="primary-nav" aria-label="主导航" data-primary-nav>
+      <a href="/" >首页</a>
+      <a href="/vault/" aria-current="page">目录</a>
+      <a href="/about/" >关于</a>
+      <a href="/tags/" >标签</a>
+      <a href="/archives/" >归档</a>
+    </nav>
+
+    <button class="theme-toggle" type="button" aria-label="切换到深色模式" title="切换明暗模式" aria-pressed="false" data-theme-toggle>
+      <span class="theme-toggle__sun" aria-hidden="true">☀</span>
+      <span class="theme-toggle__moon" aria-hidden="true">☾</span>
+    </button>
+  </div>
+</header>
+
+    <main id="main-content" tabindex="-1"><div class="directory-page">
+  <button class="directory-open" type="button" data-directory-open aria-controls="vault-sidebar" aria-expanded="false">
+    <span aria-hidden="true">☰</span> 打开目录
+  </button>
+  <div class="directory-overlay" data-directory-overlay></div>
+  <aside class="vault-sidebar" id="vault-sidebar" aria-label="Vault 文件目录" data-vault-sidebar>
+    <div class="vault-sidebar__header">
+      <div><p>OBSIDIAN VIEW</p><h2>我的目录</h2></div>
+      <button type="button" data-directory-close aria-label="关闭目录">×</button>
+    </div>
+    <p class="vault-sidebar__hint">这里只呈现明确选择公开的文件。</p>
+    <div class="vault-filter">
+      <label class="sr-only" for="vault-filter-input">筛选公开目录</label>
+      <span aria-hidden="true">⌕</span>
+      <input id="vault-filter-input" type="search" inputmode="search" autocomplete="off" placeholder="筛选文件夹或文章" data-vault-filter>
+      <button type="button" aria-label="清空目录筛选" title="清空" data-vault-filter-clear hidden>×</button>
+    </div>
+    <p class="vault-filter__status" aria-live="polite" data-vault-filter-status></p>
+    <nav class="vault-tree" aria-label="公开资料库文件树">
+      <ul class="vault-tree__list vault-tree__list--root" role="tree">
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A1-回忆归档" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/" data-folder-link>
+            <small>A1</small>回忆归档
+          </a>
+          <span class="vault-tree__count">14</span>
+        </summary>
+        
+          
+          <ul class="vault-tree__list" role="tree">
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A1-回忆归档/B1-24年回忆" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B1-24%E5%B9%B4%E5%9B%9E%E5%BF%86/" data-folder-link>
+            <small>B1</small>24年回忆
+          </a>
+          <span class="vault-tree__count">4</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B1-24%E5%B9%B4%E5%9B%9E%E5%BF%86/2024-06-18-survival-challenge-10/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>生存挑战第十期————自省</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B1-24%E5%B9%B4%E5%9B%9E%E5%BF%86/2024-04-18-survival-challenge-8/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>生存挑战第八期————记录感受生活</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B1-24%E5%B9%B4%E5%9B%9E%E5%BF%86/2024-04-18-survival-challenge-9/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>生存挑战第九期————平衡</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B1-24%E5%B9%B4%E5%9B%9E%E5%BF%86/2024-03-21-novel_2/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>小说02————剧本创作1</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A1-回忆归档/B2-22年回忆" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B2-22%E5%B9%B4%E5%9B%9E%E5%BF%86/" data-folder-link>
+            <small>B2</small>22年回忆
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B2-22%E5%B9%B4%E5%9B%9E%E5%BF%86/2022-05-21-hello-world/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>你好，世界！</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A1-回忆归档/B3-23年回忆" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B3-23%E5%B9%B4%E5%9B%9E%E5%BF%86/" data-folder-link>
+            <small>B3</small>23年回忆
+          </a>
+          <span class="vault-tree__count">9</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B3-23%E5%B9%B4%E5%9B%9E%E5%BF%86/2023-12-17-novel_1/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>小说01————思考与规划</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B3-23%E5%B9%B4%E5%9B%9E%E5%BF%86/2023-10-28-diary7/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>diary7</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B3-23%E5%B9%B4%E5%9B%9E%E5%BF%86/2023-10-25-music_maker/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>音乐编曲——FL Studio</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B3-23%E5%B9%B4%E5%9B%9E%E5%BF%86/2023-10-25-diary6/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>diary6</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B3-23%E5%B9%B4%E5%9B%9E%E5%BF%86/2023-10-24-diary5/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>diary5</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B3-23%E5%B9%B4%E5%9B%9E%E5%BF%86/2023-10-16-diary4/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>diary4</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B3-23%E5%B9%B4%E5%9B%9E%E5%BF%86/2023-10-16-diary3/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>diary3</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B3-23%E5%B9%B4%E5%9B%9E%E5%BF%86/2023-10-14-diary2/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>diary2</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A1-%E5%9B%9E%E5%BF%86%E5%BD%92%E6%A1%A3/B3-23%E5%B9%B4%E5%9B%9E%E5%BF%86/2023-10-13-diary1/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>diary</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+</ul>
+
+        
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A2-规划" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A2-%E8%A7%84%E5%88%92/" data-folder-link>
+            <small>A2</small>规划
+          </a>
+          <span class="vault-tree__count">19</span>
+        </summary>
+        
+          
+          <ul class="vault-tree__list" role="tree">
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A2-规划/B1-人生曼陀罗图" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A2-%E8%A7%84%E5%88%92/B1-%E4%BA%BA%E7%94%9F%E6%9B%BC%E9%99%80%E7%BD%97%E5%9B%BE/" data-folder-link>
+            <small>B1</small>人生曼陀罗图
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B1-%E4%BA%BA%E7%94%9F%E6%9B%BC%E9%99%80%E7%BD%97%E5%9B%BE/D1-%E4%BA%BA%E7%94%9F%E7%9A%84%E6%9B%BC%E9%99%80%E7%BD%97%E5%9B%BE/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>人生的曼陀罗图</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A2-规划/B2-2026年计划" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/" data-folder-link>
+            <small>B2</small>2026年计划
+          </a>
+          <span class="vault-tree__count">17</span>
+        </summary>
+        
+          
+          <ul class="vault-tree__list" role="tree">
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A2-规划/B2-2026年计划/C9-8月计划" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/" data-folder-link>
+            <small>C9</small>8月计划
+          </a>
+          <span class="vault-tree__count">17</span>
+        </summary>
+        
+          
+          <ul class="vault-tree__list" role="tree">
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A2-规划/B2-2026年计划/C9-8月计划/D2-日记录" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/" data-folder-link>
+            <small>D2</small>日记录
+          </a>
+          <span class="vault-tree__count">16</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8828%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月28日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8827%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月27日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8826%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月26日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8825%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月25日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8824%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月24日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8823%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月23日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8822%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月22日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8821%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月21日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8820%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月20日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8819%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月19日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8818%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月18日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8817%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月17日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8816%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月16日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8815%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月15日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8809%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月09日记录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D2-%E6%97%A5%E8%AE%B0%E5%BD%95/2026%E5%B9%B408%E6%9C%8808%E6%97%A5%E8%AE%B0%E5%BD%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月078记录</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+</ul>
+
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B2-2026%E5%B9%B4%E8%AE%A1%E5%88%92/C9-8%E6%9C%88%E8%AE%A1%E5%88%92/D1-08%E6%9C%88%E8%AE%A1%E5%88%92/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>2026年08月计划</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+</ul>
+
+        
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A2-规划/B3-职业规划" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A2-%E8%A7%84%E5%88%92/B3-%E8%81%8C%E4%B8%9A%E8%A7%84%E5%88%92/" data-folder-link>
+            <small>B3</small>职业规划
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A2-%E8%A7%84%E5%88%92/B3-%E8%81%8C%E4%B8%9A%E8%A7%84%E5%88%92/D1-%E8%81%8C%E4%B8%9A%E8%A7%84%E5%88%92%E5%88%86%E6%9E%90/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>职业规划分析</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+</ul>
+
+        
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A3-项目" open>
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/" data-folder-link>
+            <small>A3</small>项目
+          </a>
+          <span class="vault-tree__count">57</span>
+        </summary>
+        
+          
+          <ul class="vault-tree__list" role="tree">
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A3-项目/B1-毕设" open>
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/" data-folder-link>
+            <small>B1</small>毕设
+          </a>
+          <span class="vault-tree__count">25</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/%E9%A1%B9%E7%9B%AE%E7%AE%80%E4%BB%8B/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>毕业设计：树莓派智能睡眠助手</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2024-05-23-raspberry_zhiling/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——家居控制指令</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2024-04-08-raspberry_zhuangtaijiance4/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——YOLOv5-Lite 4</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2024-04-08-raspberry_zhuangtaijiance3/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——YOLOv5-Lite 2</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2024-03-21-bisheceshi1/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>毕设测试1</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2024-02-07-raspberry_zhuangtaijiance/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——目标检测</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2024-02-07-raspberry_zhuangtaijiance1/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——YOLOv5-Lite1 数据集制作（手机）</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-12-25-Android_fenxi/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>安卓————前言</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2024-04-26-Android_youhua1/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>安卓————优化</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-11-28-raspberry_weather_forecast/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——天气预报</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-11-28-raspberry_time/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——解决时间问题，编译慢（搁置）</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-11-28-raspberry_musicplay/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——音乐播放</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-11-28-raspberry-clock/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——闹钟（定时器）</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-11-28-raspberry-geyan/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——每日一言</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-11-28-raspberry-beiwanglu/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——备忘录</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-11-28-raspberry-tcp_server/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——tcp_server</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-11-28-raspberry-sqlite3/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——sqlite3</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-11-27-raspberry_finial/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——语音合成最终版</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-11-05-raspberry_speaking/" aria-current="page">
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——语音合成</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-10-29-raspberry_chat/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——智谱chat</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-10-26-translate/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>有道云翻译</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-10-14-chat/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>chat聊天机器人的搭建</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-10-13-yuyinhecheng/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>语音合成</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-10-24-chat/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>chat(智谱)</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/2023-10-13-yuyin/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>语音唤醒、语音识别</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A3-项目/B2-人生管理体系" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B2-%E4%BA%BA%E7%94%9F%E7%AE%A1%E7%90%86%E4%BD%93%E7%B3%BB/" data-folder-link>
+            <small>B2</small>人生管理体系
+          </a>
+          <span class="vault-tree__count">7</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B2-%E4%BA%BA%E7%94%9F%E7%AE%A1%E7%90%86%E4%BD%93%E7%B3%BB/%E9%80%89%E6%8B%A9%E6%80%A7%E5%85%AC%E5%BC%80-%E6%8A%8A%E9%9A%90%E7%A7%81%E8%BE%B9%E7%95%8C%E5%86%99%E8%BF%9B%E5%8F%91%E5%B8%83%E6%B5%81%E7%A8%8B/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>选择性公开：把隐私边界写进发布流程</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B2-%E4%BA%BA%E7%94%9F%E7%AE%A1%E7%90%86%E4%BD%93%E7%B3%BB/Life-Vault-%E9%A1%B9%E7%9B%AE%E7%AE%80%E4%BB%8B/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>Life Vault：极简人生记录活跃仓</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B2-%E4%BA%BA%E7%94%9F%E7%AE%A1%E7%90%86%E4%BD%93%E7%B3%BB/%E4%B8%AA%E4%BA%BA%E4%BD%9C%E5%93%81%E9%9B%86%E7%BD%91%E7%AB%99-%E9%A1%B9%E7%9B%AE%E7%AE%80%E4%BB%8B/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>个人作品集与长期知识库网站</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B2-%E4%BA%BA%E7%94%9F%E7%AE%A1%E7%90%86%E4%BD%93%E7%B3%BB/README-%E9%A1%B9%E7%9B%AE%E6%80%BB%E8%A7%88/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>人生管理体系 - 项目总览</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B2-%E4%BA%BA%E7%94%9F%E7%AE%A1%E7%90%86%E4%BD%93%E7%B3%BB/2026-07-26-life-management-system-prd-v1/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>人生管理系统 PRD v1</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B2-%E4%BA%BA%E7%94%9F%E7%AE%A1%E7%90%86%E4%BD%93%E7%B3%BB/2026-07-25-life-management-system-discovery/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>人生管理系统：需求澄清与初步方案</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B2-%E4%BA%BA%E7%94%9F%E7%AE%A1%E7%90%86%E4%BD%93%E7%B3%BB/2026-07-11-portfolio-optimization-log/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>个人网站优化日志：从学生博客到职业作品集</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A3-项目/B3-估值雷达" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B3-%E4%BC%B0%E5%80%BC%E9%9B%B7%E8%BE%BE/" data-folder-link>
+            <small>B3</small>估值雷达
+          </a>
+          <span class="vault-tree__count">6</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B3-%E4%BC%B0%E5%80%BC%E9%9B%B7%E8%BE%BE/%E9%A1%B9%E7%9B%AE%E7%AE%80%E4%BB%8B/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>基金策略客户端</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B3-%E4%BC%B0%E5%80%BC%E9%9B%B7%E8%BE%BE/%E9%A1%B9%E7%9B%AE%E6%9E%B6%E6%9E%84%E4%B8%8E%E5%BC%80%E5%8F%91%E9%9A%BE%E5%BA%A6%E8%AF%B4%E6%98%8E/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>项目架构与开发约束</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B3-%E4%BC%B0%E5%80%BC%E9%9B%B7%E8%BE%BE/%E9%A1%B9%E7%9B%AE%E4%B8%8A%E4%B8%8B%E6%96%87/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>基金策略客户端：项目上下文</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B3-%E4%BC%B0%E5%80%BC%E9%9B%B7%E8%BE%BE/%E6%96%87%E6%A1%A3%E7%B4%A2%E5%BC%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>文档索引</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B3-%E4%BC%B0%E5%80%BC%E9%9B%B7%E8%BE%BE/%E5%9F%BA%E9%87%91%E4%BC%B0%E5%80%BC%E7%9F%A5%E8%AF%86%E5%BA%93/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>指数、基金与定投研究知识库</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B3-%E4%BC%B0%E5%80%BC%E9%9B%B7%E8%BE%BE/%E6%8C%87%E6%95%B0%E5%8A%A8%E4%BD%9C%E5%80%8D%E7%8E%87%E4%B8%8E%E6%8E%92%E9%99%A4%E8%A7%84%E5%88%99/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>指数动作、倍率与四级关注度规则</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A3-项目/B4-信息雷达" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B4-%E4%BF%A1%E6%81%AF%E9%9B%B7%E8%BE%BE/" data-folder-link>
+            <small>B4</small>信息雷达
+          </a>
+          <span class="vault-tree__count">2</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B4-%E4%BF%A1%E6%81%AF%E9%9B%B7%E8%BE%BE/%E8%AE%A9AI%E7%A0%94%E7%A9%B6%E5%85%88%E4%BA%A4%E8%AF%81%E6%8D%AE-%E4%BB%8E%E7%AD%94%E6%A1%88%E5%88%B0%E8%AF%81%E6%8D%AE%E9%93%BE/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>让 AI 研究先交证据：从答案到证据链</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B4-%E4%BF%A1%E6%81%AF%E9%9B%B7%E8%BE%BE/%E9%A1%B9%E7%9B%AE%E7%AE%80%E4%BB%8B/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>Signal Radar：证据约束的信息求索平台</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A3-项目/B5-AI项目经理" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B5-AI%E9%A1%B9%E7%9B%AE%E7%BB%8F%E7%90%86/" data-folder-link>
+            <small>B5</small>AI项目经理
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B5-AI%E9%A1%B9%E7%9B%AE%E7%BB%8F%E7%90%86/%E9%A1%B9%E7%9B%AE%E7%AE%80%E4%BB%8B/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>企业微信 AI 项目经理</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A3-项目/B6-桌面宠物" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B6-%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9/" data-folder-link>
+            <small>B6</small>桌面宠物
+          </a>
+          <span class="vault-tree__count">13</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B6-%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9/D1-%E9%A1%B9%E7%9B%AE%E6%A6%82%E8%A7%88/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>灵伴桌面宠物：项目简介</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B6-%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9/D13-%E6%8F%90%E9%86%92%E4%BC%98%E5%8C%96%E4%B8%8E%E5%BD%A2%E8%B1%A1%E6%8D%A2%E8%A3%85-v2.3/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>灵伴桌面宠物 — 提醒优化与形象换装系统 v2.3</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B6-%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9/D12-%E7%AB%9E%E5%93%81%E5%8A%9F%E8%83%BD%E5%B7%AE%E8%B7%9D%E5%88%86%E6%9E%90-v2.2/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>灵伴桌面宠物 — 竞品功能差距分析 v2.2</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B6-%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9/D11-%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%8C%96%E8%AE%A1%E5%88%92-v2.1/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>灵伴桌面宠物 — 深度优化计划 v2.1</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B6-%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9/D10-%E5%BC%80%E5%8F%91%E4%BB%BB%E5%8A%A1%E6%B8%85%E5%8D%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>灵伴桌面宠物 — 开发任务清单 (v2.0 P0)</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B6-%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9/D9-%E6%8A%80%E6%9C%AF%E5%80%BA%E5%8A%A1%E6%B8%85%E7%90%86%E6%B8%85%E5%8D%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>灵伴桌面宠物 — 技术债务清理清单</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B6-%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9/D8-%E5%95%86%E4%B8%9A%E5%8C%96%E8%B7%AF%E7%BA%BF%E5%9B%BE/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>灵伴桌面宠物 — 商业化路线图</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B6-%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9/D7-UI-UX%E6%94%B9%E7%89%88%E6%96%B9%E6%A1%88/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>灵伴桌面宠物 — UI/UX 改版方案</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B6-%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9/D6-%E5%8A%9F%E8%83%BD%E4%BC%98%E5%85%88%E7%BA%A7%E7%9F%A9%E9%98%B5/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>灵伴桌面宠物 — 功能优先级矩阵</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B6-%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9/D5-PRD-v2/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>灵伴桌面宠物 (Ling Pet) — 产品需求文档 v2.0</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B6-%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9/D4-%E5%8A%9F%E8%83%BD%E6%A8%A1%E5%9D%97%E8%AF%B4%E6%98%8E/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>灵伴桌面宠物 — 功能模块说明</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B6-%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9/D3-%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84%E6%96%87%E6%A1%A3/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>灵伴桌面宠物 — 技术架构文档</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B6-%E6%A1%8C%E9%9D%A2%E5%AE%A0%E7%89%A9/D2-%E4%BA%A7%E5%93%81%E9%9C%80%E6%B1%82%E6%96%87%E6%A1%A3/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>灵伴桌面宠物 — 产品需求文档 (PRD)</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A3-项目/B9-焊缝检测" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B9-%E7%84%8A%E7%BC%9D%E6%A3%80%E6%B5%8B/" data-folder-link>
+            <small>B9</small>焊缝检测
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B9-%E7%84%8A%E7%BC%9D%E6%A3%80%E6%B5%8B/%E9%A1%B9%E7%9B%AE%E7%AE%80%E4%BB%8B/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>焊缝缺陷 YOLO 训练实验</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A3-项目/B10-YOLO训练" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B10-YOLO%E8%AE%AD%E7%BB%83/" data-folder-link>
+            <small>B10</small>YOLO训练
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B10-YOLO%E8%AE%AD%E7%BB%83/%E9%A1%B9%E7%9B%AE%E7%AE%80%E4%BB%8B/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>YOLO26 目标检测训练与推理工具集</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+</ul>
+
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/README-%E9%A1%B9%E7%9B%AE%E6%80%BB%E8%A7%88/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>本地项目总览</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/" data-folder-link>
+            <small>A4</small>知识库
+          </a>
+          <span class="vault-tree__count">56</span>
+        </summary>
+        
+          
+          <ul class="vault-tree__list" role="tree">
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B1-基金" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B1-%E5%9F%BA%E9%87%91/" data-folder-link>
+            <small>B1</small>基金
+          </a>
+          <span class="vault-tree__count">5</span>
+        </summary>
+        
+          
+          <ul class="vault-tree__list" role="tree">
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B1-基金/C1-基金学习" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B1-%E5%9F%BA%E9%87%91/C1-%E5%9F%BA%E9%87%91%E5%AD%A6%E4%B9%A0/" data-folder-link>
+            <small>C1</small>基金学习
+          </a>
+          <span class="vault-tree__count">3</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B1-%E5%9F%BA%E9%87%91/C1-%E5%9F%BA%E9%87%91%E5%AD%A6%E4%B9%A0/D3-%E9%A9%AC%E5%85%8B%E6%80%9D-%E6%8A%95%E8%B5%84%E6%9C%80%E9%87%8D%E8%A6%81%E7%9A%84%E4%BA%8B/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>马克思-投资最重要的事</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B1-%E5%9F%BA%E9%87%91/C1-%E5%9F%BA%E9%87%91%E5%AD%A6%E4%B9%A0/D1-%E7%BA%A6%E7%BF%B0%E4%BC%AF%E6%A0%BC-%E4%BD%8E%E4%BC%B0%E5%80%BC%E6%8C%87%E6%95%B0%E5%AE%9A%E6%8A%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>约翰伯格-低估值指数定投</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B1-%E5%9F%BA%E9%87%91/C1-%E5%9F%BA%E9%87%91%E5%AD%A6%E4%B9%A0/D2-%E6%A0%BC%E6%9E%97%E6%8B%89%E5%B8%83%E7%89%B9-%E8%82%A1%E5%B8%82%E7%A8%B3%E8%B5%9A/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>格林拉布特-股市稳赚</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B1-基金/C2-低估基金挑选" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B1-%E5%9F%BA%E9%87%91/C2-%E4%BD%8E%E4%BC%B0%E5%9F%BA%E9%87%91%E6%8C%91%E9%80%89/" data-folder-link>
+            <small>C2</small>低估基金挑选
+          </a>
+          <span class="vault-tree__count">2</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B1-%E5%9F%BA%E9%87%91/C2-%E4%BD%8E%E4%BC%B0%E5%9F%BA%E9%87%91%E6%8C%91%E9%80%89/D1-%E5%9F%BA%E9%87%91%E6%8B%86%E8%A7%A3/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>基金拆解</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B1-%E5%9F%BA%E9%87%91/C2-%E4%BD%8E%E4%BC%B0%E5%9F%BA%E9%87%91%E6%8C%91%E9%80%89/D2-%E4%BD%8E%E4%BC%B0%E5%9F%BA%E9%87%91%E6%8C%91%E9%80%89/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>低估基金挑选</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+</ul>
+
+        
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B2-阅读" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/" data-folder-link>
+            <small>B2</small>阅读
+          </a>
+          <span class="vault-tree__count">9</span>
+        </summary>
+        
+          
+          <ul class="vault-tree__list" role="tree">
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B2-阅读/C1-书籍-后真相时代" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C1-%E4%B9%A6%E7%B1%8D-%E5%90%8E%E7%9C%9F%E7%9B%B8%E6%97%B6%E4%BB%A3/" data-folder-link>
+            <small>C1</small>书籍-后真相时代
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C1-%E4%B9%A6%E7%B1%8D-%E5%90%8E%E7%9C%9F%E7%9B%B8%E6%97%B6%E4%BB%A3/D1-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>后真相时代 阅读笔记</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B2-阅读/C2-书籍-深度关系" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C2-%E4%B9%A6%E7%B1%8D-%E6%B7%B1%E5%BA%A6%E5%85%B3%E7%B3%BB/" data-folder-link>
+            <small>C2</small>书籍-深度关系
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C2-%E4%B9%A6%E7%B1%8D-%E6%B7%B1%E5%BA%A6%E5%85%B3%E7%B3%BB/D1-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>深度关系 阅读笔记</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B2-阅读/C3-书籍-以始为终的人生智慧" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C3-%E4%B9%A6%E7%B1%8D-%E4%BB%A5%E5%A7%8B%E4%B8%BA%E7%BB%88%E7%9A%84%E4%BA%BA%E7%94%9F%E6%99%BA%E6%85%A7/" data-folder-link>
+            <small>C3</small>书籍-以始为终的人生智慧
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C3-%E4%B9%A6%E7%B1%8D-%E4%BB%A5%E5%A7%8B%E4%B8%BA%E7%BB%88%E7%9A%84%E4%BA%BA%E7%94%9F%E6%99%BA%E6%85%A7/D1-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>以始为终的人生智慧 阅读笔记</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B2-阅读/C4-书籍-5%的改变" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C4-%E4%B9%A6%E7%B1%8D-5%25%E7%9A%84%E6%94%B9%E5%8F%98/" data-folder-link>
+            <small>C4</small>书籍-5%的改变
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C4-%E4%B9%A6%E7%B1%8D-5%25%E7%9A%84%E6%94%B9%E5%8F%98/D1-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>5%的改变 阅读笔记</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B2-阅读/C5-书籍-情绪心理学" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C5-%E4%B9%A6%E7%B1%8D-%E6%83%85%E7%BB%AA%E5%BF%83%E7%90%86%E5%AD%A6/" data-folder-link>
+            <small>C5</small>书籍-情绪心理学
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C5-%E4%B9%A6%E7%B1%8D-%E6%83%85%E7%BB%AA%E5%BF%83%E7%90%86%E5%AD%A6/D1-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>情绪心理学 阅读笔记</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B2-阅读/C6-书籍-人生的十二法则" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C6-%E4%B9%A6%E7%B1%8D-%E4%BA%BA%E7%94%9F%E7%9A%84%E5%8D%81%E4%BA%8C%E6%B3%95%E5%88%99/" data-folder-link>
+            <small>C6</small>书籍-人生的十二法则
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C6-%E4%B9%A6%E7%B1%8D-%E4%BA%BA%E7%94%9F%E7%9A%84%E5%8D%81%E4%BA%8C%E6%B3%95%E5%88%99/D1-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>人生的十二法则 阅读笔记</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B2-阅读/C7-书籍-瞬变" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C7-%E4%B9%A6%E7%B1%8D-%E7%9E%AC%E5%8F%98/" data-folder-link>
+            <small>C7</small>书籍-瞬变
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C7-%E4%B9%A6%E7%B1%8D-%E7%9E%AC%E5%8F%98/D1-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>瞬变 阅读笔记</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B2-阅读/C8-书籍-幽默感" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C8-%E4%B9%A6%E7%B1%8D-%E5%B9%BD%E9%BB%98%E6%84%9F/" data-folder-link>
+            <small>C8</small>书籍-幽默感
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C8-%E4%B9%A6%E7%B1%8D-%E5%B9%BD%E9%BB%98%E6%84%9F/D1-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>幽默感 阅读笔记</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B2-阅读/C9-书籍-正午之魔" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C9-%E4%B9%A6%E7%B1%8D-%E6%AD%A3%E5%8D%88%E4%B9%8B%E9%AD%94/" data-folder-link>
+            <small>C9</small>书籍-正午之魔
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B2-%E9%98%85%E8%AF%BB/C9-%E4%B9%A6%E7%B1%8D-%E6%AD%A3%E5%8D%88%E4%B9%8B%E9%AD%94/D1-%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>阅读————正午之魔</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+</ul>
+
+        
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B3-Python" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B3-Python/" data-folder-link>
+            <small>B3</small>Python
+          </a>
+          <span class="vault-tree__count">13</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B3-Python/2023-10-24-python_xiecheng/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>python_协程7</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B3-Python/2023-10-24-python_xinxigeli/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>python_信息隔离5</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B3-Python/2023-10-24-python_xianchengtongxin/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>python_线程间的通信4</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B3-Python/2023-10-24-python_suo/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>python_线程锁3</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B3-Python/2023-10-24-python_class/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>python_class</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B3-Python/2023-10-24-python_xianchengchi/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>python_线程池6</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B3-Python/2023-10-24-python_bingfa/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>python_并发编程1</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B3-Python/2023-10-24-python_duoxiancheng/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>python_创建多线程2</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B3-Python/2023-10-24-python_yield/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>python_yield8</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B3-Python/2023-10-24-python_async3/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>python_async9</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B3-Python/2023-10-24-python_async2/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>python_async8</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B3-Python/2023-10-24-python_async/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>python_async</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B3-Python/2023-10-14-pythonvenv/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>python环境复制</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B4-嵌入式" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/" data-folder-link>
+            <small>B4</small>嵌入式
+          </a>
+          <span class="vault-tree__count">18</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2024-02-02-stm32f103_tiaoshi/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>STM32F103——调试</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2024-01-26-ESP01_fengshan/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>ESP01————风扇</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2024-01-26-ESP01_duoji/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>ESP01————舵机</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2024-01-25-ESP01_zhiwuqi/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>ESP01————制雾器</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2024-01-13-ESP01_qianyan/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>ESP01————前言</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2023-12-07-stm32f103_qiti/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>STM32F103——气体质量</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2023-12-07-stm32f103_voice/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>STM32F103——声音</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2023-12-07-stm32f103_guangzhao/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>STM32F103——光照</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2023-12-07-stm32f103_chuankou/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>STM32F103——串口</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2023-12-07-stm32f103_wifi/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>STM32F103——wifi</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2023-12-07-stm32f103_esp8266/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>STM32F103——esp8266</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2023-12-07-stm32f103_wenduchuanganqi/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>STM32F103——DHT11温度传感器</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2023-11-16-raspberry_python3.7_change/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——python版本切换/环境搭建</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2023-10-29-NTC/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>热敏传感器</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2023-10-26-raspberry_wake/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——语音唤醒</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2023-10-28-raspberry_recongnize/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>树莓派——语音识别</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2023-10-13-process2/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>进程线程-基本概念</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B4-%E5%B5%8C%E5%85%A5%E5%BC%8F/2023-10-13-process1/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>进程线程-前言</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B5-求职技能" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B5-%E6%B1%82%E8%81%8C%E6%8A%80%E8%83%BD/" data-folder-link>
+            <small>B5</small>求职技能
+          </a>
+          <span class="vault-tree__count">10</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B5-%E6%B1%82%E8%81%8C%E6%8A%80%E8%83%BD/2024-03-16-search/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>学习规范的寻找外国资料</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B5-%E6%B1%82%E8%81%8C%E6%8A%80%E8%83%BD/2023-10-18-jisuanjijichu7/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>计算机基础——软件工程</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B5-%E6%B1%82%E8%81%8C%E6%8A%80%E8%83%BD/2023-10-17-jisuanjijichu6/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>计算机基础——软件工程</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B5-%E6%B1%82%E8%81%8C%E6%8A%80%E8%83%BD/2023-10-17-jisuanjijichu5/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>计算机基础——C语言程序设计</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B5-%E6%B1%82%E8%81%8C%E6%8A%80%E8%83%BD/2023-10-14-jisuanjijichu4/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>计算机基础——操作系统</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B5-%E6%B1%82%E8%81%8C%E6%8A%80%E8%83%BD/2023-10-13-mainshiyinhang/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>面试准备</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B5-%E6%B1%82%E8%81%8C%E6%8A%80%E8%83%BD/2023-10-13-mainshixuzhi/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>投简历需知（技巧）</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B5-%E6%B1%82%E8%81%8C%E6%8A%80%E8%83%BD/2023-10-14-jisuanjijichu2/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>（day0）计算机基础——计算机组成原理</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B5-%E6%B1%82%E8%81%8C%E6%8A%80%E8%83%BD/2023-10-14-jisuanjijichu1/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>计算机基础</span>
+                </a>
+              </li>
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B5-%E6%B1%82%E8%81%8C%E6%8A%80%E8%83%BD/2023-10-14-jisuanjijichu3/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>（day1）计算机基础———计算机网络</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+    
+    
+    
+    <li class="vault-tree__node" role="treeitem" data-tree-node>
+      <details data-tree-path="A4-知识库/B7-方法与实践" >
+        <summary>
+          <span class="vault-tree__chevron" aria-hidden="true"></span>
+          <span class="vault-tree__folder" aria-hidden="true"></span>
+          <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B7-%E6%96%B9%E6%B3%95%E4%B8%8E%E5%AE%9E%E8%B7%B5/" data-folder-link>
+            <small>B7</small>方法与实践
+          </a>
+          <span class="vault-tree__count">1</span>
+        </summary>
+        
+        
+          <ul class="vault-tree__files" role="group">
+            
+              <li data-tree-file>
+                <a href="/vault/A4-%E7%9F%A5%E8%AF%86%E5%BA%93/B7-%E6%96%B9%E6%B3%95%E4%B8%8E%E5%AE%9E%E8%B7%B5/%E4%BB%8E%E8%AE%A1%E5%88%92%E5%88%B0%E8%B6%8B%E5%8A%BF-%E4%B8%80%E7%A7%8D%E6%9B%B4%E8%BD%BB%E7%9A%84%E8%AE%B0%E5%BD%95%E6%96%B9%E6%B3%95/" >
+                  <span class="vault-tree__file" aria-hidden="true"></span>
+                  <span>从计划到趋势：一种更轻的记录方法</span>
+                </a>
+              </li>
+            
+          </ul>
+        
+      </details>
+    </li>
+  
+</ul>
+
+        
+        
+      </details>
+    </li>
+  
+</ul>
+
+    </nav>
+    <footer>
+      <span class="status-dot" aria-hidden="true"></span>
+      与本地 Vault 保持同一层级
+    </footer>
+  </aside>
+  <section class="directory-content"><article class="vault-article">
+  <header class="article-header article-header--vault">
+    <nav class="breadcrumbs" aria-label="当前位置">
+      
+        
+        <a href="/vault/">资料库</a>
+      
+        <span aria-hidden="true">/</span>
+        <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/">项目</a>
+      
+        <span aria-hidden="true">/</span>
+        <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/">毕设</a>
+      
+    </nav>
+    <p class="eyebrow">A NOTE IN THE GARDEN</p>
+    <h1>树莓派——语音合成</h1>
+    <div class="article-meta">
+      <time datetime="2023-11-05T14:00:00+08:00">2023年11月05日</time>
+      <span>项目 / 毕设</span>
+    </div>
+  </header>
+  <div class="article-body prose">
+<h2 id="环境">环境</h2>
+
+<p>代码：https://github.com/Eerrly/VITSAIChatVtube</p>
+
+<p>pip3 install torch （失败）</p>
+
+<p>到官网下载：https://download.pytorch.org/whl/torch_stable.html</p>
+
+<p>我选择下载：cpu/torch-2.1.0-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl    （失败：版本不合）</p>
+
+<p>因为树莓派运行的是ARM架构的Linux系统，Python版本是3.10</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>例子：
+cpu/torch-2.1.0%2Bcpu-cp310-cp310-win_amd64.whl 文件名中的信息如下：
+
+cpu: 这表示PyTorch是用于CPU的版本，不包括GPU支持。
+
+torch-2.1.0: 这是PyTorch的版本号，指示您安装的PyTorch版本。
+
+%2Bcpu: 这表示这个PyTorch版本是CPU版本，没有GPU支持。
+
+cp310-cp310: 这表示该安装包是为Python 3.10编译的，适用于Python 3.10。
+
+win_amd64: 这表示该安装包适用于Windows 64位操作系统，通常是在64位的Windows系统上使用。
+
+最后我安装的是Cython-3.0.5-py2.py3-none-any.whl，这意味着什么
+
+ChatGPT回答
+Cython-3.0.5-py2.py3-none-any.whl 是一个不特定于架构的Python wheel文件，适用于多个Python版本和平台。让我解释这个文件名的各部分：
+
+Cython-3.0.5: 这是Cython的版本号，指示您安装的Cython版本。
+
+py2.py3: 这表示该wheel文件适用于Python 2和Python 3，不依赖于特定的Python版本。
+
+none: 这表示该wheel文件不包含任何特定的二进制代码，它是纯Python代码的wheel文件。
+
+any: 这表示该wheel文件不依赖于特定的操作系统或平台，因此可以在各种操作系统和架构上使用。
+
+这种类型的wheel文件通常是纯Python库的wheel文件，它们不包含与特定操作系统或硬件架构相关的二进制代码，因此可以在多个平台和Python版本上使用。
+
+因此，您选择安装的Cython-3.0.5-py2.py3-none-any.whl适用于不同的Python版本和不同的操作系统/平台，这使它成为一个通用的Cython安装包。这个通用性使得它可以在各种环境中使用，而不需要考虑特定的架构或Python版本。
+</code></pre></div></div>
+
+<ol>
+  <li>添加环境变量</li>
+</ol>
+
+<p>nano ~/.bashrc</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export NO_CUDA=1
+export NO_DISTRIBUTED=1
+export NO_MKLDNN=1
+export MAX_JOBS=1    #如果是树莓派4B,这里修改为4
+</code></pre></div></div>
+
+<p>source ~/.bashrc</p>
+
+<ol>
+  <li>添加软件源</li>
+</ol>
+
+<p>sudo nano /etc/apt/sources.list</p>
+
+<p>添加这两行源，不要注释原来的，原来的保持即可</p>
+
+<p>deb http://ftp.de.debian.org/debian stretch main
+deb http://ftp.cn.debian.org/debian stretch main</p>
+
+<p>sudo apt-get -y update</p>
+
+<p>3.安装torch依赖</p>
+
+<p>sudo apt install libopenblas-dev libblas-dev m4 cmake cython</p>
+
+<p>pip3 install numpy pyyaml cython</p>
+
+<p>安装 numpy 依赖 不安装或者安装失败也是不会报错的，但是使用的时候不会出结果，如果你的项目没用到 numpy 可以跳过这一步，<strong>我没安装</strong></p>
+
+<p>pip3 install cpu/torch-2.1.0-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl（失败）</p>
+
+<p>换个方法：
+https://handbook.pytorch.wiki/pi/readme.html</p>
+
+<p>继续</p>
+
+<p>编译pytorch 1.4（失败）</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone --recursive https://github.com/pytorch/pytorch
+cd pytorch
+git checkout v1.4 #这里选择最新的1.4版
+git submodule sync
+git submodule update --init --recursive
+git submodule update --remote third_party/protobuf #这句必须要有，否则在编译时会报一个找不到protobuf.h的错误
+</code></pre></div></div>
+
+<p>原因如这里面说的：https://blog.nowcoder.net/n/7f716bb57594459cac983ee8df7d3c63
+还有https://cloud.tencent.com/developer/article/1908168</p>
+
+<p>对torch源码进行编译（编译时间过长，长达4个小时，与github连接不稳定，容易导致编译数据下载不完善）</p>
+
+<p>我不应该用python3.10，源不稳定，下载慢。</p>
+
+<p>看来得重新装过系统了</p>
+
+<h2 id="python-37环境">python 3.7环境</h2>
+
+<p>2023年11月17日01:49:25</p>
+
+<p>重装没有想象中的复杂和麻烦，只是拖延罢了，大概用了一个下午的时间就复现了之前做过的，然后又到了这里。</p>
+
+<p>https://blog.csdn.net/ZhaoDongyu_AK47/article/details/105055856</p>
+
+<p>安装库torch</p>
+
+<p>首先想到的方法当然是pip直接安装，通过pip搜索torch</p>
+
+<p><img loading="lazy" decoding="async" src="/assets/blog_res/2023-11-5-raspberry_speaking/image.png" alt="image" /></p>
+
+<p>下载编译好的文件</p>
+
+<p>torch-1.3.0a0+de394b6-cp37-cp37m-linux_armv7l.whl 提取码：ioat
+torchvision-0.4.1a0+a263704-cp37-cp37m-linux_armv7l.whl 提取码：g0sz</p>
+
+<p>安装Pytorch
+安装必要的依赖包sudo apt-get install libopenblas-dev</p>
+
+<p>安装numpy pip3 install numpy pyyaml（没有numpy的话也能成功编译，但是编译出来的PyTorch不支持numpy）</p>
+
+<p>安装torch pip3 install torch-1.3.0a0+de394b6-cp37-cp37m-linux_armv7l.whl</p>
+
+<p>安装torchvision pip3 install torchvision-0.4.1a0+a263704-cp37-cp37m-linux_armv7l.whl</p>
+
+<p><img loading="lazy" decoding="async" src="/assets/blog_res/2023-11-5-raspberry_speaking/image-2.png" alt="image-2" /></p>
+
+<p>成功，舒服</p>
+
+<p>安装scipy和librosa库，（numpy已安装）</p>
+
+<p>参考：https://blog.csdn.net/weixin_43414694/article/details/111875711</p>
+
+<p>进入root环境：su root</p>
+
+<p>安装scipy</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get install libblas-dev
+sudo apt-get install liblapack-dev
+sudo apt-get install gfortran
+sudo apt-get install python-scipy
+pip3 install scipy==1.6.3
+</code></pre></div></div>
+
+<p>安装librosa</p>
+
+<p>pip3 install librosa==0.8.0</p>
+
+<p>或许安装环境这东西在深夜安装才是最好的，等待1个多小时的时间间隙可以睡一觉，调个闹钟，过会在看。不怕时间长，就怕失败。</p>
+
+<p>安装过程中报了几个错，将相应的包安装，
+安装了scipy的，也安装了numpy的，但直至卡在了LLVM7那里，说是找不到。</p>
+
+<p><img loading="lazy" decoding="async" src="/assets/blog_res/2023-11-5-raspberry_speaking/image-3.png" alt="image-3" /></p>
+
+<p>解决方法：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1.在LLVM官网下载包安装
+2.更新源
+3.在google上寻找答案
+</code></pre></div></div>
+
+<p>学习正确地如何更新源是最稳扎稳打的方法，其次是去官网下载，后续或许还会遇到各种各样的找不到包的问题，问题源头大多都是指向源。上一次根据网上攻略做变成了这般模样，</p>
+
+<p><img loading="lazy" decoding="async" src="/assets/blog_res/2023-11-16-raspberry_python3.7_change/image-4.png" alt="image-4" /></p>
+
+<p>然后决定重装系统，还有必要深度学习一下配置源</p>
+
+<h2 id="源">源</h2>
+
+<p>一、什么是源？</p>
+
+<p>软件源就是一个应用程序安装库，很多很多的应用软件都在这个库里面。他可以是网络服务器，是光盘，甚至是硬盘上的一个目录。</p>
+
+<p>常见软件源类型GEM源、APT源、YAST源、ISO源、YUM源、UAP源</p>
+
+<p>二、为什么换源？</p>
+
+<p>树莓派系统默认下载软件的服务器在国外，经常出现下载慢、无法更新的情况。这就需要更换为国内的镜像站来加快速度了。</p>
+
+<p>首先我们的树莓派系统是是基于debian改造出来的。在2016年2月发布了树莓派3B，采用64位处理器的树莓派3B，虽然具有64位硬件，但是系统依旧使用的是基于debian 8 的 32位的Jessie，所以不能完全的释放出树莓派3B的性能，随着debian升级到了最新的debian 9 stretch,到了2017-08-16树莓派对官方系统的版本号进行了更新，由之前的jessie升级到了基于最新64位的debian 9 stretch</p>
+
+<p>那么我们怎么知道自己的系统版本呢？</p>
+
+<p>可以根据自己的系统版本时间来确定，2017年8月16日以前的都为jessie而之后的都为stretch.</p>
+
+<p>可以在终端输入下面的命令，就可以看到自己的系统是哪一个了。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#查看系统版本
+root@raspberrypi:/home/pi/Desktop# lsb_release -a
+No LSB modules are available.
+Distributor ID:	Raspbian
+Description:	Raspbian GNU/Linux 10 (buster)
+Release:	10
+Codename:	buster
+#查看系统架构
+root@raspberrypi:/home/pi/Desktop# uname -m
+armv7l
+#查看系统位数
+root@raspberrypi:/home/pi/Desktop# getconf LONG_BIT
+32
+#检查 C++ 编译器版本
+gcc -v
+</code></pre></div></div>
+
+<p>配置软件源</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo nano /etc/apt/sources.list
+
+deb https://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ buster main non-free contrib rpi
+
+deb-src https://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ buster main non-free contrib rpi
+
+sudo nano /etc/apt/sources.list.d/raspi.list
+同样的方法，把 /etc/apt/sources.list.d/raspi.list 文件也替换成下面的内容：
+
+deb http://mirrors.tuna.tsinghua.edu.cn/raspberrypi/ buster main ui
+
+sudo apt-get update
+</code></pre></div></div>
+
+<p>报错：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Certificate verification failed: The certificate is NOT trusted. The certificate chain uses expired certificate.  Could not handshake: Error in the certificate verification. [IP: 2402:f000:1:400::2 443]
+获取:4 http://raspbian.raspberrypi.org/raspbian buster InRelease [15.0 kB]
+正在读取软件包列表... 完成       
+E: 仓库 “https://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian buster Release” 没有 Release 文件。
+N: 无法安全地用该源进行更新，所以默认禁用该源。
+N: 参见 apt-secure(8) 手册以了解仓库创建和用户配置方面的细节。
+E: 仓库'http://raspbian.raspberrypi.org/raspbian buster InRelease'将其'Suite'值从'stable'修改到了'oldoldstable'
+N: 为了让这个仓库能够应用，这必须在更新之前显式接受。更多细节请参阅 apt-secure(8) 手册。
+</code></pre></div></div>
+
+<p><img loading="lazy" decoding="async" src="/assets/blog_res/2023-11-5-raspberry_speaking/image-4.png" alt="image-4" /></p>
+
+<p>1.为了让这个仓库能够应用，这必须在更新之前显式接受。更多细节请参阅 apt-secure(8) 手册。</p>
+
+<p>解决方案：sudo apt update,然后按Y</p>
+
+<p>2.证书不被信任，树莓派清华源 Certificate verification failed: The certificate is NOT trusted</p>
+
+<p>解决方案：使用http协议，sudo nano /etc/apt/sources.list，将里面的https换成http（成功）</p>
+
+<p><img loading="lazy" decoding="async" src="/assets/blog_res/2023-11-5-raspberry_speaking/image-5.png" alt="image-5" /></p>
+
+<p>pip换源后，更新pip，然后发现pip3安装东西都会报错了</p>
+
+<p>root@raspberrypi:/home/pi/Desktop# pip3 install librosa==0.8.0
+Traceback (most recent call last):
+  File “/home/pi/.local/bin/pip3”, line 5, in <module>
+    from pip._internal.cli.main import main
+ModuleNotFoundError: No module named 'pip._internal.cli.main'</module></p>
+
+<p>折腾一番后，最终解决方案为python3 -m pip install package-name这个替代pip3 install package-name</p>
+
+<p>安装python3 -m pip install librosa==0.8.0</p>
+
+<p>这个执行到Installing build dependencies … 这里的时候，就似乎是卡主了，运行极慢。等了大概超过半小时，终于行了，但报了深不见底的错。</p>
+
+<h2 id="卡主的原因可能是因为swap空间不住">卡主的原因可能是因为swap空间不住</h2>
+
+<p>free -m 查看swap空间大小（96左右）</p>
+
+<p>sudo apt-get install dphys-swapfile</p>
+
+<p>sudo nano /etc/dphys-swapfile</p>
+
+<p>CONF_SWAPSIZE=4096</p>
+
+<p>sudo /etc/init.d/dphys-swapfile restart</p>
+
+<p><img loading="lazy" decoding="async" src="/assets/blog_res/2023-11-5-raspberry_speaking/image-6.png" alt="image-6" /></p>
+
+<p>重启</p>
+
+<p>free -m 查看，变为了4095，再次python3 -m pip install librosa==0.8.0</p>
+
+<p>结果似乎快上了一点。但结果还是一样，似乎问题出现在scikit-learn</p>
+
+<h2 id="安装scikit-learn">安装scikit-learn</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip3 install -U numpy                                      #升级numpy
+
+sudo apt-get install python3-numpy python3-scipy python3-matplotlib                 
+
+sudo apt-get install python3-skimage                        
+sudo apt-get install python3-sklearn                      #安装sklearn模块
+</code></pre></div></div>
+
+<p>再次执行python3 -m pip install librosa==0.8.0</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>结果为：
+....
+....
+Building wheels for collected packages: librosa, cffi
+Running setup.py bdist_wheel for librosa ... done
+Stored in directory: /root/.cache/pip/wheels/c3/e9/9c/5181c1898db99d0cb3287b63d94ba979fe770e3ebfb0d9ede8
+Running setup.py bdist_wheel for cffi ... done
+Stored in directory: /root/.cache/pip/wheels/e7/8b/98/0b9ebf9b0437ab0cc59a2c6e922d4ebdeb17c089339583c845
+Successfully built librosa cffi
+resampy 0.4.2 has requirement numba&gt;=0.53, but you'll have numba 0.48.0 which is incompatible.
+resampy 0.4.2 has requirement numpy&gt;=1.17, but you'll have numpy 1.16.2 which is incompatible.
+Installing collected packages: audioread, joblib, packaging, typing-extensions, platformdirs, pooch, resampy, pycparser, cffi, soundfile, librosa
+Found existing installation: joblib 0.13.0
+    Not uninstalling joblib at /usr/lib/python3/dist-packages, outside environment /usr
+    Can't uninstall 'joblib'. No files were found to uninstall.
+Successfully installed audioread-3.0.1 cffi-1.15.1 joblib-1.3.2 librosa-0.8.0 packaging-23.2 platformdirs-4.0.0 pooch-1.8.0 pycparser-2.21 resampy-0.4.2 soundfile-0.12.1 typing-extensions-4.7.1
+</code></pre></div></div>
+
+<p>需要更新numba和numpy</p>
+
+<p>更新了numpy但numba不行，</p>
+
+<p>心累。似乎换了pip源之后就一堆堆的错误了。还是先搞定pip先。</p>
+
+<h2 id="解决modulenotfounderror-no-module-named-pip_internalclimain">解决ModuleNotFoundError: No module named ‘pip._internal.cli.main’</h2>
+
+<p>这很难评</p>
+
+<p>当时搞半天都无法解决的大问题，当下没半个钟就解决了。</p>
+
+<p>这就是效率问题。半个小时没效果，或是厌烦困倦，就有必要去休息一下，或是换个口味。</p>
+
+<p>出现”ModuleNotFoundError: No module named ‘pip._internal’”错误通常是由于Python环境中pip模块未正确安装或损坏引起的。</p>
+
+<p>我是root下pip不行的，就应该在root下重装pip</p>
+
+<p>python -m pip install –upgrade pip
+python3 -m pip install –upgrade pip</p>
+
+<h2 id="安装librosa080">安装librosa==0.8.0</h2>
+
+<p>前言</p>
+
+<p>先前操作了乱七八糟的，也不知道搞了什么，对着一个博主的方法死磕，实属不智，还应该多个博主的方法相互比对，然后再进行选择。</p>
+
+<p>pi@raspberrypi:~ $ pip list
+Package            Version
+—————— —————
+Adafruit-BMP       1.5.4
+Adafruit-DHT       1.4.0
+Adafruit-GPIO      1.0.4
+Adafruit-PureIO    1.1.5
+appdirs            1.4.3
+asn1crypto         0.24.0
+astroid            2.1.0
+asttokens          1.1.13
+atomicwrites       1.1.5
+attrs              18.2.0
+audioread          3.0.1
+automationhat      0.2.0
+baidu-aip          4.16.13
+beautifulsoup4     4.7.1
+blinker            1.4
+blinkt             0.1.2
+blosc              1.7.0
+buttonshim         0.0.2
+cachetools         5.3.2
+Cap1xxx            0.1.3
+certifi            2018.8.24
+cffi               1.15.1
+chardet            3.0.4
+Click              7.0
+cloudpickle        0.8.0
+colorama           0.3.7
+colorzero          1.1
+cookies            2.2.1
+cryptography       2.6.1
+cycler             0.10.0
+dask               1.0.0+dfsg
+dataclasses        0.6
+decorator          4.3.0
+devscripts         2.19.5+deb10u1
+distlib            0.3.0
+docutils           0.14
+drumhat            0.1.0
+entrypoints        0.3
+envirophat         1.0.0
+ExplorerHAT        0.4.2
+filelock           3.0.12
+Flask              1.0.2
+fourletterphat     0.1.0
+GDAL               2.4.0
+gpg                1.12.0
+gpiozero           1.5.1
+guizero            0.6.0
+html5lib           1.0.1
+idna               2.6
+importlib-metadata 1.6.0
+ipykernel          4.9.0
+ipython            5.8.0
+ipython_genutils   0.2.0
+isort              4.3.4
+itsdangerous       0.24
+jedi               0.13.2
+Jinja2             2.10
+joblib             1.3.2
+jupyter-client     5.2.3
+jupyter-core       4.4.0
+keyring            17.1.1
+keyrings.alt       3.1.1
+kiwisolver         1.0.1
+lazy-object-proxy  1.3.1
+librosa            0.8.0
+llvmlite           0.31.0
+locket             0.2.0
+logilab-common     1.4.2
+lxml               4.3.2
+MarkupSafe         1.1.0
+matplotlib         3.0.2
+mccabe             0.6.1
+microdotphat       0.2.1
+more-itertools     4.2.0
+mote               0.0.4
+motephat           0.0.2
+mypy               0.670
+mypy-extensions    0.4.1
+networkx           2.2
+nose               1.3.7
+nudatus            0.0.4
+numba              0.48.0
+numexpr            2.6.9
+numpy              1.21.6
+oauthlib           2.1.0
+olefile            0.46
+packaging          23.2
+pandas             0.23.3+dfsg
+pantilthat         0.0.7
+parso              0.3.1
+partd              0.3.9
+pexpect            4.6.0
+pgzero             1.2
+phatbeat           0.1.1
+pianohat           0.1.0
+picamera           1.13
+pickleshare        0.7.5
+picraft            1.0
+piglow             1.2.5
+pigpio             1.44
+Pillow             5.4.1
+pip                23.3.1
+platformdirs       4.0.0
+pluggy             0.8.0
+pooch              1.8.0
+prompt-toolkit     1.0.15
+psutil             5.5.1
+pvcobra            2.0.0
+pvporcupine        3.0.0
+py                 1.7.0
+PyAudio            0.2.11
+pycairo            1.16.2
+pycodestyle        2.4.0
+pycparser          2.21
+pycrypto           2.6.1
+pyflakes           2.0.0
+pygame             1.9.4.post1
+Pygments           2.3.1
+PyGObject          3.30.4
+pyinotify          0.9.6
+PyJWT              1.7.0
+pylint             2.2.2
+pylirc2            0.1
+pyOpenSSL          19.0.0
+pyparsing          2.2.0
+pyserial           3.4
+pytest             3.10.1
+python-apt         1.8.4.1
+python-dateutil    2.7.3
+python-debian      0.1.35
+python-magic       0.4.16
+pytz               2019.1
+PyWavelets         0.5.1
+pyxdg              0.25
+PyYAML             3.13
+pyzmq              17.1.2
+qtconsole          4.3.1
+rainbowhat         0.1.0
+requests           2.21.0
+requests-oauthlib  1.0.0
+resampy            0.4.2
+responses          0.9.0
+roman              2.0.0
+RPi.GPIO           0.7.0
+RTIMULib           7.2.1
+scikit-image       0.14.2
+scikit-learn       1.0.2
+scipy              1.7.3
+scrollphat         0.0.7
+scrollphathd       1.2.1
+SecretStorage      2.3.1
+semver             2.0.1
+Send2Trash         1.5.0
+sense-emu          1.1
+sense-hat          2.2.0
+setuptools         40.8.0
+simplegeneric      0.8.1
+simplejson         3.16.0
+six                1.12.0
+skywriter          0.0.7
+sn3218             1.2.7
+soundfile          0.12.1
+soupsieve          1.8
+spidev             3.4
+ssh-import-id      5.7
+tables             3.4.4
+thonny             3.2.6
+threadpoolctl      3.1.0
+toolz              0.9.0
+torch              1.3.0a0+de394b6
+torchvision        0.4.1a0+a263704
+tornado            5.1.1
+touchphat          0.0.1
+traitlets          4.3.2
+twython            3.7.0
+typed-ast          1.3.1
+typing_extensions  4.7.1
+uflash             1.2.4
+unicornhathd       0.0.4
+unidiff            0.5.4
+urllib3            1.24.1
+virtualenv         20.0.21
+wcwidth            0.1.7
+webencodings       0.5.1
+Werkzeug           0.14.1
+wheel              0.32.3
+wrapt              1.10.11
+zhipuai            1.0.7
+zipp               3.1.0</p>
+
+<p>pi@raspberrypi:~ $ su root 
+密码：
+root@raspberrypi:/home/pi# pip list
+Package            Version
+—————— ————–
+Adafruit-BMP       1.5.4
+Adafruit-DHT       1.4.0
+Adafruit-GPIO      1.0.4
+Adafruit-PureIO    1.1.5
+appdirs            1.4.3
+asn1crypto         0.24.0
+astroid            2.1.0
+asttokens          1.1.13
+atomicwrites       1.1.5
+attrs              18.2.0
+audioread          3.0.1
+automationhat      0.2.0
+baidu-aip          4.16.13
+beautifulsoup4     4.7.1
+blinker            1.4
+blinkt             0.1.2
+blosc              1.7.0
+buttonshim         0.0.2
+Cap1xxx            0.1.3
+certifi            2018.8.24
+cffi               1.15.1
+chardet            3.0.4
+Click              7.0
+cloudpickle        0.8.0
+colorama           0.3.7
+colorzero          1.1
+cookies            2.2.1
+cryptography       2.6.1
+cycler             0.10.0
+dask               1.0.0+dfsg
+decorator          4.3.0
+devscripts         2.19.5+deb10u1
+distlib            0.3.0
+docutils           0.14
+drumhat            0.1.0
+entrypoints        0.3
+envirophat         1.0.0
+ExplorerHAT        0.4.2
+filelock           3.0.12
+Flask              1.0.2
+fourletterphat     0.1.0
+GDAL               2.4.0
+gpg                1.12.0
+gpiozero           1.5.1
+guizero            0.6.0
+html5lib           1.0.1
+idna               2.6
+importlib-metadata 1.6.0
+ipykernel          4.9.0
+ipython            5.8.0
+ipython_genutils   0.2.0
+isort              4.3.4
+itsdangerous       0.24
+jedi               0.13.2
+Jinja2             2.10
+joblib             1.3.2
+jupyter-client     5.2.3
+jupyter-core       4.4.0
+keyring            17.1.1
+keyrings.alt       3.1.1
+kiwisolver         1.0.1
+lazy-object-proxy  1.3.1
+librosa            0.8.0
+llvmlite           0.31.0
+locket             0.2.0
+logilab-common     1.4.2
+lxml               4.3.2
+MarkupSafe         1.1.0
+matplotlib         3.0.2
+mccabe             0.6.1
+microdotphat       0.2.1
+more-itertools     4.2.0
+mote               0.0.4
+motephat           0.0.2
+mypy               0.670
+mypy-extensions    0.4.1
+networkx           2.2
+nose               1.3.7
+nudatus            0.0.4
+numba              0.48.0
+numexpr            2.6.9
+numpy              1.17.0
+oauthlib           2.1.0
+olefile            0.46
+packaging          23.2
+pandas             0.23.3+dfsg
+pantilthat         0.0.7
+parso              0.3.1
+partd              0.3.9
+pexpect            4.6.0
+pgzero             1.2
+phatbeat           0.1.1
+pianohat           0.1.0
+picamera           1.13
+pickleshare        0.7.5
+picraft            1.0
+piglow             1.2.5
+pigpio             1.44
+Pillow             5.4.1
+pip                23.3.1
+platformdirs       4.0.0
+pluggy             0.8.0
+pooch              1.8.0
+prompt-toolkit     1.0.15
+psutil             5.5.1
+pvporcupine        3.0.0
+py                 1.7.0
+PyAudio            0.2.11
+pycairo            1.16.2
+pycodestyle        2.4.0
+pycparser          2.21
+pycrypto           2.6.1
+pyflakes           2.0.0
+pygame             1.9.4.post1
+Pygments           2.3.1
+PyGObject          3.30.4
+pyinotify          0.9.6
+PyJWT              1.7.0
+pylint             2.2.2
+pylirc2            0.1
+pyOpenSSL          19.0.0
+pyparsing          2.2.0
+pyserial           3.4
+pytest             3.10.1
+python-apt         1.8.4.1
+python-dateutil    2.7.3
+python-debian      0.1.35
+python-magic       0.4.16
+pytz               2019.1
+PyWavelets         0.5.1
+pyxdg              0.25
+PyYAML             3.13
+pyzmq              17.1.2
+qtconsole          4.3.1
+rainbowhat         0.1.0
+requests           2.21.0
+requests-oauthlib  1.0.0
+resampy            0.4.2
+responses          0.9.0
+roman              2.0.0
+RPi.GPIO           0.7.0
+RTIMULib           7.2.1
+scikit-image       0.14.2
+scikit-learn       0.20.2
+scipy              1.1.0
+scrollphat         0.0.7
+scrollphathd       1.2.1
+SecretStorage      2.3.1
+semver             2.0.1
+Send2Trash         1.5.0
+sense-emu          1.1
+sense-hat          2.2.0
+setuptools         40.8.0
+simplegeneric      0.8.1
+simplejson         3.16.0
+six                1.12.0
+skywriter          0.0.7
+sn3218             1.2.7
+soundfile          0.12.1
+soupsieve          1.8
+spidev             3.4
+ssh-import-id      5.7
+tables             3.4.4
+thonny             3.2.6
+toolz              0.9.0
+tornado            5.1.1
+touchphat          0.0.1
+traitlets          4.3.2
+twython            3.7.0
+typed-ast          1.3.1
+typing_extensions  4.7.1
+uflash             1.2.4
+unicornhathd       0.0.4
+unidiff            0.5.4
+urllib3            1.24.1
+virtualenv         20.0.21
+wcwidth            0.1.7
+webencodings       0.5.1
+Werkzeug           0.14.1
+wheel              0.32.3
+wrapt              1.10.11
+zipp               3.1.0</p>
+
+<hr />
+<p>numpy 版本不同：</p>
+
+<p>在普通用户 pi 的环境中，numpy 的版本是 1.21.6。
+在 root 用户的环境中，numpy 的版本是 1.17.0。</p>
+
+<p>scikit-learn 版本不同：</p>
+
+<p>在普通用户 pi 的环境中，scikit-learn 的版本是 1.0.2。
+在 root 用户的环境中，scikit-learn 的版本是 0.20.2。</p>
+
+<p>scipy 版本不同：</p>
+
+<p>在普通用户 pi 的环境中，scipy 的版本是 1.7.3。
+在 root 用户的环境中，scipy 的版本是 1.1.0。</p>
+
+<p>删除在root下的这三个
+pip uninstall numpy scikit-learn scipy</p>
+
+<p>………..</p>
+
+<p>sudo apt-get update（成功）
+sudo apt-get upgrade（成功）
+sudo apt-get dist-upgrade（成功）
+sudo rpi-update(失败)</p>
+
+<p>su root</p>
+
+<p>sudo apt-get install libblas-dev
+sudo apt-get install liblapack-dev
+sudo apt-get install gfortran
+sudo apt-get install python-scipy
+pip3 install scipy==1.6.3</p>
+
+<hr />
+
+<h2 id="再重装关键在于安装librosa关键在于speaking这个功能">再重装，关键在于安装librosa，关键在于speaking这个功能</h2>
+
+<p>源：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#查看系统版本
+root@raspberrypi:/home/pi/Desktop# lsb_release -a
+No LSB modules are available.
+Distributor ID:	Raspbian
+Description:	Raspbian GNU/Linux 10 (buster)
+Release:	10
+Codename:	buster
+#查看系统架构
+root@raspberrypi:/home/pi/Desktop# uname -m
+armv7l
+#查看系统位数
+root@raspberrypi:/home/pi/Desktop# getconf LONG_BIT
+32
+</code></pre></div></div>
+
+<p>配置软件源</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo nano /etc/apt/sources.list
+
+deb https://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ buster main non-free contrib rpi
+
+deb-src https://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ buster main non-free contrib rpi
+
+sudo nano /etc/apt/sources.list.d/raspi.list
+同样的方法，把 /etc/apt/sources.list.d/raspi.list 文件也替换成下面的内容：
+
+deb http://mirrors.tuna.tsinghua.edu.cn/raspberrypi/ buster main ui
+
+sudo apt-get update
+</code></pre></div></div>
+
+<p>报错：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Certificate verification failed: The certificate is NOT trusted. The certificate chain uses expired certificate.  Could not handshake: Error in the certificate verification. [IP: 2402:f000:1:400::2 443]
+获取:4 http://raspbian.raspberrypi.org/raspbian buster InRelease [15.0 kB]
+正在读取软件包列表... 完成       
+E: 仓库 “https://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian buster Release” 没有 Release 文件。
+N: 无法安全地用该源进行更新，所以默认禁用该源。
+N: 参见 apt-secure(8) 手册以了解仓库创建和用户配置方面的细节。
+E: 仓库'http://raspbian.raspberrypi.org/raspbian buster InRelease'将其'Suite'值从'stable'修改到了'oldoldstable'
+N: 为了让这个仓库能够应用，这必须在更新之前显式接受。更多细节请参阅 apt-secure(8) 手册。
+</code></pre></div></div>
+
+<p><img loading="lazy" decoding="async" src="/assets/blog_res/2023-11-5-raspberry_speaking/image-4.png" alt="image-4" /></p>
+
+<p>1.为了让这个仓库能够应用，这必须在更新之前显式接受。更多细节请参阅 apt-secure(8) 手册。</p>
+
+<p>解决方案：sudo apt update,然后按Y（成功）</p>
+
+<p>2.证书不被信任，树莓派清华源 Certificate verification failed: The certificate is NOT trusted</p>
+
+<p>解决方案：使用http协议，sudo nano /etc/apt/sources.list，将里面的https换成http（成功）</p>
+
+<p>配置pip源</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo nano /etc/pip.conf 
+
+[global]
+timeout=100
+index-url=https://pypi.tuna.tsinghua.edu.cn/simple/
+extra-index-url= http://mirrors.aliyun.com/pypi/simple/
+[install]
+trusted-host=
+        pypi.tuna.tsinghua.edu.cn
+        mirrors.aliyun.com
+</code></pre></div></div>
+
+<p>python -m pip install –upgrade pip
+python3 -m pip install –upgrade pip</p>
+
+<p>我发现了一个管理虚拟环境的工具，之前我也接触过，virtualenv，应该很有用</p>
+
+<p><strong>在树莓派中配置虚拟环境virtualenv</strong></p>
+
+<p>1.树莓派安装python虚拟环境virtualenvwrapper</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>安装virtualenv和virtualenvwrapper
+sudo apt-get install virtualenv
+sudo apt-get install virtualenvwrapper
+
+配置virtualenvwrapper
+sudo nano ~/.bashrc
+将以下命令行加入到加入到~/.bashrc的最后
+#export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+export WORKON_HOME=$HOME/.virtualenvs
+source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
+
+输入命令运行
+source ~/.bashrc
+</code></pre></div></div>
+
+<p>2.搭建虚拟目录</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1.查看树莓派中python安装路径
+python3
+import sys
+print(sys.path)
+
+2.切换到想要存放虚拟环境的目录
+例如：我存放的路径为：/home/pi/virtualenv_python
+cd 你想要存放目录的路径下
+
+3.新建虚拟环境
+virtualenv -p /usr/bin/python3 test_vir_env
+说明：
+-p /usr/bin/python3 ： 代表使用/usr/bin/ 目录下的python3创建一个虚拟环境；
+test_vir_env ：本次创建的虚拟环境的位置；
+
+4.开启虚拟环境
+例如我的路径下：source /home/pi/Desktop/sleep/bin/activate
+source /你的路径/venv/bin/activate
+
+5.查看安装的包
+pip list
+
+6.安装什么的
+pip3 install 包名
+
+7.退出虚拟环境
+deactivate
+
+补充：删除环境:
+rm virtualenv 环境名
+</code></pre></div></div>
+
+<p>3.使用创建的虚拟环境</p>
+
+<ol>
+  <li>
+    <p>使用ThonnyIDE编辑python脚本文件</p>
+
+    <p>import numpy</p>
+
+    <p>a = numpy.ones((3, 5))</p>
+
+    <p>print (a)</p>
+  </li>
+</ol>
+
+<p>2.配置树莓派ThonnyIDE的python解释器为创建的虚拟环境
+i. 如图所示，单击Run，在弹出的菜单栏选择第一个，Select interpreter。</p>
+
+<p>ii. 在弹出的配置窗口，根据下图选择。选择python解释器的位置</p>
+
+<p><img loading="lazy" decoding="async" src="/assets/blog_res/2023-11-5-raspberry_speaking/image-7.png" alt="image-7" /></p>
+
+<p>iii. 选择前面创建的虚拟环境的位置，并定位python执行文件的位置，一般为/bin/python。选择python3.7解释器</p>
+
+<p><img loading="lazy" decoding="async" src="/assets/blog_res/2023-11-5-raspberry_speaking/image-8.png" alt="image-8" /></p>
+
+<p>iv. 配置成功之后ThonnyIED会输入如下所示的提示信息。</p>
+
+<p><img loading="lazy" decoding="async" src="/assets/blog_res/2023-11-5-raspberry_speaking/image-9.png" alt="image-9" /></p>
+
+<p>v. 使用ThonnyIDE查看已经安装的包,如图所示，单击Tools，选择Manage packages。</p>
+
+<p>源已经换好了，虚拟环境也搭好了，安装。</p>
+
+<p>sudo apt-get install libblas-dev
+sudo apt-get install liblapack-dev
+sudo apt-get install gfortran
+sudo apt-get install python-scipy
+pip3 install scipy==1.6.3</p>
+
+<p>（使用sudo意味着安装在系统目录，但虚拟环境是在普通用户,不过应该也能用把）</p>
+
+<p>apt-get install lldb
+export PATH=”/usr/lib/llvm-7/bin:$PATH”
+pip3 install llvmlite==0.31.0
+pip3 install numba==0.48.0
+<strong>pip3 install resampy==0.2.2</strong>（这一句是原博客没有的）
+pip3 install librosa==0.8.0</p>
+
+<p>然后就成功了</p>
+
+<p>解决思路：
+先将那一大坨的错误问题丢给gpt3.5分析一下，发现原来安装librosa的过程中需要安装resampy，而resampy自动安装版本0.4.2（好像是安装最新版本的），而这个又依赖与numba（版本要大于0.53）</p>
+
+<p>原本我打算是升级一下numba的，但numba又依赖于LLVM，树莓派最高支持LLVM7，也就是说llvmlite最高为0.32.0,然后numba的版本又被限制了，总之resampy无法安装最新版本的，只能安装旧版。</p>
+
+<p>然后我就问新必应，树莓派 LLVM7.0.1 对应那个版本resampy，得知resampy0.2.2，于是乎就成了。</p>
+
+<p>总结：要有自己的思路，gpt3.5只能帮助分析问题，不能解决问题，它很多时候只是重复某些语料，要利用它帮助分析问题，然后用新必应来进一步解决。</p>
+
+<p>安装torch</p>
+
+<p>下载编译好的文件</p>
+
+<p>torch-1.3.0a0+de394b6-cp37-cp37m-linux_armv7l.whl 提取码：ioat
+torchvision-0.4.1a0+a263704-cp37-cp37m-linux_armv7l.whl 提取码：g0sz</p>
+
+<p>安装Pytorch
+安装必要的依赖包sudo apt-get install libopenblas-dev</p>
+
+<p>安装numpy pip3 install numpy pyyaml（没有numpy的话也能成功编译，但是编译出来的PyTorch不支持numpy）</p>
+
+<p>安装torch pip3 install torch-1.3.0a0+de394b6-cp37-cp37m-linux_armv7l.whl</p>
+
+<p>安装torchvision pip3 install torchvision-0.4.1a0+a263704-cp37-cp37m-linux_armv7l.whl</p>
+
+<p>安装一系列的包</p>
+
+<p>pip3 install unidecode
+pip3 install pyopenjtalk
+pip3 install jamo
+pip3 install pypinyin
+pip3 install jieba cn2an</p>
+
+<p>运行：报错</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pygame 2.0.0 (SDL 2.0.9, python 3.7.3)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+Traceback (most recent call last):
+File "/usr/lib/python3.7/tarfile.py", line 187, in nti
+    n = int(s.strip() or "0", 8)
+ValueError: invalid literal for int() with base 8: 'ls\n_rebu'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+File "/usr/lib/python3.7/tarfile.py", line 2291, in next
+    tarinfo = self.tarinfo.fromtarfile(self)
+File "/usr/lib/python3.7/tarfile.py", line 1095, in fromtarfile
+    obj = cls.frombuf(buf, tarfile.encoding, tarfile.errors)
+File "/usr/lib/python3.7/tarfile.py", line 1037, in frombuf
+    chksum = nti(buf[148:156])
+File "/usr/lib/python3.7/tarfile.py", line 189, in nti
+    raise InvalidHeaderError("invalid header")
+tarfile.InvalidHeaderError: invalid header
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+File "/home/pi/Desktop/sleep/lib/python3.7/site-packages/torch/serialization.py", line 595, in _load
+    return legacy_load(f)
+File "/home/pi/Desktop/sleep/lib/python3.7/site-packages/torch/serialization.py", line 506, in legacy_load
+    with closing(tarfile.open(fileobj=f, mode='r:', format=tarfile.PAX_FORMAT)) as tar, \
+File "/usr/lib/python3.7/tarfile.py", line 1593, in open
+    return func(name, filemode, fileobj, **kwargs)
+File "/usr/lib/python3.7/tarfile.py", line 1623, in taropen
+    return cls(name, mode, fileobj, **kwargs)
+File "/usr/lib/python3.7/tarfile.py", line 1486, in __init__
+    self.firstmember = self.next()
+File "/usr/lib/python3.7/tarfile.py", line 2303, in next
+    raise ReadError(str(e))
+tarfile.ReadError: invalid header
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+File "speaking.py", line 130, in &lt;module&gt;
+    speak("好的，主人！", 0)
+File "speaking.py", line 125, in speak
+    init_vits_model()
+File "speaking.py", line 68, in init_vits_model
+    model, optimizer, learning_rate, epochs = utils.load_checkpoint('/file/model/G_953000.pth', net_g_ms, None)
+File "/home/pi/Desktop/sleep/wake/utils.py", line 23, in load_checkpoint
+    checkpoint_dict = torch.load(checkpoint_path, map_location='cpu')
+File "/home/pi/Desktop/sleep/lib/python3.7/site-packages/torch/serialization.py", line 426, in load
+    return _load(f, map_location, pickle_module, **pickle_load_args)
+File "/home/pi/Desktop/sleep/lib/python3.7/site-packages/torch/serialization.py", line 599, in _load
+    raise RuntimeError("{} is a zip archive (did you mean to use torch.jit.load()?)".format(f.name))
+RuntimeError: /file/model/G_953000.pth is a zip archive (did you mean to use torch.jit.load()?)
+</code></pre></div></div>
+
+<p>pytorch加载模型时出现…xxx.pth is a zip archive (did you mean to use torch.jit.load()?)</p>
+
+<p>xxx.pth来自pytorch1.6或更高的版本。1.6之后pytorch默认使用zip文件格式来保存权重文件，导致这些权重文件无法直接被1.5及以下的pytorch加载。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>解决办法1（失败，因为这个模型已经下载好的，这个解决办法是在训练时改一下代码使得生成的模型生成为飞压缩文件的格式）
+解决方法：在新版本中将模型加载后，再存储为非压缩文件，再用老版本加载：
+import torch
+state_dict = torch.load("xxx.pth")	#xxx.pth或者xxx.pt就是你想改掉的权重文件
+torch.save(state_dict, "xxx.pth", _use_new_zipfile_serialization=False)
+
+解决办法2：升级pytorch为1.6
+原torch：
+pip list
+...
+torch              1.3.0a0+de394b6
+torchvision        0.4.1a0+a263704
+...
+
+先卸载
+pip uninstall torch torchvision
+
+参照https://github.com/kevinchan04/Pytorch_ARM（失败，git下载太久了，或许可以想象改善网络的办法）
+
+参照https://blog.csdn.net/qq_36622589/article/details/121941036（成功）
+</code></pre></div></div>
+
+<p><img loading="lazy" decoding="async" src="/assets/blog_res/2023-11-5-raspberry_speaking/image-10.png" alt="image-10" /></p>
+
+<p>舒服</p>
+
+<p>还是google牛逼</p>
+
+<p>继续</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>报错
+pygame 2.0.0 (SDL 2.0.9, python 3.7.3)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+INFO:root:Loaded checkpoint '../file/model/G_953000.pth' (iteration 630)
+DEBUG:asyncio:Using selector: EpollSelector
+Building prefix dict from the default dictionary ...
+DEBUG:jieba:Building prefix dict from the default dictionary ...
+Dumping model to file cache /tmp/jieba.cache
+DEBUG:jieba:Dumping model to file cache /tmp/jieba.cache
+Loading model cost 3.370 seconds.
+DEBUG:jieba:Loading model cost 3.370 seconds.
+Prefix dict has been built successfully.
+DEBUG:jieba:Prefix dict has been built successfully.
+VITS :  生成成功! 生成耗时 25.27 s
+speaking.py:30: RuntimeWarning: use mixer: libSDL2_mixer-2.0.so.0: cannot open shared object file: No such file or directory
+(ImportError: libSDL2_mixer-2.0.so.0: cannot open shared object file: No such file or directory)
+pygame.mixer.music.load(audio_file_name)
+Traceback (most recent call last):
+File "speaking.py", line 130, in &lt;module&gt;
+    speak("好的，主人！", 0)
+File "speaking.py", line 127, in speak
+    asyncio.run(start(input_str,language))
+File "/usr/lib/python3.7/asyncio/runners.py", line 43, in run
+    return loop.run_until_complete(main)
+File "/usr/lib/python3.7/asyncio/base_events.py", line 584, in run_until_complete
+    return future.result()
+File "speaking.py", line 121, in start
+    play_audio("../file/tmp/output.wav")
+File "speaking.py", line 30, in play_audio
+    pygame.mixer.music.load(audio_file_name)
+File "/home/pi/Desktop/sleep/lib/python3.7/site-packages/pygame/__init__.py", line 59, in __getattr__
+    raise NotImplementedError(missing_msg)
+NotImplementedError: mixer module not available (ImportError: libSDL2_mixer-2.0.so.0: cannot open shared object file: No such file or directory)
+
+ImportError: libSDL2_mixer-2.0.so.0: cannot open shared object file: No such file or directory：这个错误表示缺少名为libSDL2_mixer-2.0.so.0的共享对象文件，导致无法加载pygame.mixer模块。该模块用于音频播放功能。
+
+这个问题可能是由于缺少SDL2_mixer库或库文件路径配置错误引起的。您可以尝试以下解决方法：
+
+- 确保已正确安装SDL2_mixer库。您可以通过运行sudo apt-get install libsdl2-mixer-2.0-0命令来安装它。（成功）
+- 检查SDL2_mixer库文件的路径配置。您可以尝试设置LD_LIBRARY_PATH环境变量，将其指向包含SDL2_mixer库文件的目录。例如，运行export LD_LIBRARY_PATH=/usr/local/lib命令。（未尝试）
+</code></pre></div></div>
+
+<p>再次尝试，结果合成成功。但播放失败</p>
+
+<p>很奇怪，树莓派上合成的语音，用pygame播放不了，说是格式不对，但传到电脑用pygame播放却可以，电脑上合成的语音，可以播放但用树莓派上的pygame却不能够播放。</p>
+
+<p>挺烦的，当初都能做出来，现在却卡住了。</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="n">pygame</span>
+<span class="k">import</span> <span class="n">wave</span>
+<span class="k">import</span> <span class="n">pyaudio</span>
+
+<span class="cp">#推荐用，好
+</span><span class="n">def</span> <span class="n">play_audio</span><span class="p">(</span><span class="n">audio_file_name</span><span class="p">)</span><span class="o">:</span>
+    <span class="cp"># 初始化pygame
+</span>    <span class="n">pygame</span><span class="p">.</span><span class="n">init</span><span class="p">()</span>
+    <span class="cp"># 设置音频文件
+</span>    <span class="n">pygame</span><span class="p">.</span><span class="n">mixer</span><span class="p">.</span><span class="n">music</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">audio_file_name</span><span class="p">)</span>
+    <span class="cp"># 播放音频
+</span>    <span class="n">pygame</span><span class="p">.</span><span class="n">mixer</span><span class="p">.</span><span class="n">music</span><span class="p">.</span><span class="n">play</span><span class="p">()</span>
+    <span class="cp"># 等待音频播放完毕
+</span>    <span class="k">while</span> <span class="n">pygame</span><span class="p">.</span><span class="n">mixer</span><span class="p">.</span><span class="n">music</span><span class="p">.</span><span class="n">get_busy</span><span class="p">()</span><span class="o">:</span>
+        <span class="n">pygame</span><span class="p">.</span><span class="n">time</span><span class="p">.</span><span class="n">Clock</span><span class="p">().</span><span class="n">tick</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="cp"># 退出pygame
+</span>    <span class="n">pygame</span><span class="p">.</span><span class="n">quit</span><span class="p">()</span>
+<span class="cp">#不推荐，差
+</span><span class="n">def</span> <span class="n">play_audio2</span><span class="p">()</span><span class="o">:</span>
+    <span class="n">chunk</span> <span class="o">=</span> <span class="mi">1024</span>  
+    <span class="n">wf</span> <span class="o">=</span> <span class="n">wave</span><span class="p">.</span><span class="n">open</span><span class="p">(</span><span class="n">r</span><span class="s">"/home/pi/Desktop/sleep/file/music/music1.wav"</span><span class="p">,</span> <span class="err">'</span><span class="n">rb</span><span class="err">'</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">pyaudio</span><span class="p">.</span><span class="n">PyAudio</span><span class="p">()</span>
+    <span class="n">stream</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">open</span><span class="p">(</span><span class="n">format</span><span class="o">=</span><span class="n">p</span><span class="p">.</span><span class="n">get_format_from_width</span><span class="p">(</span><span class="n">wf</span><span class="p">.</span><span class="n">getsampwidth</span><span class="p">()),</span> <span class="n">channels</span><span class="o">=</span><span class="n">wf</span><span class="p">.</span><span class="n">getnchannels</span><span class="p">(),</span>
+                    <span class="n">rate</span><span class="o">=</span><span class="n">wf</span><span class="p">.</span><span class="n">getframerate</span><span class="p">(),</span> <span class="n">output</span><span class="o">=</span><span class="n">True</span><span class="p">)</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">wf</span><span class="p">.</span><span class="n">readframes</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>  <span class="err">#</span> <span class="err">读取数据</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">data</span> <span class="o">!=</span> <span class="n">b</span><span class="err">''</span><span class="o">:</span>  <span class="err">#</span> <span class="err">播放</span>
+        <span class="n">stream</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">wf</span><span class="p">.</span><span class="n">readframes</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+        <span class="n">print</span><span class="p">(</span><span class="err">'</span><span class="k">while</span><span class="err">循环中！'</span><span class="p">)</span>
+        <span class="n">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">stream</span><span class="p">.</span><span class="n">stop_stream</span><span class="p">()</span>  <span class="err">#</span> <span class="err">停止数据流</span>
+    <span class="n">stream</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">p</span><span class="p">.</span><span class="n">terminate</span><span class="p">()</span>  <span class="err">#</span> <span class="err">关闭</span> <span class="n">PyAudio</span>
+
+</code></pre></div></div>
+<p>接连尝试了多个播放方法后，发现效果都不佳，最终尝试改变wav的格式，最后成功播放合成的语音。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Traceback (most recent call last):
+File "musicplay.py", line 77, in &lt;module&gt;
+    play_audio('/home/pi/Desktop/sleep/file/music/music3.wav')
+File "musicplay.py", line 9, in play_audio
+    pygame.mixer.music.load(audio_file_name)
+pygame.error: Unknown WAVE data format
+</code></pre></div></div>
+
+<p>报错的原因：使用pygame播放，结果wave格式未知</p>
+
+<p>我以为整个文件都已经偏离了wave的范围</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pygame 2.0.0 (SDL 2.0.9, python 3.7.3)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+Traceback (most recent call last):
+File "musicplay.py", line 41, in &lt;module&gt;
+    play_audio2()
+File "musicplay.py", line 24, in play_audio2
+    wf = wave.open(r"/home/pi/Desktop/sleep/file/music/music3.wav", 'rb')
+File "/usr/lib/python3.7/wave.py", line 510, in open
+    return Wave_read(f)
+File "/usr/lib/python3.7/wave.py", line 164, in __init__
+    self.initfp(f)
+File "/usr/lib/python3.7/wave.py", line 144, in initfp
+    self._read_fmt_chunk(chunk)
+File "/usr/lib/python3.7/wave.py", line 269, in _read_fmt_chunk
+    raise Error('unknown format: %r' % (wFormatTag,))
+wave.Error: unknown format: 3
+</code></pre></div></div>
+
+<p>然后使用pyaudio播放，错误提示表明 wave 模块在处理音频文件时遇到了未知的格式码 3。通常来说，WAV 文件的格式码为 1，表示 PCM 格式，而其他格式码则较为少见。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gpt建议：
+
+检查文件格式：
+确保 /home/pi/Desktop/sleep/file/music/music3.wav 文件是一个有效的 WAV 文件。你可以使用其他工具或库来检查文件格式，确保它是一个正确格式的 WAV 文件。
+
+尝试其他 WAV 文件：
+使用另一个 WAV 文件测试脚本，最好是一个你知道是 PCM 格式（格式码 1）的文件。这可以帮助确定问题是特定于文件还是更普遍的问题。
+
+检查 WAV 文件属性：
+使用工具或库检查有问题的 WAV 文件的属性，例如采样宽度、通道数和采样率。确保这些属性与 PyAudio 的期望相符。
+
+转换文件格式：
+如果文件格式有问题，考虑将其转换为标准的 PCM WAV 格式。你可以使用像 Audacity 这样的工具或 Pydub 这样的库来进行转换。
+</code></pre></div></div>
+
+<p>我意识到可以通过转换文件格式来解决问题</p>
+
+<p>于是乎查看wav文件的格式</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>def check_audio(file_path):
+    with wave.open(file_path, 'rb') as wf:
+        print("采样宽度:", wf.getsampwidth())
+        print("通道数:", wf.getnchannels())
+        print("帧速率:", wf.getframerate())
+
+check_audio("/home/pi/Desktop/sleep/file/music/music1.wav")#能正常播放
+check_audio("/home/pi/Desktop/sleep/file/music/music3.wav")#不能正常播放
+
+结果：
+采样宽度: 2
+通道数: 2
+帧速率: 22050
+Traceback (most recent call last):
+File "musicplay.py", line 60, in &lt;module&gt;
+    check_audio("/home/pi/Desktop/sleep/file/music/music3.wav")
+File "musicplay.py", line 54, in check_audio
+    with wave.open(file_path, 'rb') as wf:
+File "/usr/lib/python3.7/wave.py", line 510, in open
+    return Wave_read(f)
+File "/usr/lib/python3.7/wave.py", line 164, in __init__
+    self.initfp(f)
+File "/usr/lib/python3.7/wave.py", line 144, in initfp
+    self._read_fmt_chunk(chunk)
+File "/usr/lib/python3.7/wave.py", line 269, in _read_fmt_chunk
+    raise Error('unknown format: %r' % (wFormatTag,))
+wave.Error: unknown format: 3
+</code></pre></div></div>
+
+<p>转换格式</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from pydub import AudioSegment#安装：pip3 install pydub
+
+def convert_audio_format(input_file, output_file, sample_width, channels):
+    audio = AudioSegment.from_file(input_file)
+    audio = audio.set_sample_width(sample_width)
+    audio = audio.set_channels(channels)
+    audio.export(output_file, format="wav")
+# 替换文件路径和参数
+input_file_path = "/home/pi/Desktop/sleep/file/music/music3.wav"
+output_file_path = "/home/pi/Desktop/sleep/file/music/music3_converted.wav"
+sample_width = 2  # 与 music1.wav 相同的采样宽度
+channels = 2      # 与 music1.wav 相同的通道数
+convert_audio_format(input_file_path, output_file_path, sample_width, channels)
+check_audio(output_file_path)
+</code></pre></div></div>
+
+<p>查看结果</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>采样宽度: 2
+通道数: 2
+帧速率: 22050
+采样宽度: 2
+通道数: 2
+帧速率: 22050
+</code></pre></div></div>
+
+<p>结果也可以播放。语音合成也就到此结束了，也就是多加了一个格式转化</p>
+
+<h2 id="百度语音合成">百度语音合成</h2>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp"># coding=utf-8
+</span><span class="n">import</span> <span class="n">sys</span>
+<span class="n">import</span> <span class="n">json</span>
+<span class="n">import</span> <span class="n">pygame</span>
+<span class="cp">#IS_PY3 标志用于检测是否在 Python 3 环境中运行。
+#根据 Python 版本导入对应的 urllib 库。
+</span><span class="n">IS_PY3</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">version_info</span><span class="p">.</span><span class="n">major</span> <span class="o">==</span> <span class="mi">3</span>
+<span class="k">if</span> <span class="n">IS_PY3</span><span class="o">:</span>
+    <span class="n">from</span> <span class="n">urllib</span><span class="p">.</span><span class="n">request</span> <span class="n">import</span> <span class="n">urlopen</span>
+    <span class="n">from</span> <span class="n">urllib</span><span class="p">.</span><span class="n">request</span> <span class="n">import</span> <span class="n">Request</span>
+    <span class="n">from</span> <span class="n">urllib</span><span class="p">.</span><span class="n">error</span> <span class="n">import</span> <span class="n">URLError</span>
+    <span class="n">from</span> <span class="n">urllib</span><span class="p">.</span><span class="n">parse</span> <span class="n">import</span> <span class="n">urlencode</span>
+    <span class="n">from</span> <span class="n">urllib</span><span class="p">.</span><span class="n">parse</span> <span class="n">import</span> <span class="n">quote_plus</span>
+<span class="n">API_KEY</span> <span class="o">=</span> <span class="err">''</span>
+<span class="n">SECRET_KEY</span> <span class="o">=</span> <span class="err">''</span>
+<span class="n">TEXT</span> <span class="o">=</span> <span class="s">""</span>
+<span class="cp"># 发音人选择, 基础音库：0为度小美，1为度小宇，3为度逍遥，4为度丫丫，
+# 精品音库：5为度小娇，103为度米朵，106为度博文，110为度小童，111为度小萌，默认为度小美
+</span><span class="n">PER</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="cp"># 语速，取值0-15，默认为5中语速
+</span><span class="n">SPD</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="cp"># 音调，取值0-15，默认为5中语调
+</span><span class="n">PIT</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="cp"># 音量，取值0-9，默认为5中音量
+</span><span class="n">VOL</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="cp"># 下载的文件格式, 3：mp3(default) 4： pcm-16k 5： pcm-8k 6. wav
+</span><span class="n">AUE</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">FORMATS</span> <span class="o">=</span> <span class="p">{</span><span class="mi">3</span><span class="o">:</span> <span class="s">"mp3"</span><span class="p">,</span> <span class="mi">4</span><span class="o">:</span> <span class="s">"pcm"</span><span class="p">,</span> <span class="mi">5</span><span class="o">:</span> <span class="s">"pcm"</span><span class="p">,</span> <span class="mi">6</span><span class="o">:</span> <span class="s">"wav"</span><span class="p">}</span>
+<span class="n">FORMAT</span> <span class="o">=</span> <span class="n">FORMATS</span><span class="p">[</span><span class="n">AUE</span><span class="p">]</span>
+<span class="n">CUID</span> <span class="o">=</span> <span class="s">"q3gH8c4olzE4v27UEHfEEYvbWpRaxIWQ"</span>
+<span class="n">TTS_URL</span> <span class="o">=</span> <span class="err">'</span><span class="n">http</span><span class="o">:</span><span class="c1">//tsn.baidu.com/text2audio'</span>
+<span class="cp">#定义一个自定义异常类 DemoError，用于处理可能的异常情况。
+</span><span class="n">class</span> <span class="n">DemoError</span><span class="p">(</span><span class="n">Exception</span><span class="p">)</span><span class="o">:</span>
+    <span class="n">pass</span>
+<span class="s">"""  TOKEN start """</span>
+<span class="n">TOKEN_URL</span> <span class="o">=</span> <span class="err">'</span><span class="n">http</span><span class="o">:</span><span class="c1">//aip.baidubce.com/oauth/2.0/token'</span>
+<span class="n">SCOPE</span> <span class="o">=</span> <span class="err">'</span><span class="n">audio_tts_post</span><span class="err">'</span>  <span class="err">#</span> <span class="err">有此</span><span class="n">scope</span><span class="err">表示有</span><span class="n">tts</span><span class="err">能力，没有请在网页里勾选</span>
+<span class="n">def</span> <span class="n">play_audio</span><span class="p">(</span><span class="n">audio_file_name</span><span class="p">)</span><span class="o">:</span>
+    <span class="cp"># 初始化pygame
+</span>    <span class="n">pygame</span><span class="p">.</span><span class="n">init</span><span class="p">()</span>
+    <span class="cp"># 设置音频文件
+</span>    <span class="n">pygame</span><span class="p">.</span><span class="n">mixer</span><span class="p">.</span><span class="n">music</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">audio_file_name</span><span class="p">)</span>
+    <span class="cp"># 播放音频
+</span>    <span class="n">pygame</span><span class="p">.</span><span class="n">mixer</span><span class="p">.</span><span class="n">music</span><span class="p">.</span><span class="n">play</span><span class="p">()</span>
+    <span class="cp"># 等待音频播放完毕
+</span>    <span class="k">while</span> <span class="n">pygame</span><span class="p">.</span><span class="n">mixer</span><span class="p">.</span><span class="n">music</span><span class="p">.</span><span class="n">get_busy</span><span class="p">()</span><span class="o">:</span>
+        <span class="n">pygame</span><span class="p">.</span><span class="n">time</span><span class="p">.</span><span class="n">Clock</span><span class="p">().</span><span class="n">tick</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="cp"># 退出pygame
+</span>    <span class="n">pygame</span><span class="p">.</span><span class="n">quit</span><span class="p">()</span>
+<span class="n">def</span> <span class="n">fetch_token</span><span class="p">()</span><span class="o">:</span>
+    <span class="n">print</span><span class="p">(</span><span class="s">"fetch token begin"</span><span class="p">)</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="err">'</span><span class="n">grant_type</span><span class="err">'</span><span class="o">:</span> <span class="err">'</span><span class="n">client_credentials</span><span class="err">'</span><span class="p">,</span>
+              <span class="err">'</span><span class="n">client_id</span><span class="err">'</span><span class="o">:</span> <span class="n">API_KEY</span><span class="p">,</span>
+              <span class="err">'</span><span class="n">client_secret</span><span class="err">'</span><span class="o">:</span> <span class="n">SECRET_KEY</span><span class="p">}</span>
+    <span class="n">post_data</span> <span class="o">=</span> <span class="n">urlencode</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">IS_PY3</span><span class="p">)</span><span class="o">:</span>
+        <span class="n">post_data</span> <span class="o">=</span> <span class="n">post_data</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="err">'</span><span class="n">utf</span><span class="o">-</span><span class="mi">8</span><span class="err">'</span><span class="p">)</span>
+    <span class="n">req</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="n">TOKEN_URL</span><span class="p">,</span> <span class="n">post_data</span><span class="p">)</span>
+    <span class="n">try</span><span class="o">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">req</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">result_str</span> <span class="o">=</span> <span class="n">f</span><span class="p">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="n">except</span> <span class="n">URLError</span> <span class="n">as</span> <span class="n">err</span><span class="o">:</span>
+        <span class="n">print</span><span class="p">(</span><span class="err">'</span><span class="n">token</span> <span class="n">http</span> <span class="n">response</span> <span class="n">http</span> <span class="n">code</span> <span class="o">:</span> <span class="err">'</span> <span class="o">+</span> <span class="n">str</span><span class="p">(</span><span class="n">err</span><span class="p">.</span><span class="n">code</span><span class="p">))</span>
+        <span class="n">result_str</span> <span class="o">=</span> <span class="n">err</span><span class="p">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">IS_PY3</span><span class="p">)</span><span class="o">:</span>
+        <span class="n">result_str</span> <span class="o">=</span> <span class="n">result_str</span><span class="p">.</span><span class="n">decode</span><span class="p">()</span>
+
+    <span class="n">print</span><span class="p">(</span><span class="n">result_str</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">(</span><span class="n">result_str</span><span class="p">)</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="err">'</span><span class="n">access_token</span><span class="err">'</span> <span class="n">in</span> <span class="n">result</span><span class="p">.</span><span class="n">keys</span><span class="p">()</span> <span class="n">and</span> <span class="err">'</span><span class="n">scope</span><span class="err">'</span> <span class="n">in</span> <span class="n">result</span><span class="p">.</span><span class="n">keys</span><span class="p">())</span><span class="o">:</span>
+        <span class="k">if</span> <span class="n">not</span> <span class="n">SCOPE</span> <span class="n">in</span> <span class="n">result</span><span class="p">[</span><span class="err">'</span><span class="n">scope</span><span class="err">'</span><span class="p">].</span><span class="n">split</span><span class="p">(</span><span class="sc">' '</span><span class="p">)</span><span class="o">:</span>
+            <span class="n">raise</span> <span class="n">DemoError</span><span class="p">(</span><span class="err">'</span><span class="n">scope</span> <span class="n">is</span> <span class="n">not</span> <span class="n">correct</span><span class="err">'</span><span class="p">)</span>
+        <span class="n">print</span><span class="p">(</span><span class="err">'</span><span class="n">SUCCESS</span> <span class="n">WITH</span> <span class="n">TOKEN</span><span class="o">:</span> <span class="o">%</span><span class="n">s</span> <span class="p">;</span> <span class="n">EXPIRES</span> <span class="n">IN</span> <span class="n">SECONDS</span><span class="o">:</span> <span class="o">%</span><span class="n">s</span><span class="err">'</span> <span class="o">%</span> <span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="err">'</span><span class="n">access_token</span><span class="err">'</span><span class="p">],</span> <span class="n">result</span><span class="p">[</span><span class="err">'</span><span class="n">expires_in</span><span class="err">'</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="n">result</span><span class="p">[</span><span class="err">'</span><span class="n">access_token</span><span class="err">'</span><span class="p">]</span>
+    <span class="k">else</span><span class="o">:</span>
+        <span class="n">raise</span> <span class="n">DemoError</span><span class="p">(</span><span class="err">'</span><span class="n">MAYBE</span> <span class="n">API_KEY</span> <span class="n">or</span> <span class="n">SECRET_KEY</span> <span class="n">not</span> <span class="n">correct</span><span class="o">:</span> <span class="n">access_token</span> <span class="n">or</span> <span class="n">scope</span> <span class="n">not</span> <span class="n">found</span> <span class="n">in</span> <span class="n">token</span> <span class="n">response</span><span class="err">'</span><span class="p">)</span>
+
+
+<span class="s">"""  TOKEN end """</span>
+
+<span class="n">def</span> <span class="n">speak2</span><span class="p">(</span><span class="n">TEXT</span><span class="p">)</span><span class="o">:</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">fetch_token</span><span class="p">()</span>
+    <span class="n">tex</span> <span class="o">=</span> <span class="n">quote_plus</span><span class="p">(</span><span class="n">TEXT</span><span class="p">)</span>  <span class="err">#</span> <span class="err">此处</span><span class="n">TEXT</span><span class="err">需要两次</span><span class="n">urlencode</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">tex</span><span class="p">)</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="err">'</span><span class="n">tok</span><span class="err">'</span><span class="o">:</span> <span class="n">token</span><span class="p">,</span> <span class="err">'</span><span class="n">tex</span><span class="err">'</span><span class="o">:</span> <span class="n">tex</span><span class="p">,</span> <span class="err">'</span><span class="n">per</span><span class="err">'</span><span class="o">:</span> <span class="n">PER</span><span class="p">,</span> <span class="err">'</span><span class="n">spd</span><span class="err">'</span><span class="o">:</span> <span class="n">SPD</span><span class="p">,</span> <span class="err">'</span><span class="n">pit</span><span class="err">'</span><span class="o">:</span> <span class="n">PIT</span><span class="p">,</span> <span class="err">'</span><span class="n">vol</span><span class="err">'</span><span class="o">:</span> <span class="n">VOL</span><span class="p">,</span> <span class="err">'</span><span class="n">aue</span><span class="err">'</span><span class="o">:</span> <span class="n">AUE</span><span class="p">,</span> <span class="err">'</span><span class="n">cuid</span><span class="err">'</span><span class="o">:</span> <span class="n">CUID</span><span class="p">,</span>
+              <span class="err">'</span><span class="n">lan</span><span class="err">'</span><span class="o">:</span> <span class="err">'</span><span class="n">zh</span><span class="err">'</span><span class="p">,</span> <span class="err">'</span><span class="n">ctp</span><span class="err">'</span><span class="o">:</span> <span class="mi">1</span><span class="p">}</span>  <span class="err">#</span> <span class="n">lan</span> <span class="n">ctp</span> <span class="err">固定参数</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">urlencode</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="n">print</span><span class="p">(</span><span class="err">'</span><span class="n">test</span> <span class="n">on</span> <span class="n">Web</span> <span class="n">Browser</span><span class="err">'</span> <span class="o">+</span> <span class="n">TTS_URL</span> <span class="o">+</span> <span class="sc">'?'</span> <span class="o">+</span> <span class="n">data</span><span class="p">)</span>
+
+    <span class="n">req</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="n">TTS_URL</span><span class="p">,</span> <span class="n">data</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="err">'</span><span class="n">utf</span><span class="o">-</span><span class="mi">8</span><span class="err">'</span><span class="p">))</span>
+    <span class="n">has_error</span> <span class="o">=</span> <span class="n">False</span>
+    <span class="n">try</span><span class="o">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+        <span class="n">result_str</span> <span class="o">=</span> <span class="n">f</span><span class="p">.</span><span class="n">read</span><span class="p">()</span>
+
+        <span class="n">headers</span> <span class="o">=</span> <span class="n">dict</span><span class="p">((</span><span class="n">name</span><span class="p">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="n">in</span> <span class="n">f</span><span class="p">.</span><span class="n">headers</span><span class="p">.</span><span class="n">items</span><span class="p">())</span>
+
+        <span class="n">has_error</span> <span class="o">=</span> <span class="p">(</span><span class="err">'</span><span class="n">content</span><span class="o">-</span><span class="n">type</span><span class="err">'</span> <span class="n">not</span> <span class="n">in</span> <span class="n">headers</span><span class="p">.</span><span class="n">keys</span><span class="p">()</span> <span class="n">or</span> <span class="n">headers</span><span class="p">[</span><span class="err">'</span><span class="n">content</span><span class="o">-</span><span class="n">type</span><span class="err">'</span><span class="p">].</span><span class="n">find</span><span class="p">(</span><span class="err">'</span><span class="n">audio</span><span class="o">/</span><span class="err">'</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">except</span>  <span class="n">URLError</span> <span class="n">as</span> <span class="n">err</span><span class="o">:</span>
+        <span class="n">print</span><span class="p">(</span><span class="err">'</span><span class="n">asr</span> <span class="n">http</span> <span class="n">response</span> <span class="n">http</span> <span class="n">code</span> <span class="o">:</span> <span class="err">'</span> <span class="o">+</span> <span class="n">str</span><span class="p">(</span><span class="n">err</span><span class="p">.</span><span class="n">code</span><span class="p">))</span>
+        <span class="n">result_str</span> <span class="o">=</span> <span class="n">err</span><span class="p">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">has_error</span> <span class="o">=</span> <span class="n">True</span>
+    <span class="n">save_file</span> <span class="o">=</span> <span class="s">"../file/tmp/output2.txt"</span> <span class="k">if</span> <span class="n">has_error</span> <span class="k">else</span> <span class="err">'</span><span class="p">..</span><span class="o">/</span><span class="n">file</span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">output2</span><span class="p">.</span><span class="err">'</span> <span class="o">+</span> <span class="n">FORMAT</span>
+<span class="cp">#    save_file = "error.txt" if has_error else 'result.' + FORMAT
+</span>    <span class="n">with</span> <span class="n">open</span><span class="p">(</span><span class="n">save_file</span><span class="p">,</span> <span class="err">'</span><span class="n">wb</span><span class="err">'</span><span class="p">)</span> <span class="n">as</span> <span class="n">of</span><span class="o">:</span>
+        <span class="n">of</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">result_str</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">has_error</span><span class="o">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">IS_PY3</span><span class="p">)</span><span class="o">:</span>
+            <span class="n">result_str</span> <span class="o">=</span> <span class="n">str</span><span class="p">(</span><span class="n">result_str</span><span class="p">,</span> <span class="err">'</span><span class="n">utf</span><span class="o">-</span><span class="mi">8</span><span class="err">'</span><span class="p">)</span>
+        <span class="n">print</span><span class="p">(</span><span class="s">"tts api  error:"</span> <span class="o">+</span> <span class="n">result_str</span><span class="p">)</span>
+
+    <span class="n">print</span><span class="p">(</span><span class="s">"result saved as :"</span> <span class="o">+</span> <span class="n">save_file</span><span class="p">)</span>
+
+    <span class="n">play_audio</span><span class="p">(</span><span class="s">"../file/tmp/output2.wav"</span><span class="p">)</span>
+
+<span class="cp">#speak2("你好，缓缓")
+</span></code></pre></div></div>
+<p>可以使用，效果比使用模型好，感觉使用VITS模型好像有点傻逼了，但好歹也是多了一个喜欢的音色的选择</p>
+
+</div>
+  
+  <footer class="article-tags">
+    <a href="/tags/"># 树莓派</a>
+  </footer>
+  
+  <nav class="article-return" aria-label="文章后导航">
+    <a href="/vault/A3-%E9%A1%B9%E7%9B%AE/B1-%E6%AF%95%E8%AE%BE/">← 返回“毕设”文件夹</a>
+    <a href="/vault/">资料库根目录 ↑</a>
+  </nav>
+</article>
+</section>
+</div>
+</main>
+    <footer class="site-footer">
+  <div class="site-footer__inner">
+    <div>
+      <p class="site-footer__name">何嘉华的生活花园</p>
+      <p>愿每一次记录，都让未来的自己多一条回来的路。</p>
+    </div>
+    <div class="site-footer__links">
+      <a href="https://github.com/hejiahua007" rel="me">GitHub</a>
+      <a href="mailto:19902358463@163.com">Email</a>
+      <a href="#top">回到顶部 ↑</a>
+    </div>
+  </div>
+  <p class="site-footer__copyright">© 2026 何嘉华 · 用 Jekyll 与长期记录慢慢生长</p>
+</footer>
+
+
+    <script src="/assets/js/site.js" defer></script>
+  </body>
+</html>
+
