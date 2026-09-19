@@ -290,7 +290,7 @@ me（5min）:
 ```
 codex(3min):
 已生成计划文件：
-[PLC通讯模块独立生成与接入计划.md](D:/hua_project/LineChangeover-Control-System/plan/PLC通讯模块独立生成与接入计划.md)
+PLC 通讯模块独立生成与接入计划
 里面按你的思路拆成了：先定义目标接口、生成独立主进程 plc-comm 模块、开临时测试页面验证 Mock/Modbus TCP/MC、测试通过后删除临时页面，再接入正式设备配置页和工作界面逻辑。
 ```
 ...

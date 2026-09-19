@@ -42,7 +42,7 @@ void esp_init(void)
 	if(isWifiConnected()){
 			printf("WIFI连接成功\r\n");
 	}else{
-			Send_Cmd_Wait_Cmd("AT+CWJAP=\"USER_509\",\"3643731ZSC\"\r\n","OK");
+			Send_Cmd_Wait_Cmd("AT+CWJAP=\"YOUR_WIFI_SSID\",\"***\"\r\n","OK");
 			printf("WIFI连接成功\r\n");
 	}
     // 检查TCP连接状态
@@ -50,7 +50,7 @@ void esp_init(void)
         printf("TCP连接成功\r\n");
     } else {
         // 尝试建立TCP连接
-        Send_Cmd_Wait_Cmd("AT+CIPSTART=\"TCP\",\"192.168.43.94\",8888\r\n","OK");
+        Send_Cmd_Wait_Cmd("AT+CIPSTART=\"TCP\",\"YOUR_SERVER_IP\",8888\r\n","OK");
         printf("尝试连接TCP服务器\r\n");
     }
 	printf("配置完成");
@@ -60,17 +60,15 @@ void esp_init(void)
 ```
 Send_Cmd_Wait_Cmd使用这个函数接收到的不一定准确，若是没有接收到等待的指令，就会进入无线等待，就此卡主。
 而且，当esp3201若已经连接上了wifi，或者是已经建立了tcp连接，那么再次使用命令叫它连接或是建立tcp连接时，就会出现问题。
-像是wifi连接，若是已经连接上了，你还用Send_Cmd_Wait_Cmd("AT+CWJAP=\"USER_509\",\"3643731ZSC\"\r\n"，那就会出现问题：先是断开wifi，然后再连接wifi（不成功）
+像是 Wi-Fi 连接，若是已经连接上了，你还用 `Send_Cmd_Wait_Cmd("AT+CWJAP=\"YOUR_WIFI_SSID\",\"***\"\r\n")`，那就会出现问题：先是断开 Wi-Fi，然后再连接 Wi-Fi（不成功）。
 还有wifi连接成功后的tcp，再次建立tcp的话，会出现：error的报错，然后卡主。
 ps:若是已经连接成功过wifi，tcp，esp一开机就会自动连接上
 
 所以要先判断一下，然后再进行连接。
 
 2024年3月21日17:07:54
-D:\git_cangku\毕设\stm32_sleep\USER，这个是可以用的
+<毕设项目目录>\stm32_sleep\USER，这个是可以用的
 
 ---
 ![image](/assets/blog_res/2024-3-21-bisheceshi1/image.png)
-
-
 

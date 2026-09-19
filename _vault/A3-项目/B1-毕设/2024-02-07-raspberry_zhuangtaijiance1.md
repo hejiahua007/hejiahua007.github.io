@@ -702,8 +702,8 @@ https://blog.csdn.net/weixin_64605288/article/details/125705684?utm_medium=distr
     print(torch.cuda_version)
     print(torch.backends.cudnn.version())
     结果：
-    D:\git_cangku\gpu_test\venv\Scripts\python.exe D:\git_cangku\gpu_test\gpu_test.py 
-    D:\git_cangku\gpu_test\venv\lib\site-packages\torch\nn\modules\transformer.py:20: UserWarning: Failed to initialize NumPy: No module named 'numpy' (Triggered internally at ..\torch\csrc\utils\tensor_numpy.cpp:84.)
+    <项目目录>\venv\Scripts\python.exe <项目目录>\gpu_test.py
+    <项目目录>\venv\lib\site-packages\torch\nn\modules\transformer.py:20: UserWarning: Failed to initialize NumPy: No module named 'numpy' (Triggered internally at ..\torch\csrc\utils\tensor_numpy.cpp:84.)
     device: torch.device = torch.device(torch._C._get_default_device()),  # torch.device('cpu'),
     1
     True
@@ -1070,7 +1070,7 @@ https://tianchi.aliyun.com/dataset/
 import os
 
 # 指定目录路径
-directory_path = r"D:\git_cangku\data\book\val"
+directory_path = r"<数据集验证目录>"
 
 # 获取目录中所有的.txt文件
 txt_files = [f for f in os.listdir(directory_path) if f.endswith(".txt")]

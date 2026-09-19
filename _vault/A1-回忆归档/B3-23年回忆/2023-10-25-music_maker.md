@@ -39,7 +39,7 @@ https://www.reddit.com/user/adobecrack/comments/12jumpk/fl_studio_2092_producer_
 
 2. 使用 WinRAR 提取FLST2092.rar文件
 
-3. 文件的密码是“2134”
+3. 文件的密码是 `***`
 
 4. 运行安装程序.exe文件，安装应用程序
 

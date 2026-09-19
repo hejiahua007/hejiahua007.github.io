@@ -23,7 +23,7 @@ published: true
 const char ssid[] = "";      //WiFi名
 const char pass[] = "";       //WiFi密码
 WiFiClient client; //创建一个WiFiClient对象
-const char* server = "192.168.1.7"; //服务器的IP地址
+const char* server = "YOUR_SERVER_IP"; //服务器的IP地址
 const int port = 8888; //服务器的端口号
 const int ledPin2 = 2; //继电器的引脚
 const int ledPin0 = 0; //LED的引脚
@@ -181,7 +181,7 @@ https://blog.csdn.net/dingxiang1987824/article/details/113420892?ops_request_mis
 const char ssid[] = "";      // WiFi名
 const char pass[] = "";    // WiFi密码
 WiFiClient client;                   // 创建一个WiFiClient对象
-const char* server = "192.168.";   // 服务器的IP地址
+const char* server = "YOUR_SERVER_IP";   // 服务器的IP地址
 const int port = 8888;                // 服务器的端口号
 
 
@@ -294,7 +294,7 @@ void initWiFi()
 const char ssid[] = "";      // WiFi名
 const char pass[] = "";    // WiFi密码
 WiFiClient client;                   // 创建一个WiFiClient对象
-const char* server = "192.168.1.";   // 服务器的IP地址
+const char* server = "YOUR_SERVER_IP";   // 服务器的IP地址
 const int port = 8888;                // 服务器的端口号
 Servo myServo;  // 定义Servo对象来控制
 int pos = 0;    // 角度存储变量

@@ -36,7 +36,7 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
 # 指定图片保存的目录
-image_directory = "D:/git_cangku/data/book/book_data_collect2/train/images"
+image_directory = "<训练图片目录>"
 
 # 创建一个事件处理器类，用于监控文件夹中的变化
 class ImageRenameHandler(FileSystemEventHandler):

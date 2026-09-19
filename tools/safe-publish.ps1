@@ -104,7 +104,20 @@ function Add-ReferencedAssets {
         }
         $assetPath = Get-RelativeRepoPath $fullPath
         if ($ApprovedManifest -and -not $assetPath.StartsWith('_vault/', [System.StringComparison]::OrdinalIgnoreCase)) {
-            $errors.Add("Approved publication asset must remain below _vault/: $assetPath")
+            # Existing legacy articles may still reference tracked assets below
+            # /assets. They are safe to reuse only when already tracked and
+            # unchanged; the approved publication scope must never stage or
+            # alter those external files.
+            git ls-files --error-unmatch -- $assetPath *> $null
+            $isTracked = $LASTEXITCODE -eq 0
+            git diff --quiet -- $assetPath
+            $worktreeUnchanged = $LASTEXITCODE -eq 0
+            git diff --cached --quiet -- $assetPath
+            $indexUnchanged = $LASTEXITCODE -eq 0
+            if ($isTracked -and $worktreeUnchanged -and $indexUnchanged) {
+                continue
+            }
+            $errors.Add("Approved publication asset outside _vault/ must already be tracked and unchanged: $assetPath")
             continue
         }
         [void]$assetFiles.Add($assetPath)

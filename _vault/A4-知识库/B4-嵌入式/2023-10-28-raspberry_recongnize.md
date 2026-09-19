@@ -56,7 +56,7 @@ ps：这个包依赖环境：Python 2.7, 3.6-3.9 版本。但我在电脑上试�
     https://note.youdao.com/ynoteshare/index.html?id=f5629c0793c02c5b6388089ba9cb2eda&type=note&_time=1698474784224
 
     注意的地方：
-    1. 3中的config.json在D:\v2rayN-With-Core\guiConfigs里
+    1. 3中的config.json在<本机配置目录>里
 
 
     wgethttps://github.com/mzz2017/v2rayA/releases/download/v0.7.1.3/installer_debian_armhf_v0.7.1.3.deb

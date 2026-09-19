@@ -305,7 +305,7 @@ publish: false
 | `type` | 是 | `daily` | 内容类型 |
 | `tags` | 是 | `[日记, 睡眠]` | 第一阶段主要检索方式 |
 | `publish` | 是 | `false` | 只有人工改为 `true` 才可发布 |
-| `project` | 否 | `[[工艺参数一键切换]]` | 所属项目 |
+| `project` | 否 | `[[某工艺配置项目]]` | 所属项目 |
 | `created` | 否 | ISO 时间 | 自动化阶段加入 |
 | `updated` | 否 | ISO 时间 | 自动化阶段加入 |
 
