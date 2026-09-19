@@ -116,11 +116,12 @@ published: false
 当 `life-vault` 已经使用与长期库一致的目录时，优先使用无 AI 的同路径同步：
 
 ```powershell
-.\tools\sync-from-lifevault.ps1 -Mode Plan
-.\tools\sync-from-lifevault.ps1 -Mode Apply
+.\tools\sync-from-lifevault.ps1 -Mode Plan -MigrationId weekly-2026-W38
+# 检查并按需修改 .migration/weekly-2026-W38/routing-plan.json
+.\tools\sync-from-lifevault.ps1 -Mode Apply -MigrationId weekly-2026-W38
 ```
 
-该入口自动生成路由 JSON，并把复制和备份交给 `monthly-migration.ps1`；新文件保持原路径，冲突文件保留等待人工复核，源文件不会删除。只有确实需要重新分类时才使用下面的迁移智能体流程。
+`Plan` 自动生成路由 JSON；`Apply` 只执行同一个 `MigrationId` 下已经审阅的计划，不会重新生成或覆盖人工决定。复制和备份仍交给 `monthly-migration.ps1`；新文件保持原路径，冲突文件保留等待人工复核，源文件不会删除。只有确实需要重新分类时才使用下面的迁移智能体流程。
 
 月度迁移由一个控制脚本和两个窄职责智能体组成：
 
@@ -173,3 +174,28 @@ Prepare → 迁移智能体(JSON) → Apply → 整理智能体(Markdown)
 ```powershell
 .\tools\publish-vault.ps1 -Message "content: 更新生活记录" -Push
 ```
+
+## 每周日志整理与限定发布
+
+个人 Skill `weekly-life-vault-publish` 用于每周执行“同路径迁移 → 工作内容轻度摘要 → 人工审阅 → 限定范围发布”。原始记录保留在 `life-vault` 和 `.migration/<id>/source-backup/`，只修改网站仓库中的目标副本。
+
+准备阶段生成本地文件：
+
+```text
+.migration/weekly-YYYY-Www/
+├─ applied-manifest.json
+├─ source-backup/
+├─ curation-report.md
+└─ publication-candidates.json
+```
+
+用户审阅并明确确认后才生成 `approved-manifest.json`。限定发布命令为：
+
+```powershell
+.\tools\publish-vault.ps1 `
+  -Message "content: weekly life-vault update 2026-W38" `
+  -ApprovedManifest ".migration\weekly-2026-W38\approved-manifest.json" `
+  -Push
+```
+
+批准清单中的每一项都必须包含 `path`、`target_sha256` 和 `decision: publish`。脚本会拒绝哈希变化、非 `_vault/*.md` 路径、非严格 `published: true` 文件以及非空暂存区，并只暂存批准文件及其相对本地资源。

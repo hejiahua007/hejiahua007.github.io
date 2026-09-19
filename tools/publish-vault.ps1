@@ -9,7 +9,8 @@
 param(
     [Parameter(Mandatory = $true)][string]$Message,
     [switch]$Push,
-    [switch]$DryRun
+    [switch]$DryRun,
+    [string]$ApprovedManifest
 )
 
 $ErrorActionPreference = 'Stop'
@@ -26,16 +27,26 @@ if ($outsideVault.Count -gt 0) {
     throw "Refusing to publish with unrelated working-tree changes:`n$($outsideVault -join "`n")"
 }
 
+if ($ApprovedManifest) {
+    $preStaged = @(git -c core.quotepath=false diff --cached --name-only)
+    if ($preStaged.Count -gt 0) {
+        throw "Approved publication requires an empty Git index. Preserve or unstage these paths first:`n$($preStaged -join "`n")"
+    }
+}
+
+$safePublishArgs = @{}
+if ($ApprovedManifest) { $safePublishArgs['ApprovedManifest'] = $ApprovedManifest }
+
 & (Join-Path $scriptDir 'validate-vault.ps1')
 if ($LASTEXITCODE -ne 0) { throw 'Vault validation failed.' }
-& (Join-Path $scriptDir 'safe-publish.ps1') -DryRun
+& (Join-Path $scriptDir 'safe-publish.ps1') @safePublishArgs -DryRun
 if ($LASTEXITCODE -ne 0) { throw 'Vault publication preview failed.' }
 if ($DryRun) {
     Write-Host 'Dry run completed; staging area was not changed.' -ForegroundColor Cyan
     exit 0
 }
 
-& (Join-Path $scriptDir 'safe-publish.ps1')
+& (Join-Path $scriptDir 'safe-publish.ps1') @safePublishArgs
 if ($LASTEXITCODE -ne 0) { throw 'Unable to stage public Vault content.' }
 
 bundle exec jekyll clean

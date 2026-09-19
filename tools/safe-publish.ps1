@@ -14,7 +14,8 @@
 
 param(
     [switch]$DryRun,
-    [switch]$NoReset
+    [switch]$NoReset,
+    [string]$ApprovedManifest
 )
 
 $ErrorActionPreference = 'Stop'
@@ -28,6 +29,8 @@ $privateFiles = [System.Collections.Generic.List[string]]::new()
 $invalidFiles = [System.Collections.Generic.List[string]]::new()
 $assetFiles = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
 $errors = [System.Collections.Generic.List[string]]::new()
+$approvedHashes = @{}
+$blockedManifestFiles = [System.Collections.Generic.List[string]]::new()
 
 function Get-RelativeRepoPath {
     param([Parameter(Mandatory = $true)][string]$FullPath)
@@ -99,7 +102,12 @@ function Add-ReferencedAssets {
             $errors.Add("Missing asset: $url in $(Get-RelativeRepoPath $MarkdownPath)")
             continue
         }
-        [void]$assetFiles.Add((Get-RelativeRepoPath $fullPath))
+        $assetPath = Get-RelativeRepoPath $fullPath
+        if ($ApprovedManifest -and -not $assetPath.StartsWith('_vault/', [System.StringComparison]::OrdinalIgnoreCase)) {
+            $errors.Add("Approved publication asset must remain below _vault/: $assetPath")
+            continue
+        }
+        [void]$assetFiles.Add($assetPath)
     }
 }
 
@@ -107,18 +115,71 @@ if (-not (Test-Path -LiteralPath $vaultRoot -PathType Container)) {
     throw "Vault directory not found: $vaultRoot"
 }
 
-if (-not $NoReset -and -not $DryRun) {
-    git reset -q HEAD -- _vault
-    if ($LASTEXITCODE -ne 0) { throw 'Unable to clear the _vault staging scope.' }
-}
+$markdownFiles = @()
+if ($ApprovedManifest) {
+    $manifestPath = if ([System.IO.Path]::IsPathRooted($ApprovedManifest)) {
+        [System.IO.Path]::GetFullPath($ApprovedManifest)
+    }
+    else {
+        [System.IO.Path]::GetFullPath((Join-Path $repoRoot $ApprovedManifest))
+    }
+    $repoPrefix = $repoRoot.TrimEnd('\') + '\'
+    if (-not $manifestPath.StartsWith($repoPrefix, [System.StringComparison]::OrdinalIgnoreCase)) {
+        throw "Approved manifest must be inside the repository: $manifestPath"
+    }
+    if (-not (Test-Path -LiteralPath $manifestPath -PathType Leaf)) {
+        throw "Approved manifest not found: $manifestPath"
+    }
 
-$markdownFiles = Get-ChildItem -LiteralPath $vaultRoot -Recurse -File -Filter '*.md' |
-    Where-Object { $_.Name -ne '_index.md' } |
-    Sort-Object FullName
+    $manifest = Get-Content -LiteralPath $manifestPath -Raw -Encoding UTF8 | ConvertFrom-Json
+    if ([int]$manifest.schema_version -ne 1) { throw 'Approved manifest schema_version must be 1.' }
+    if ($null -eq $manifest.files) { throw 'Approved manifest must contain a files array.' }
+
+    $seen = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
+    foreach ($entry in @($manifest.files)) {
+        $path = [string]$entry.path
+        $decision = [string]$entry.decision
+        if ($decision -eq 'blocked') {
+            if ($path) { $blockedManifestFiles.Add($path) }
+            continue
+        }
+        if ($decision -ne 'publish') { throw "Invalid manifest decision for ${path}: $decision" }
+        if ($path -notmatch '^_vault/.+\.md$' -or $path.Contains('..') -or [System.IO.Path]::IsPathRooted($path)) {
+            throw "Approved path must be a Markdown file below _vault/: $path"
+        }
+        if (-not $seen.Add($path)) { throw "Duplicate approved path: $path" }
+        $hash = ([string]$entry.target_sha256).ToLowerInvariant()
+        if ($hash -notmatch '^[0-9a-f]{64}$') { throw "Invalid target_sha256 for approved path: $path" }
+
+        $fullPath = [System.IO.Path]::GetFullPath((Join-Path $repoRoot $path.Replace('/', '\')))
+        if (-not $fullPath.StartsWith($repoPrefix, [System.StringComparison]::OrdinalIgnoreCase)) {
+            throw "Approved path escapes repository: $path"
+        }
+        if (-not (Test-Path -LiteralPath $fullPath -PathType Leaf)) {
+            $errors.Add("Approved file is missing: $path")
+            continue
+        }
+        $approvedHashes[$path] = $hash
+        $markdownFiles += Get-Item -LiteralPath $fullPath
+    }
+}
+else {
+    $markdownFiles = @(Get-ChildItem -LiteralPath $vaultRoot -Recurse -File -Filter '*.md' |
+        Where-Object { $_.Name -ne '_index.md' } |
+        Sort-Object FullName)
+}
 
 foreach ($file in $markdownFiles) {
     $content = Get-Content -LiteralPath $file.FullName -Raw -Encoding UTF8
     $relativePath = Get-RelativeRepoPath $file.FullName
+    if ($ApprovedManifest) {
+        $actualHash = (Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+        if ($actualHash -ne $approvedHashes[$relativePath]) {
+            $invalidFiles.Add($relativePath)
+            $errors.Add("Approved file changed after review: $relativePath")
+            continue
+        }
+    }
     $state = Get-PublicationState $content
 
     switch ($state) {
@@ -128,6 +189,7 @@ foreach ($file in $markdownFiles) {
         }
         'Private' {
             $privateFiles.Add($relativePath)
+            if ($ApprovedManifest) { $errors.Add("Approved file is not published: true: $relativePath") }
         }
         default {
             $invalidFiles.Add($relativePath)
@@ -136,21 +198,39 @@ foreach ($file in $markdownFiles) {
     }
 }
 
-$deletedTracked = @(git -c core.quotepath=false ls-files --deleted -- _vault)
-if ($LASTEXITCODE -ne 0) { throw 'Unable to inspect deleted tracked Vault files.' }
+$deletedTracked = @()
+if (-not $ApprovedManifest) {
+    $deletedTracked = @(git -c core.quotepath=false ls-files --deleted -- _vault)
+    if ($LASTEXITCODE -ne 0) { throw 'Unable to inspect deleted tracked Vault files.' }
+}
 
-if (-not $DryRun) {
+if (-not $DryRun -and $errors.Count -eq 0) {
+    if (-not $NoReset) {
+        if ($ApprovedManifest) {
+            foreach ($path in $approvedHashes.Keys) {
+                git reset -q HEAD -- $path
+                if ($LASTEXITCODE -ne 0) { throw "Unable to clear approved staging path: $path" }
+            }
+        }
+        else {
+            git reset -q HEAD -- _vault
+            if ($LASTEXITCODE -ne 0) { throw 'Unable to clear the _vault staging scope.' }
+        }
+    }
+
     foreach ($path in $deletedTracked) {
         git add -u -- $path
         if ($LASTEXITCODE -ne 0) { throw "Unable to stage deletion: $path" }
     }
 
-    foreach ($path in @($privateFiles) + @($invalidFiles)) {
-        $tracked = @(git ls-files -- $path)
-        if ($LASTEXITCODE -ne 0) { throw "Unable to inspect tracked state: $path" }
-        if ($tracked.Count -gt 0) {
-            git rm -q -f --cached -- $path
-            if ($LASTEXITCODE -ne 0) { throw "Unable to untrack private file: $path" }
+    if (-not $ApprovedManifest) {
+        foreach ($path in @($privateFiles) + @($invalidFiles)) {
+            $tracked = @(git ls-files -- $path)
+            if ($LASTEXITCODE -ne 0) { throw "Unable to inspect tracked state: $path" }
+            if ($tracked.Count -gt 0) {
+                git rm -q -f --cached -- $path
+                if ($LASTEXITCODE -ne 0) { throw "Unable to untrack private file: $path" }
+            }
         }
     }
 
@@ -159,6 +239,10 @@ if (-not $DryRun) {
         if ($LASTEXITCODE -ne 0) { throw "Unable to stage published file: $path" }
     }
     foreach ($path in $assetFiles) {
+        if ($ApprovedManifest -and -not $NoReset) {
+            git reset -q HEAD -- $path
+            if ($LASTEXITCODE -ne 0) { throw "Unable to clear approved asset staging path: $path" }
+        }
         git add -f -- $path
         if ($LASTEXITCODE -ne 0) { throw "Unable to stage asset: $path" }
     }
@@ -171,6 +255,10 @@ Write-Host "  Referenced assets  : $($assetFiles.Count)"
 Write-Host "  Private Markdown   : $($privateFiles.Count)"
 Write-Host "  Invalid/blocked    : $($invalidFiles.Count)"
 Write-Host "  Deleted tracked    : $($deletedTracked.Count)"
+if ($ApprovedManifest) {
+    Write-Host "  Manifest blocked   : $($blockedManifestFiles.Count)"
+    Write-Host "  Publication scope  : approved manifest"
+}
 
 if ($invalidFiles.Count -gt 0) {
     Write-Host ''

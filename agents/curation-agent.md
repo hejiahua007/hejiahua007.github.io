@@ -30,6 +30,7 @@
 8. 日期不确定时使用源文件日期或文件修改日期，并添加 REVIEW 注释；不得编造精确时间。
 9. 保留图片引用；不得生成不存在的图片路径。
 10. 每个文件完成后和 source backup 对照一次，确认没有丢掉独有事实。
+11. 每周公开日志若由 `weekly-life-vault-publish` 调用，还必须读取该 Skill 的 `references/sensitivity-policy.md`；只概括工作敏感段落，不顺手重写个人生活内容。
 
 ## 建议的正文结构
 

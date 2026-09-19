@@ -26,12 +26,22 @@ if (-not $LifeVaultPath) {
 }
 $LifeVaultPath = [System.IO.Path]::GetFullPath($LifeVaultPath)
 
-& $controller -Mode Prepare -MigrationId $MigrationId -LifeVaultPath $LifeVaultPath
-if ($LASTEXITCODE -ne 0) { throw 'Unable to prepare the migration inventory.' }
-
 $migrationRoot = Join-Path $repoRoot ".migration\$MigrationId"
 $inventoryPath = Join-Path $migrationRoot 'inventory.json'
 $planPath = Join-Path $migrationRoot 'routing-plan.json'
+
+if ($Mode -eq 'Apply') {
+    if (-not (Test-Path -LiteralPath $planPath -PathType Leaf)) {
+        throw "Reviewed routing plan not found. Run Plan first with the same MigrationId: $planPath"
+    }
+    & $controller -Mode Apply -MigrationId $MigrationId -LifeVaultPath $LifeVaultPath -PlanPath $planPath
+    if ($LASTEXITCODE -ne 0) { throw 'Unable to apply the reviewed direct Vault sync.' }
+    exit 0
+}
+
+& $controller -Mode Prepare -MigrationId $MigrationId -LifeVaultPath $LifeVaultPath
+if ($LASTEXITCODE -ne 0) { throw 'Unable to prepare the migration inventory.' }
+
 $inventory = Get-Content -LiteralPath $inventoryPath -Raw -Encoding UTF8 | ConvertFrom-Json
 
 $migrateCount = 0
@@ -94,10 +104,4 @@ if ($conflicts.Count -gt 0) {
     foreach ($path in $conflicts) { Write-Host "    - $path" -ForegroundColor Yellow }
 }
 
-if ($Mode -eq 'Apply') {
-    & $controller -Mode Apply -MigrationId $MigrationId -LifeVaultPath $LifeVaultPath
-    if ($LASTEXITCODE -ne 0) { throw 'Unable to apply the direct Vault sync.' }
-}
-else {
-    Write-Host 'Plan only; no files were copied.' -ForegroundColor Cyan
-}
+Write-Host 'Plan only; review routing-plan.json before Apply. No files were copied.' -ForegroundColor Cyan
