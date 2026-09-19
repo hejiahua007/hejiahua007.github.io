@@ -25,8 +25,8 @@ published: true
 
 直接激活新环境的虚拟环境，然后输入where python：
 
-注：我这里已有的venv环境位于：<旧环境路径>
-新的venv环境位于：<新环境路径>
+注：我这里已有的venv环境位于：`旧环境路径`
+新的venv环境位于：`新环境路径`
 
 特别是如果你使用where pip命令，返回的路径是你新venv的路径：
 
@@ -48,7 +48,7 @@ published: true
 
 如我这边使用conda安装的python，就直接将紫框中的内容修改为：
 
-<新环境的 Python 路径>。如果你是独立下载python安装包，那就填入python的安装路径！
+`新环境的 Python 路径`。如果你是独立下载python安装包，那就填入python的安装路径！
 
 2：修改venv\Scripts\activate中的VIRTUAL_ENV指向新的venv路径
 
@@ -73,4 +73,3 @@ python -m ensurepip --default-pip
 python -m pip install --upgrade pip
 
 转自：Python直接复制已有的venv虚拟环境以创建新的虚拟环境_virtualenv复制环境_任博啥时候能毕业？的博客-CSDN博客
-

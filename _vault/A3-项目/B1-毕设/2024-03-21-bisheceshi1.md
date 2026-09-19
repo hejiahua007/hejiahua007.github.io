@@ -67,8 +67,7 @@ ps:若是已经连接成功过wifi，tcp，esp一开机就会自动连接上
 所以要先判断一下，然后再进行连接。
 
 2024年3月21日17:07:54
-<毕设项目目录>\stm32_sleep\USER，这个是可以用的
+`毕设项目目录\stm32_sleep\USER`，这个是可以用的
 
 ---
 ![image](/assets/blog_res/2024-3-21-bisheceshi1/image.png)
-
